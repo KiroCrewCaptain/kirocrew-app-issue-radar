@@ -1,0 +1,10 @@
+[flake8]
+# Kiro Crew's own settings (setup.cfg), which the ported code was written to:
+# black-compatible whitespace and wrapping, so E203 / W503 / E501 are off.
+extend-ignore =
+    E203,
+    W503,
+    E501,
+max_line_length = 100
+exclude =
+    ui/node_modules
