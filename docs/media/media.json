@@ -1,0 +1,100 @@
+{
+  "app": "issue-radar",
+  "captured_at": "2026-11-05T01:55:11Z",
+  "app_commit": "8696e6c302c153bf71cb828e218704a13234e5e8",
+  "kirocrew_commit": "55439d87700799a8789a341da65e2e1c355e26fc",
+  "kirocrew_tree_dirty": true,
+  "gateway": "isolated temporary home, approval=reads; a freshly seeded gateway for the stub screenshots, one for the live ones and one for the walkthrough",
+  "data": "fictional, seeded through the app's HTTP API (capture/scenes.json)",
+  "agent_backend": {
+    "live": [
+      "use-case-investigate",
+      "use-case-pull-request",
+      "use-case-triage",
+      "walkthrough"
+    ],
+    "live_model": "the operator's own installed, signed-in kiro-cli over ACP with model \"auto\"; the replies on screen are that model's and vary from run to run",
+    "stub": "Kiro Crew's offline stub ACP backend (capture/stub_backend.py) for every other scene; no chat reply is shown from it",
+    "credit_reading": "the browser answers the top bar's credit readout (/api/sessions/usage) with \"no reading\", so no account balance or email can be shown"
+  },
+  "note": "The isolated gateway served this repository's own copy of the app: capture.py's setup installed it from this checkout (POST /api/apps/install), trusted it and enabled it, and every picture shows its committed bundle (ui/dist/index.mjs) and backend. Kiro Crew still ships a built-in issue-radar and refuses a second install under the same name, so the Kiro Crew tree the capture ran on is main at the pinned commit with only the built-in's registration removed (its BUILTIN_NAMES row and its package directory); kirocrew_tree_dirty records that. The gateway's `gh` was this repository's capture/fake_gh/gh (KIROCREW_GH_BIN, and first on PATH for the agent's shell), which answers from the fictional repository in capture/fake_gh/repo.json: no real repository, account or network was used.",
+  "data_notes": [
+    "The repository example-outfitters/trail-planner, its issues, pull requests, comments, labels, checks and every login (all ending in -example) are made up for this README and served by capture/fake_gh/gh; avatars are empty.",
+    "The repository was connected through the app's own POST /connect (capture/scenes.json setup).",
+    "The AI summaries and suggested labels were written by the live model during the capture; the investigation chat is a live agent session that read the issue through the fake gh after one approval.",
+    "Relative times (\"2 days ago\") are against the fixture's fixed dates and the gateway's clock during the capture.",
+    "Links to the fictional repository point at github.com, because that is the host the app is built for; the owner example-outfitters is made up and nothing was fetched from it."
+  ],
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "device_scale": 2,
+  "screenshots": [
+    {
+      "file": "hero-dark.png",
+      "name": "hero",
+      "theme": "dark",
+      "bytes": 295427,
+      "width": 1600,
+      "height": 1000,
+      "alt": "Issue Radar's overview for a connected repository: counts of open, untriaged, unanswered, unassigned and stale issues, a Needs attention row of issue cards, the label distribution and the backlog age"
+    },
+    {
+      "file": "hero-light.png",
+      "name": "hero",
+      "theme": "light",
+      "bytes": 271379,
+      "width": 1600,
+      "height": 1000,
+      "alt": "Issue Radar's overview for a connected repository: counts of open, untriaged, unanswered, unassigned and stale issues, a Needs attention row of issue cards, the label distribution and the backlog age"
+    },
+    {
+      "file": "use-case-investigate-light.png",
+      "name": "use-case-investigate",
+      "theme": "light",
+      "bytes": 322733,
+      "width": 1600,
+      "height": 1000,
+      "alt": "The investigation chat Issue Radar opened for issue #139: the agent has read the issue and its comments and listed its working folder, and is now asking for approval before it clones the repository to search its code"
+    },
+    {
+      "file": "use-case-pull-request-light.png",
+      "name": "use-case-pull-request",
+      "theme": "light",
+      "bytes": 423671,
+      "width": 1600,
+      "height": 1000,
+      "alt": "A pull request open in the workbench with Approve, Request changes, Comment, Merge and Close buttons, an AI summary of the change and its conversation, and the side panel showing 2 automated checks passed, the requested reviewer, the branches and the size of the change"
+    },
+    {
+      "file": "use-case-triage-light.png",
+      "name": "use-case-triage",
+      "theme": "light",
+      "bytes": 464694,
+      "width": 1600,
+      "height": 1000,
+      "alt": "An issue open in the workbench: the issue list on the left, and on the right the issue's AI summary card restating the bug and its suspected cause in plain language, above the issue's own text, with its assignee, its bug label and its dates beside it"
+    }
+  ],
+  "walkthrough": {
+    "shortened_waits_s": [
+      10.0,
+      10.0,
+      5.0,
+      0.5
+    ],
+    "mp4": {
+      "file": "walkthrough.mp4",
+      "bytes": 1552596
+    },
+    "gif": {
+      "file": "walkthrough.gif",
+      "bytes": 7773221,
+      "width": 880,
+      "fps": 8
+    },
+    "theme": "light",
+    "alt": "A walkthrough of Issue Radar on a fictional repository: the overview, an issue with its AI summary, a pull request with its checks and review actions and its AI summary, then an investigation chat the agent starts on another issue, reading it and asking for approval before each command it runs"
+  }
+}

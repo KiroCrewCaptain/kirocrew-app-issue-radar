@@ -8,7 +8,8 @@
     "The repository example-outfitters/trail-planner, its issues, pull requests, comments, labels, checks and every login (all ending in -example) are made up for this README and served by capture/fake_gh/gh; avatars are empty.",
     "The repository was connected through the app's own POST /connect (capture/scenes.json setup).",
     "The AI summaries and suggested labels were written by the live model during the capture; the investigation chat is a live agent session that read the issue through the fake gh after one approval.",
-    "Relative times (\"2 days ago\") are against the fixture's fixed dates and the gateway's clock during the capture."
+    "Relative times (\"2 days ago\") are against the fixture's fixed dates and the gateway's clock during the capture.",
+    "Links to the fictional repository point at github.com, because that is the host the app is built for; the owner example-outfitters is made up and nothing was fetched from it."
   ],
   "init_storage": {
     "mc-nav": "0",
@@ -160,7 +161,7 @@
         }
       ],
       "settle_ms": 1500,
-      "alt": "The investigation chat Issue Radar opened for issue #139: the agent has read the issue and its comments and is asking for approval before its next command"
+      "alt": "The investigation chat Issue Radar opened for issue #139: the agent has read the issue and its comments and listed its working folder, and is now asking for approval before it clones the repository to search its code"
     }
   ],
   "settle_hidden": [
