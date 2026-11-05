@@ -69,6 +69,13 @@ labels back on the issue, where Issue Radar shows them next time. Choosing
 **Already finished — transcript under Older Sessions.**, with **Open Older
 Sessions** and **Start over**.
 
+Two limits to know. Issue Radar does not file the chat into a folder or give it
+a title: it appears in your chat list like any chat you start yourself. And it
+does not keep track of an investigation that is still going, so choosing
+**Investigate** (or **Review**) again before that work is finished opens a
+second new chat rather than taking you back to the first one; go back to the
+first one from your chat list instead.
+
 ![The investigation chat Issue Radar opened for issue #139: the agent has read the issue and its comments and listed its working folder, and is now asking for approval before it clones the repository to search its code](docs/media/use-case-investigate-light.png)
 
 ## Watch it
@@ -98,6 +105,14 @@ from run to run; waits for the model were shortened.</sub>
    apps**.
 4. The app installs switched off. Choose **Enable** on its page. It then shows
    up under **Apps** in the sidebar and in **Apps → Library**.
+
+**While your Kiro Crew still ships Issue Radar built in.** Every Kiro Crew
+release so far includes its own built-in Issue Radar, and installing this copy
+under the same name is refused (`app 'issue-radar' is already installed`), from
+the App Store and from `kirocrew app install` alike. You keep using the built-in
+copy, and nothing here changes it. This copy can be installed once you run a Kiro
+Crew release that no longer ships the built-in, or that moves the built-in onto
+this source; until then the steps below do not apply to you.
 
 You need Kiro Crew 0.13.0 or later, on macOS, Linux or Windows, and the
 command-line tool for the service you connect, signed in on the computer Kiro
@@ -130,7 +145,10 @@ repository's **Overview**.
    **Merge** or **Close**. Tick several pull requests in the list to act on all
    of them at once.
 5. Choose **Investigate** on an issue (or **Review** on a pull request) to hand it
-   to an agent, then **Send** in the chat that opens.
+   to an agent, then **Send** in the chat that opens. The chat is not put in a
+   folder or titled for you, and choosing **Investigate** or **Review** again
+   while that work is unfinished opens another new chat: return to the first
+   one from your chat list.
 6. Switch repositories with the repository picker at the top left; open
    **Settings** there to choose which labels mean "needs triage", turn on
    notifications for new issues or for failed checks on your own pull requests,
@@ -171,6 +189,13 @@ be connected. Ask whoever runs your Kiro Crew to add the address.
 The prompt is placed in the message box for you to read first: press **Send**.
 The agent asks before each command it runs; choose **Allow once** to let it
 continue.
+
+**Choosing Investigate again opened a second chat.**
+Issue Radar cannot yet return you to a chat it opened, so a repeat
+**Investigate** or **Review** on an item whose work is not finished starts a new
+chat. Close the extra one and carry on in the first, which is in your chat list.
+Once the work is finished, **Investigate** says **Already finished — transcript
+under Older Sessions.** instead.
 
 **Does Issue Radar run crews on its own?**
 You can set up **Crews**, agents that work through issues for you. In this

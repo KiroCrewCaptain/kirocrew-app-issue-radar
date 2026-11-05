@@ -29,7 +29,9 @@ kinds of host surface:
 3. **One capability that stays OFF.** The built-in minted a ``SafetyOverride``
    auto-approve grant for an unattended crew's session. This copy never mints
    one: :data:`safety_override` is a stand-in whose grants are never active, so
-   an unattended crew runs under the ordinary interactive approval path. Revoking
+   an unattended crew is given no turn at all (the wake's dispatch gate in
+   ``crew_runtime_supervision`` refuses it), while an attended crew's tool calls
+   go through the ordinary interactive approval prompt. Revoking
    a grant (``deactivate_scope``) still reaches the host, because revoking can
    only remove access. Restoring the grant needs a maintainer security ruling on
    a generic, bounded auto-approve seam (``PORTING.md``, first section).
