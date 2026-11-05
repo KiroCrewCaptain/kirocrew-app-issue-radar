@@ -130,6 +130,17 @@ export interface UseAgentSession {
   openOlderSessions: () => void
 }
 
+/** The seed prompt, with the repo's working copy named when one is configured.
+ *
+ * The built-in opened the session IN that folder (its cwd). The host's chat
+ * launcher cannot set a working directory, so the folder is given to the agent
+ * as an instruction instead, which keeps the repo setting meaningful. */
+export function withWorkingCopy(prompt: string, workspacePath?: string): string {
+  const path = (workspacePath ?? '').trim()
+  if (!path) return prompt
+  return `${prompt}\n\nThe repository's local working copy is at \`${path}\`: run your commands there.`
+}
+
 export function useAgentSession(): UseAgentSession {
   const { openChat } = useChatLauncher()
   const navigate = useNavigate()
@@ -138,7 +149,7 @@ export function useAgentSession(): UseAgentSession {
   const [concludedFor, setConcludedFor] = useState<string | null>(null)
 
   const openSession = useCallback(
-    async ({ repoRef, number, kind = 'issue', prompt, existing, force = false }: OpenSessionArgs): Promise<InvestigationRecord | null> => {
+    async ({ repoRef, number, kind = 'issue', prompt, existing, force = false, workspacePath }: OpenSessionArgs): Promise<InvestigationRecord | null> => {
       setBusy(true)
       setError(null)
       setConcludedFor(null)
@@ -192,7 +203,7 @@ export function useAgentSession(): UseAgentSession {
         // opens. NOT `findings: null`: the prior verdict survives until the new
         // run records its own (the built-in's rule).
         const res = await issueRadarApi.saveInvestigation(repoRef, number, { status: 'investigating' }, kind)
-        openChat({ message: prompt, memoryMode: 'persistent', sessionFolder: false })
+        openChat({ message: withWorkingCopy(prompt, workspacePath), memoryMode: 'persistent', sessionFolder: false })
         return res.investigation
       } catch (e) {
         setError(e as Error)

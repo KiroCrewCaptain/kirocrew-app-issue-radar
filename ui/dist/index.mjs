@@ -8813,21 +8813,6 @@ var clamp$1 = (min, max, v) => {
 	if (v < min) return min;
 	return v;
 };
-// node_modules/motion-utils/dist/es/format-error-message.mjs
-function formatErrorMessage(message, errorCode) {
-	return errorCode ? `${message}. For more information and steps for solving, visit https://motion.dev/troubleshooting/${errorCode}` : message;
-}
-// node_modules/motion-utils/dist/es/errors.mjs
-var warning = () => {};
-var invariant = () => {};
-if (typeof process !== "undefined" && process.env.NODE_ENV !== "production") {
-	warning = (check, message, errorCode) => {
-		if (!check && typeof console !== "undefined") console.warn(formatErrorMessage(message, errorCode));
-	};
-	invariant = (check, message, errorCode) => {
-		if (!check) throw new Error(formatErrorMessage(message, errorCode));
-	};
-}
 // node_modules/motion-utils/dist/es/global-config.mjs
 var MotionGlobalConfig = {};
 // node_modules/motion-utils/dist/es/is-numerical-string.mjs
@@ -8911,13 +8896,6 @@ var secondsToMilliseconds = /* @__NO_SIDE_EFFECTS__ */ (seconds) => seconds * 1e
 var millisecondsToSeconds = /* @__NO_SIDE_EFFECTS__ */ (milliseconds) => milliseconds / 1e3;
 // node_modules/motion-utils/dist/es/velocity-per-second.mjs
 var velocityPerSecond = /* @__NO_SIDE_EFFECTS__ */ (velocity, frameDuration) => frameDuration ? velocity * (1e3 / frameDuration) : 0;
-// node_modules/motion-utils/dist/es/warn-once.mjs
-var warned = /* @__PURE__ */ new Set();
-function warnOnce(condition, message, errorCode) {
-	if (condition || warned.has(message)) return;
-	console.warn(formatErrorMessage(message, errorCode));
-	warned.add(message);
-}
 // node_modules/motion-utils/dist/es/easing/cubic-bezier.mjs
 var calcBezier = (t, a1, a2) => (((1 - 3 * a2 + 3 * a1) * t + (3 * a2 - 6 * a1)) * t + 3 * a1) * t;
 var subdivisionPrecision = 1e-7;
@@ -8983,11 +8961,11 @@ var isValidEasing = (easing) => {
 };
 var easingDefinitionToFunction = (definition) => {
 	if (/* @__PURE__ */ isBezierDefinition(definition)) {
-		invariant(definition.length === 4, `Cubic bezier arrays must contain four numerical values.`, "cubic-bezier-length");
+		definition.length;
 		const [x1, y1, x2, y2] = definition;
 		return /* @__PURE__ */ cubicBezier(x1, y1, x2, y2);
 	} else if (isValidEasing(definition)) {
-		invariant(easingLookup[definition] !== void 0, `Invalid easing type '${definition}'`, "invalid-easing-type");
+		easingLookup[definition], `${definition}`;
 		return easingLookup[definition];
 	}
 	return definition;
@@ -9458,7 +9436,7 @@ var colorTypes = [
 var getColorType = (v) => colorTypes.find((type) => type.test(v));
 function asRGBA(color) {
 	const type = getColorType(color);
-	warning(Boolean(type), `'${color}' is not an animatable color. Use the equivalent color code instead.`, "color-not-animatable");
+	`${color}`;
 	if (!Boolean(type)) return false;
 	let model = type.parse(color);
 	if (type === hsla) model = hslaToRgba(model);
@@ -9544,7 +9522,7 @@ var mixComplex = (origin, target) => {
 		if (invisibleValues.has(origin) && !targetStats.values.length || invisibleValues.has(target) && !originStats.values.length) return mixVisibility(origin, target);
 		return pipe(mixArray(matchOrder(originStats, targetStats), targetStats.values), template);
 	} else {
-		warning(true, `Complex values '${origin}' and '${target}' too different to mix. Ensure all colors are of the same type, and that each contains the same quantity of number and color values. Falling back to instant transition.`, "complex-values-different");
+		`${origin}${target}`;
 		return mixImmediate(origin, target);
 	}
 };
@@ -9645,7 +9623,7 @@ var safeMin = .001;
 function findSpring({ duration = springDefaults.duration, bounce = springDefaults.bounce, velocity = springDefaults.velocity, mass = springDefaults.mass }) {
 	let envelope;
 	let derivative;
-	warning(duration <= /* @__PURE__ */ secondsToMilliseconds(springDefaults.maxDuration), "Spring duration must be 10 seconds or less", "spring-duration-limit");
+	springDefaults.maxDuration;
 	let dampingRatio = 1 - bounce;
 	/**
 	* Restrict dampingRatio and duration to within acceptable ranges.
@@ -9978,7 +9956,7 @@ function createMixers(output, ease, customMixer) {
 */
 function interpolate(input, output, { clamp: isClamp = true, ease, mixer } = {}) {
 	const inputLength = input.length;
-	invariant(inputLength === output.length, "Both input and output ranges must be the same length", "range-length");
+	output.length;
 	/**
 	* If we're only provided a single input, we can just make a function
 	* that returns the output.
@@ -10143,7 +10121,6 @@ var JSAnimation = class extends WithPromise {
 		const { type = keyframes, repeat = 0, repeatDelay = 0, repeatType, velocity = 0 } = options;
 		let { keyframes: keyframes$1 } = options;
 		const generatorFactory = type || keyframes;
-		if (process.env.NODE_ENV !== "production" && generatorFactory !== keyframes) invariant(keyframes$1.length <= 2, `Only two keyframes currently supported with spring and inertia animations. Trying to animate ${keyframes$1}`, "spring-two-frames");
 		if (generatorFactory !== keyframes && typeof keyframes$1[0] !== "number") {
 			this.mixKeyframes = pipe(percentToProgress, mix(keyframes$1[0], keyframes$1[1]));
 			keyframes$1 = [0, 100];
@@ -10761,7 +10738,7 @@ var NativeAnimation = class extends WithPromise {
 		this.isPseudoElement = Boolean(pseudoElement);
 		this.allowFlatten = allowFlatten;
 		this.options = options;
-		invariant(typeof options.type !== "string", `Mini animate() doesn't support "type" as a string.`, "mini-spring");
+		options.type;
 		const transition = applyGeneratorOptions(options);
 		this.animation = startWaapiAnimation(element, name, keyframes, transition, pseudoElement);
 		if (transition.autoplay === false) this.animation.pause();
@@ -11003,7 +10980,7 @@ function canAnimate(keyframes, name, type, velocity) {
 	const targetKeyframe = keyframes[keyframes.length - 1];
 	const isOriginAnimatable = isAnimatable(originKeyframe, name);
 	const isTargetAnimatable = isAnimatable(targetKeyframe, name);
-	warning(isOriginAnimatable === isTargetAnimatable, `You are trying to animate ${name} from "${originKeyframe}" to "${targetKeyframe}". "${isOriginAnimatable ? targetKeyframe : originKeyframe}" is not an animatable value.`, "value-not-animatable");
+	`${name}${originKeyframe}${targetKeyframe}${isOriginAnimatable ? targetKeyframe : originKeyframe}`;
 	if (!isOriginAnimatable || !isTargetAnimatable) return false;
 	return hasKeyframesChanged(keyframes) || (type === "spring" || isGenerator(type)) && velocity;
 }
@@ -11316,7 +11293,6 @@ var MotionValue = class {
 	* @deprecated
 	*/
 	onChange(subscription) {
-		if (process.env.NODE_ENV !== "production") warnOnce(false, `value.onChange(callback) is deprecated. Switch to value.on("change", callback).`);
 		return this.on("change", subscription);
 	}
 	on(eventName, callback) {
@@ -11662,9 +11638,8 @@ function parseCSSVariable(current) {
 	const [, token1, token2, fallback] = match;
 	return [`--${token1 ?? token2}`, fallback];
 }
-var maxDepth = 4;
 function getVariableValue(current, element, depth = 1) {
-	invariant(depth <= maxDepth, `Max CSS variable fallback depth detected in property "${current}". This may indicate a circular fallback dependency.`, "max-css-var-depth");
+	`${current}`;
 	const [token, fallback] = parseCSSVariable(current);
 	if (!token) return;
 	const resolved = window.getComputedStyle(element).getPropertyValue(token);
@@ -12930,7 +12905,6 @@ var VisualElement = class {
 			if (!hasReducedMotionListener.current) initPrefersReducedMotion();
 			this.shouldReduceMotion = prefersReducedMotion.current;
 		}
-		if (process.env.NODE_ENV !== "production") warnOnce(this.shouldReduceMotion !== true, "You have Reduced Motion enabled on your device. Animations may not appear as expected.", "reduced-motion-disabled");
 		/**
 		* Set whether animations should be skipped based on the config.
 		*/
@@ -13609,7 +13583,7 @@ var HTMLVisualElement = class extends DOMVisualElement {
 		* HTML/SVG element (a class instance, an imperative handle) there's
 		* nothing for Motion to style, measure or attach gestures to. #2777
 		*/
-		invariant(Boolean(instance.style), "motion.create() components must forward their ref to a HTML or SVG element", "custom-component-ref");
+		Boolean(instance.style);
 		super.mount(instance);
 	}
 	readValueFromInstance(instance, key) {
@@ -16183,7 +16157,6 @@ var AnimatePresence = ({ children, custom, initial = true, onExitComplete, prese
 		*/
 		return null;
 	}
-	if (process.env.NODE_ENV !== "production" && mode === "wait" && renderedChildren.length > 1) console.warn(`You're attempting to animate multiple children within AnimatePresence, but its mode is set to "wait". This will lead to odd visual behaviour.`);
 	/**
 	* If we've been provided a forceRender function by the LayoutGroupContext,
 	* we can use it to force a re-render amongst all surrounding components once
@@ -16834,15 +16807,7 @@ function useLayoutId({ layoutId }) {
 	return layoutGroupId && layoutId !== void 0 ? layoutGroupId + "-" + layoutId : layoutId;
 }
 function useStrictMode(configAndProps, preloadedFeatures) {
-	const isStrict = useContext(LazyContext).strict;
-	/**
-	* If we're in development mode, check to make sure we're not rendering a motion component
-	* as a child of LazyMotion, as this will break the file-size benefits of using it.
-	*/
-	if (process.env.NODE_ENV !== "production" && preloadedFeatures && isStrict) {
-		const strictMessage = "You have rendered a `motion` component within a `LazyMotion` component. This will break tree shaking. Import and render a `m` component instead.";
-		configAndProps.ignoreStrict ? warning(false, strictMessage, "lazy-strict-mode") : invariant(false, strictMessage, "lazy-strict-mode");
-	}
+	useContext(LazyContext).strict;
 }
 function getProjectionFunctionality(props) {
 	const { drag, layout } = getInitializedFeatureDefinitions();
@@ -16871,7 +16836,6 @@ function createMotionProxy(preloadedFeatures, createVisualElement) {
 	* Support for deprecated`motion(Component)` pattern
 	*/
 	const deprecatedFactoryFunction = (Component, options) => {
-		if (process.env.NODE_ENV !== "production") warnOnce(false, "motion() is deprecated. Use motion.create() instead.");
 		return factory(Component, options);
 	};
 	return new Proxy(deprecatedFactoryFunction, { 
@@ -17531,7 +17495,6 @@ var VisualElementDragControls = class {
 		const { dragConstraints: constraints, onMeasureDragConstraints } = this.getProps();
 		if (!constraints || !isRefObject(constraints)) return false;
 		const constraintsElement = constraints.current;
-		invariant(constraintsElement !== null, "If `dragConstraints` is set as a React ref, that ref must be passed to another component's `ref` prop.", "drag-constraints-ref");
 		const { projection } = this.visualElement;
 		if (!projection || !projection.layout) return false;
 		/**
@@ -18246,7 +18209,6 @@ function useReducedMotion$1() {
 	*/
 	!hasReducedMotionListener.current && initPrefersReducedMotion();
 	const [shouldReduceMotion] = useState(prefersReducedMotion.current);
-	if (process.env.NODE_ENV !== "production") warnOnce(shouldReduceMotion !== true, "You have Reduced Motion enabled on your device. Animations may not appear as expected.", "reduced-motion-disabled");
 	/**
 	* TODO See if people miss automatically updating shouldReduceMotion setting
 	*/
@@ -36425,6 +36387,16 @@ function truncate(s, max = TITLE_MAX) {
 function itemKey(repoRef, number, kind = "issue") {
 	return `${repoScopeKey(repoRef)}#${kind}:${number}`;
 }
+/** The seed prompt, with the repo's working copy named when one is configured.
+*
+* The built-in opened the session IN that folder (its cwd). The host's chat
+* launcher cannot set a working directory, so the folder is given to the agent
+* as an instruction instead, which keeps the repo setting meaningful. */
+function withWorkingCopy(prompt, workspacePath) {
+	const path = (workspacePath ?? "").trim();
+	if (!path) return prompt;
+	return `${prompt}\n\nThe repository's local working copy is at \`${path}\`: run your commands there.`;
+}
 function useAgentSession() {
 	const { openChat } = useChatLauncher();
 	const navigate = useNavigate$1();
@@ -36432,7 +36404,7 @@ function useAgentSession() {
 	const [error, setError] = useState(null);
 	const [concludedFor, setConcludedFor] = useState(null);
 	return {
-		openSession: useCallback(async ({ repoRef, number, kind = "issue", prompt, existing, force = false }) => {
+		openSession: useCallback(async ({ repoRef, number, kind = "issue", prompt, existing, force = false, workspacePath }) => {
 			setBusy(true);
 			setError(null);
 			setConcludedFor(null);
@@ -36461,7 +36433,7 @@ function useAgentSession() {
 				}
 				const res = await issueRadarApi.saveInvestigation(repoRef, number, { status: "investigating" }, kind);
 				openChat({
-					message: prompt,
+					message: withWorkingCopy(prompt, workspacePath),
 					memoryMode: "persistent",
 					sessionFolder: false
 				});

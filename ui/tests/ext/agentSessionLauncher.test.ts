@@ -34,7 +34,7 @@ const { saveInvestigation, getInvestigation, liveSlots } = vi.hoisted(() => ({
 vi.mock('../../src/api', () => ({ issueRadarApi: { saveInvestigation, getInvestigation } }))
 vi.mock('../../src/pipeline/api', () => ({ autoTriagePipelineFoldApi: { liveSlots } }))
 
-import { itemKey, useAgentSession } from '../../src/lib/agentSession'
+import { itemKey, useAgentSession, withWorkingCopy } from '../../src/lib/agentSession'
 import type { InvestigationRecord } from '../../src/api'
 
 const REPO = { host: 'github.com', owner: 'acme', repo: 'demo-repo', provider: 'github' } as never
@@ -203,6 +203,23 @@ describe('a concluded item is not silently re-run', () => {
     const { result } = await open({ existing: record({ status: 'resolved' }) })
     expect(result.current.concludedFor).not.toBe(itemKey(REPO, 6015))
     expect(result.current.concludedFor).not.toBe(itemKey(REPO, 6014, 'pull'))
+  })
+})
+
+describe('the working copy', () => {
+  it('names a configured working copy in the seed, since the launcher cannot set a cwd', async () => {
+    const { result } = renderHook(() => useAgentSession())
+    await act(async () => {
+      await result.current.openSession({ repoRef: REPO, number: 1, title: 't', prompt: 'seed', existing: null, workspacePath: ' /srv/trail ' })
+    })
+    expect(stubOpenChat).toHaveBeenCalledWith(expect.objectContaining({
+      message: "seed\n\nThe repository's local working copy is at `/srv/trail`: run your commands there.",
+    }))
+  })
+
+  it('leaves the seed alone without one', () => {
+    expect(withWorkingCopy('seed', '')).toBe('seed')
+    expect(withWorkingCopy('seed')).toBe('seed')
   })
 })
 

@@ -169,6 +169,11 @@ class TestTheBundle(unittest.TestCase):
             with self.subTest(name=name):
                 self.assertIn(f'"{name}" in ', text)
 
+    def test_no_node_global_is_left_in_the_bundle(self) -> None:
+        """A browser has no ``process``: a bundled dependency's unguarded
+        ``process.env.NODE_ENV`` crashes the page on load (vite.config.ts defines it)."""
+        self.assertIsNone(re.search(r"\bprocess\.env\b", _text()))
+
     def test_no_build_machine_path_is_baked_in(self) -> None:
         """The checkout's own path and its node_modules never reach the bundle (the
         catalogs carry the placeholder ``/Users/you/code/owner/repo``, which is copy)."""

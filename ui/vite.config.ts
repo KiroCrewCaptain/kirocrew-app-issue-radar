@@ -18,6 +18,12 @@ export const HOST_MODULES = [
 
 export default defineConfig({
   plugins: [react()],
+  // Library mode leaves `process.env.NODE_ENV` in bundled dependencies
+  // (framer-motion, react-virtuoso, Radix), and a browser has no `process`: the
+  // page would crash on load. The bundle is a production build, so say so.
+  define: {
+    'process.env.NODE_ENV': JSON.stringify('production'),
+  },
   build: {
     lib: {
       entry: 'src/index.tsx',

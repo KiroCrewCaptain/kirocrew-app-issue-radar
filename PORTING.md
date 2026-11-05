@@ -188,9 +188,10 @@ with a stand-in that never matches or the host's current value.
    new slot's key to the item's record so a repeat click resumed it. The SDK's
    `useChatLauncher().openChat` opens a new draft with the prompt staged
    (`memoryMode: 'persistent'`, `sessionFolder: false`) and does not report the
-   slot it opened, so the person presses Send, the session is not filed, titled or
-   placed in the working copy, and a second click on an unfinished item opens a
-   second draft. A record the built-in linked still resumes. A launch option that
+   slot it opened, so the person presses Send, the session is not filed or
+   titled, the repo's working copy is named to the agent in the prompt instead of
+   being the session's working directory, and a second click on an unfinished
+   item opens a second draft. A record the built-in linked still resumes. A launch option that
    names the folder, title and working directory and answers the slot key would
    close this.
 6. **Repo-settings working-copy picker.** The dashboard's `ProjectPicker` browses

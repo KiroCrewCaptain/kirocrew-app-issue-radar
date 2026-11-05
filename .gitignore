@@ -15,3 +15,4 @@ app-crons.json
 *.webm
 # The UI's install tree (ui/package-lock.json pins it; CI runs `npm ci`).
 node_modules/
+fake_gh/calls.log

@@ -202,3 +202,19 @@ agent said in the new files and make the `alt` text, the captions and the
 README say only that. Keep captions in one place per kind of screen (bottom of the page; above
 the message box in a chat) and hide them while the result the viewer should read
 is on screen. Then run `python capture/check_readme.py`.
+
+## Issue Radar: the fictional repository
+
+Issue Radar reads GitHub through the user's own `gh`. The capture never connects
+a real repository: `capture/fake_gh/gh` stands in for `gh`, answering
+`gh api <path>` (with `--jq` applied by the system `jq`) and `gh issue view` from
+the made-up repository in `capture/fake_gh/repo.json`, which
+`capture/fake_gh/make_repo.py` writes. Point the gateway (and the agent's shell)
+at it when you run the capture:
+
+```bash
+KIROCREW_GH_BIN=$PWD/capture/fake_gh/gh PATH=$PWD/capture/fake_gh:$PATH \
+  python capture/capture.py --kirocrew /path/to/KiroCrew
+```
+
+Every call it answers is appended to `capture/fake_gh/calls.log` (git-ignored).

@@ -1,0 +1,1817 @@
+{
+ "graphql": {},
+ "owner": "example-outfitters",
+ "repo": "trail-planner",
+ "routes": {
+  "repos/example-outfitters/trail-planner": {
+   "default_branch": "main",
+   "description": "Plan multi-day hikes: routes, water, campsites and daily distances.",
+   "full_name": "example-outfitters/trail-planner",
+   "html_url": "https://github.com/example-outfitters/trail-planner",
+   "name": "trail-planner",
+   "open_issues_count": 11,
+   "owner": {
+    "avatar_url": "",
+    "html_url": "https://github.com/example-outfitters",
+    "id": 184882,
+    "login": "example-outfitters",
+    "type": "User"
+   },
+   "permissions": {
+    "admin": true,
+    "maintain": true,
+    "pull": true,
+    "push": true,
+    "triage": true
+   },
+   "private": false
+  },
+  "repos/example-outfitters/trail-planner/actions/runs": {
+   "total_count": 0,
+   "workflow_runs": []
+  },
+  "repos/example-outfitters/trail-planner/assignees": [
+   {
+    "avatar_url": "",
+    "html_url": "https://github.com/maya-example",
+    "id": 118049,
+    "login": "maya-example",
+    "type": "User"
+   },
+   {
+    "avatar_url": "",
+    "html_url": "https://github.com/ada-example",
+    "id": 105439,
+    "login": "ada-example",
+    "type": "User"
+   },
+   {
+    "avatar_url": "",
+    "html_url": "https://github.com/jun-example",
+    "id": 109222,
+    "login": "jun-example",
+    "type": "User"
+   }
+  ],
+  "repos/example-outfitters/trail-planner/collaborators": [
+   {
+    "avatar_url": "",
+    "html_url": "https://github.com/maya-example",
+    "id": 118049,
+    "login": "maya-example",
+    "type": "User"
+   },
+   {
+    "avatar_url": "",
+    "html_url": "https://github.com/ada-example",
+    "id": 105439,
+    "login": "ada-example",
+    "type": "User"
+   },
+   {
+    "avatar_url": "",
+    "html_url": "https://github.com/jun-example",
+    "id": 109222,
+    "login": "jun-example",
+    "type": "User"
+   }
+  ],
+  "repos/example-outfitters/trail-planner/commits/a1b2c3d4e5f60718293a4b5c6d7e8f9012345678/check-runs": {
+   "check_runs": [
+    {
+     "app": {
+      "name": "GitHub Actions",
+      "slug": "github-actions"
+     },
+     "check_suite": {
+      "app": {
+       "slug": "github-actions"
+      }
+     },
+     "completed_at": "2026-11-03T18:05:00Z",
+     "conclusion": "success",
+     "details_url": "https://github.com/example-outfitters/trail-planner/actions/runs/1431",
+     "html_url": "https://github.com/example-outfitters/trail-planner/actions/runs/1431",
+     "name": "test (ubuntu)",
+     "started_at": "2026-11-03T18:05:00Z",
+     "status": "completed"
+    },
+    {
+     "app": {
+      "name": "GitHub Actions",
+      "slug": "github-actions"
+     },
+     "check_suite": {
+      "app": {
+       "slug": "github-actions"
+      }
+     },
+     "completed_at": "2026-11-03T18:05:00Z",
+     "conclusion": "success",
+     "details_url": "https://github.com/example-outfitters/trail-planner/actions/runs/1432",
+     "html_url": "https://github.com/example-outfitters/trail-planner/actions/runs/1432",
+     "name": "lint",
+     "started_at": "2026-11-03T18:05:00Z",
+     "status": "completed"
+    }
+   ],
+   "total_count": 2
+  },
+  "repos/example-outfitters/trail-planner/commits/a1b2c3d4e5f60718293a4b5c6d7e8f9012345678/status": {
+   "state": "success",
+   "statuses": []
+  },
+  "repos/example-outfitters/trail-planner/commits/b2c3d4e5f60718293a4b5c6d7e8f901234567891/check-runs": {
+   "check_runs": [
+    {
+     "app": {
+      "name": "GitHub Actions",
+      "slug": "github-actions"
+     },
+     "check_suite": {
+      "app": {
+       "slug": "github-actions"
+      }
+     },
+     "completed_at": "2026-11-02T20:10:00Z",
+     "conclusion": null,
+     "details_url": "https://github.com/example-outfitters/trail-planner/actions/runs/1401",
+     "html_url": "https://github.com/example-outfitters/trail-planner/actions/runs/1401",
+     "name": "test (ubuntu)",
+     "started_at": "2026-11-02T20:10:00Z",
+     "status": "completed"
+    },
+    {
+     "app": {
+      "name": "GitHub Actions",
+      "slug": "github-actions"
+     },
+     "check_suite": {
+      "app": {
+       "slug": "github-actions"
+      }
+     },
+     "completed_at": null,
+     "conclusion": null,
+     "details_url": "https://github.com/example-outfitters/trail-planner/actions/runs/1402",
+     "html_url": "https://github.com/example-outfitters/trail-planner/actions/runs/1402",
+     "name": "lint",
+     "started_at": "2026-11-02T20:10:00Z",
+     "status": "in_progress"
+    }
+   ],
+   "total_count": 2
+  },
+  "repos/example-outfitters/trail-planner/commits/b2c3d4e5f60718293a4b5c6d7e8f901234567891/status": {
+   "state": "success",
+   "statuses": []
+  },
+  "repos/example-outfitters/trail-planner/commits/c3d4e5f60718293a4b5c6d7e8f9012345678912a/check-runs": {
+   "check_runs": [
+    {
+     "app": {
+      "name": "GitHub Actions",
+      "slug": "github-actions"
+     },
+     "check_suite": {
+      "app": {
+       "slug": "github-actions"
+      }
+     },
+     "completed_at": "2026-10-31T12:30:00Z",
+     "conclusion": "success",
+     "details_url": "https://github.com/example-outfitters/trail-planner/actions/runs/1381",
+     "html_url": "https://github.com/example-outfitters/trail-planner/actions/runs/1381",
+     "name": "test (ubuntu)",
+     "started_at": "2026-10-31T12:30:00Z",
+     "status": "completed"
+    },
+    {
+     "app": {
+      "name": "GitHub Actions",
+      "slug": "github-actions"
+     },
+     "check_suite": {
+      "app": {
+       "slug": "github-actions"
+      }
+     },
+     "completed_at": "2026-10-31T12:30:00Z",
+     "conclusion": "success",
+     "details_url": "https://github.com/example-outfitters/trail-planner/actions/runs/1382",
+     "html_url": "https://github.com/example-outfitters/trail-planner/actions/runs/1382",
+     "name": "lint",
+     "started_at": "2026-10-31T12:30:00Z",
+     "status": "completed"
+    }
+   ],
+   "total_count": 2
+  },
+  "repos/example-outfitters/trail-planner/commits/c3d4e5f60718293a4b5c6d7e8f9012345678912a/status": {
+   "state": "success",
+   "statuses": []
+  },
+  "repos/example-outfitters/trail-planner/contributors": [
+   {
+    "avatar_url": "",
+    "html_url": "https://github.com/maya-example",
+    "id": 118049,
+    "login": "maya-example",
+    "type": "User"
+   },
+   {
+    "avatar_url": "",
+    "html_url": "https://github.com/ada-example",
+    "id": 105439,
+    "login": "ada-example",
+    "type": "User"
+   },
+   {
+    "avatar_url": "",
+    "html_url": "https://github.com/jun-example",
+    "id": 109222,
+    "login": "jun-example",
+    "type": "User"
+   },
+   {
+    "avatar_url": "",
+    "html_url": "https://github.com/priya-example",
+    "id": 130174,
+    "login": "priya-example",
+    "type": "User"
+   },
+   {
+    "avatar_url": "",
+    "html_url": "https://github.com/leo-example",
+    "id": 107961,
+    "login": "leo-example",
+    "type": "User"
+   }
+  ],
+  "repos/example-outfitters/trail-planner/issues": {
+   "_by_query": {
+    "state=closed": []
+   },
+   "_default": [
+    {
+     "assignee": {
+      "avatar_url": "",
+      "html_url": "https://github.com/ada-example",
+      "id": 105439,
+      "login": "ada-example",
+      "type": "User"
+     },
+     "assignees": [
+      {
+       "avatar_url": "",
+       "html_url": "https://github.com/ada-example",
+       "id": 105439,
+       "login": "ada-example",
+       "type": "User"
+      }
+     ],
+     "author_association": "MEMBER",
+     "body": "Planning the Kamchatka coast route (it crosses 180\u00b0 longitude twice), the elevation chart shows a flat line at 0 m for every day after the first crossing.\n\n**Steps**\n1. Import `kamchatka-coast.gpx` (attached)\n2. Open the Elevation tab\n\n**Expected** the real profile.\n**Actual** a flat line after day 2.\n\nI suspect the segment splitter: longitudes jump from 179.9 to -179.9 and the distance comes out as almost the whole planet.",
+     "closed_at": null,
+     "comments": 3,
+     "created_at": "2026-11-01T09:12:00Z",
+     "html_url": "https://github.com/example-outfitters/trail-planner/issues/142",
+     "id": 900142,
+     "labels": [
+      {
+       "color": "d73a4a",
+       "description": "Something is not working",
+       "name": "bug"
+      }
+     ],
+     "locked": false,
+     "milestone": null,
+     "node_id": "I_kwFake142",
+     "number": 142,
+     "pull_request": null,
+     "reactions": {
+      "+1": 0,
+      "total_count": 0
+     },
+     "state": "open",
+     "state_reason": null,
+     "title": "Elevation profile is flat for routes that cross the antimeridian",
+     "updated_at": "2026-11-03T16:20:00Z",
+     "user": {
+      "avatar_url": "",
+      "html_url": "https://github.com/jun-example",
+      "id": 109222,
+      "login": "jun-example",
+      "type": "User"
+     }
+    },
+    {
+     "assignee": null,
+     "assignees": [],
+     "author_association": "CONTRIBUTOR",
+     "body": "Most watches and phone apps read GPX. Right now the only way out of the planner is a screenshot.\n\nA first version could export the track and the campsites as waypoints. Elevation can come later.",
+     "closed_at": null,
+     "comments": 5,
+     "created_at": "2026-10-30T14:40:00Z",
+     "html_url": "https://github.com/example-outfitters/trail-planner/issues/141",
+     "id": 900141,
+     "labels": [
+      {
+       "color": "a2eeef",
+       "description": "New feature or request",
+       "name": "enhancement"
+      }
+     ],
+     "locked": false,
+     "milestone": null,
+     "node_id": "I_kwFake141",
+     "number": 141,
+     "pull_request": null,
+     "reactions": {
+      "+1": 2,
+      "total_count": 2
+     },
+     "state": "open",
+     "state_reason": null,
+     "title": "Export a planned route as GPX",
+     "updated_at": "2026-11-03T11:02:00Z",
+     "user": {
+      "avatar_url": "",
+      "html_url": "https://github.com/priya-example",
+      "id": 130174,
+      "login": "priya-example",
+      "type": "User"
+     }
+    },
+    {
+     "assignee": null,
+     "assignees": [],
+     "author_association": "NONE",
+     "body": "With the region `Sierra High Route` saved for offline use, the app still fetches every tile again when I open it with a connection. On a metered plan that is 180 MB each time.\n\nThe cache folder is there and full, so it looks like the cache key changes between runs.",
+     "closed_at": null,
+     "comments": 2,
+     "created_at": "2026-11-02T08:30:00Z",
+     "html_url": "https://github.com/example-outfitters/trail-planner/issues/139",
+     "id": 900139,
+     "labels": [],
+     "locked": false,
+     "milestone": null,
+     "node_id": "I_kwFake139",
+     "number": 139,
+     "pull_request": null,
+     "reactions": {
+      "+1": 2,
+      "total_count": 2
+     },
+     "state": "open",
+     "state_reason": null,
+     "title": "Offline map tiles are downloaded again on every start",
+     "updated_at": "2026-11-02T19:45:00Z",
+     "user": {
+      "avatar_url": "",
+      "html_url": "https://github.com/leo-example",
+      "id": 107961,
+      "login": "leo-example",
+      "type": "User"
+     }
+    },
+    {
+     "assignee": null,
+     "assignees": [],
+     "author_association": "NONE",
+     "body": "At zoom 15 and above the blue water-drop markers cover the trail, so you can't see which side of the stream the path is on.",
+     "closed_at": null,
+     "comments": 1,
+     "created_at": "2026-10-31T17:05:00Z",
+     "html_url": "https://github.com/example-outfitters/trail-planner/issues/137",
+     "id": 900137,
+     "labels": [
+      {
+       "color": "e99695",
+       "description": "Look and feel",
+       "name": "ui"
+      }
+     ],
+     "locked": false,
+     "milestone": null,
+     "node_id": "I_kwFake137",
+     "number": 137,
+     "pull_request": null,
+     "reactions": {
+      "+1": 0,
+      "total_count": 0
+     },
+     "state": "open",
+     "state_reason": null,
+     "title": "Water source markers sit on top of the trail line at high zoom",
+     "updated_at": "2026-11-01T21:10:00Z",
+     "user": {
+      "avatar_url": "",
+      "html_url": "https://github.com/sam-example",
+      "id": 108058,
+      "login": "sam-example",
+      "type": "User"
+     }
+    },
+    {
+     "assignee": null,
+     "assignees": [],
+     "author_association": "OWNER",
+     "body": "The checklist is the most-used screen with no translation yet. Strings live in `locales/en/checklist.json`.",
+     "closed_at": null,
+     "comments": 4,
+     "created_at": "2026-10-25T09:00:00Z",
+     "html_url": "https://github.com/example-outfitters/trail-planner/issues/135",
+     "id": 900135,
+     "labels": [
+      {
+       "color": "c5def5",
+       "description": "Translations and locale formats",
+       "name": "i18n"
+      },
+      {
+       "color": "008672",
+       "description": "Extra attention is needed",
+       "name": "help wanted"
+      }
+     ],
+     "locked": false,
+     "milestone": null,
+     "node_id": "I_kwFake135",
+     "number": 135,
+     "pull_request": null,
+     "reactions": {
+      "+1": 0,
+      "total_count": 0
+     },
+     "state": "open",
+     "state_reason": null,
+     "title": "Translate the packing checklist into Spanish",
+     "updated_at": "2026-10-31T10:00:00Z",
+     "user": {
+      "avatar_url": "",
+      "html_url": "https://github.com/maya-example",
+      "id": 118049,
+      "login": "maya-example",
+      "type": "User"
+     }
+    },
+    {
+     "assignee": null,
+     "assignees": [],
+     "author_association": "NONE",
+     "body": "Importing a GPX file whose `<name>` element is empty closes the app. Renaming the track in the file first works around it.",
+     "closed_at": null,
+     "comments": 2,
+     "created_at": "2026-10-29T08:51:00Z",
+     "html_url": "https://github.com/example-outfitters/trail-planner/issues/133",
+     "id": 900133,
+     "labels": [
+      {
+       "color": "d73a4a",
+       "description": "Something is not working",
+       "name": "bug"
+      }
+     ],
+     "locked": false,
+     "milestone": null,
+     "node_id": "I_kwFake133",
+     "number": 133,
+     "pull_request": null,
+     "reactions": {
+      "+1": 0,
+      "total_count": 0
+     },
+     "state": "open",
+     "state_reason": null,
+     "title": "Crash when importing a route with an empty name",
+     "updated_at": "2026-10-30T13:22:00Z",
+     "user": {
+      "avatar_url": "",
+      "html_url": "https://github.com/noor-example",
+      "id": 120183,
+      "login": "noor-example",
+      "type": "User"
+     }
+    },
+    {
+     "assignee": null,
+     "assignees": [],
+     "author_association": "MEMBER",
+     "body": "People keep asking why a 14 km day is shown as 6 hours. The estimate uses Naismith's rule plus a pack-weight factor; we should say so on the Plan screen's help page.",
+     "closed_at": null,
+     "comments": 0,
+     "created_at": "2026-10-27T12:00:00Z",
+     "html_url": "https://github.com/example-outfitters/trail-planner/issues/130",
+     "id": 900130,
+     "labels": [
+      {
+       "color": "0075ca",
+       "description": "Improvements or additions to documentation",
+       "name": "documentation"
+      },
+      {
+       "color": "7057ff",
+       "description": "Good for newcomers",
+       "name": "good first issue"
+      }
+     ],
+     "locked": false,
+     "milestone": null,
+     "node_id": "I_kwFake130",
+     "number": 130,
+     "pull_request": null,
+     "reactions": {
+      "+1": 0,
+      "total_count": 0
+     },
+     "state": "open",
+     "state_reason": null,
+     "title": "Docs: explain how the daily distance estimate is calculated",
+     "updated_at": "2026-10-28T15:35:00Z",
+     "user": {
+      "avatar_url": "",
+      "html_url": "https://github.com/ada-example",
+      "id": 105439,
+      "login": "ada-example",
+      "type": "User"
+     }
+    },
+    {
+     "assignee": null,
+     "assignees": [],
+     "author_association": "NONE",
+     "body": "The tent icon is dark grey on the dark map style. A light outline would fix it.",
+     "closed_at": null,
+     "comments": 1,
+     "created_at": "2026-10-26T20:15:00Z",
+     "html_url": "https://github.com/example-outfitters/trail-planner/issues/128",
+     "id": 900128,
+     "labels": [],
+     "locked": false,
+     "milestone": null,
+     "node_id": "I_kwFake128",
+     "number": 128,
+     "pull_request": null,
+     "reactions": {
+      "+1": 0,
+      "total_count": 0
+     },
+     "state": "open",
+     "state_reason": null,
+     "title": "Campsite icons are hard to read in dark mode",
+     "updated_at": "2026-10-27T18:40:00Z",
+     "user": {
+      "avatar_url": "",
+      "html_url": "https://github.com/kai-example",
+      "id": 106894,
+      "login": "kai-example",
+      "type": "User"
+     }
+    }
+   ]
+  },
+  "repos/example-outfitters/trail-planner/issues/128": {
+   "assignee": null,
+   "assignees": [],
+   "author_association": "NONE",
+   "body": "The tent icon is dark grey on the dark map style. A light outline would fix it.",
+   "closed_at": null,
+   "comments": 1,
+   "created_at": "2026-10-26T20:15:00Z",
+   "html_url": "https://github.com/example-outfitters/trail-planner/issues/128",
+   "id": 900128,
+   "labels": [],
+   "locked": false,
+   "milestone": null,
+   "node_id": "I_kwFake128",
+   "number": 128,
+   "pull_request": null,
+   "reactions": {
+    "+1": 0,
+    "total_count": 0
+   },
+   "state": "open",
+   "state_reason": null,
+   "title": "Campsite icons are hard to read in dark mode",
+   "updated_at": "2026-10-27T18:40:00Z",
+   "user": {
+    "avatar_url": "",
+    "html_url": "https://github.com/kai-example",
+    "id": 106894,
+    "login": "kai-example",
+    "type": "User"
+   }
+  },
+  "repos/example-outfitters/trail-planner/issues/128/dependencies/blocked_by": [],
+  "repos/example-outfitters/trail-planner/issues/128/dependencies/blocking": [],
+  "repos/example-outfitters/trail-planner/issues/128/timeline": [],
+  "repos/example-outfitters/trail-planner/issues/130": {
+   "assignee": null,
+   "assignees": [],
+   "author_association": "MEMBER",
+   "body": "People keep asking why a 14 km day is shown as 6 hours. The estimate uses Naismith's rule plus a pack-weight factor; we should say so on the Plan screen's help page.",
+   "closed_at": null,
+   "comments": 0,
+   "created_at": "2026-10-27T12:00:00Z",
+   "html_url": "https://github.com/example-outfitters/trail-planner/issues/130",
+   "id": 900130,
+   "labels": [
+    {
+     "color": "0075ca",
+     "description": "Improvements or additions to documentation",
+     "name": "documentation"
+    },
+    {
+     "color": "7057ff",
+     "description": "Good for newcomers",
+     "name": "good first issue"
+    }
+   ],
+   "locked": false,
+   "milestone": null,
+   "node_id": "I_kwFake130",
+   "number": 130,
+   "pull_request": null,
+   "reactions": {
+    "+1": 0,
+    "total_count": 0
+   },
+   "state": "open",
+   "state_reason": null,
+   "title": "Docs: explain how the daily distance estimate is calculated",
+   "updated_at": "2026-10-28T15:35:00Z",
+   "user": {
+    "avatar_url": "",
+    "html_url": "https://github.com/ada-example",
+    "id": 105439,
+    "login": "ada-example",
+    "type": "User"
+   }
+  },
+  "repos/example-outfitters/trail-planner/issues/130/dependencies/blocked_by": [],
+  "repos/example-outfitters/trail-planner/issues/130/dependencies/blocking": [],
+  "repos/example-outfitters/trail-planner/issues/130/timeline": [],
+  "repos/example-outfitters/trail-planner/issues/133": {
+   "assignee": null,
+   "assignees": [],
+   "author_association": "NONE",
+   "body": "Importing a GPX file whose `<name>` element is empty closes the app. Renaming the track in the file first works around it.",
+   "closed_at": null,
+   "comments": 2,
+   "created_at": "2026-10-29T08:51:00Z",
+   "html_url": "https://github.com/example-outfitters/trail-planner/issues/133",
+   "id": 900133,
+   "labels": [
+    {
+     "color": "d73a4a",
+     "description": "Something is not working",
+     "name": "bug"
+    }
+   ],
+   "locked": false,
+   "milestone": null,
+   "node_id": "I_kwFake133",
+   "number": 133,
+   "pull_request": null,
+   "reactions": {
+    "+1": 0,
+    "total_count": 0
+   },
+   "state": "open",
+   "state_reason": null,
+   "title": "Crash when importing a route with an empty name",
+   "updated_at": "2026-10-30T13:22:00Z",
+   "user": {
+    "avatar_url": "",
+    "html_url": "https://github.com/noor-example",
+    "id": 120183,
+    "login": "noor-example",
+    "type": "User"
+   }
+  },
+  "repos/example-outfitters/trail-planner/issues/133/dependencies/blocked_by": [],
+  "repos/example-outfitters/trail-planner/issues/133/dependencies/blocking": [],
+  "repos/example-outfitters/trail-planner/issues/133/timeline": [],
+  "repos/example-outfitters/trail-planner/issues/135": {
+   "assignee": null,
+   "assignees": [],
+   "author_association": "OWNER",
+   "body": "The checklist is the most-used screen with no translation yet. Strings live in `locales/en/checklist.json`.",
+   "closed_at": null,
+   "comments": 4,
+   "created_at": "2026-10-25T09:00:00Z",
+   "html_url": "https://github.com/example-outfitters/trail-planner/issues/135",
+   "id": 900135,
+   "labels": [
+    {
+     "color": "c5def5",
+     "description": "Translations and locale formats",
+     "name": "i18n"
+    },
+    {
+     "color": "008672",
+     "description": "Extra attention is needed",
+     "name": "help wanted"
+    }
+   ],
+   "locked": false,
+   "milestone": null,
+   "node_id": "I_kwFake135",
+   "number": 135,
+   "pull_request": null,
+   "reactions": {
+    "+1": 0,
+    "total_count": 0
+   },
+   "state": "open",
+   "state_reason": null,
+   "title": "Translate the packing checklist into Spanish",
+   "updated_at": "2026-10-31T10:00:00Z",
+   "user": {
+    "avatar_url": "",
+    "html_url": "https://github.com/maya-example",
+    "id": 118049,
+    "login": "maya-example",
+    "type": "User"
+   }
+  },
+  "repos/example-outfitters/trail-planner/issues/135/dependencies/blocked_by": [],
+  "repos/example-outfitters/trail-planner/issues/135/dependencies/blocking": [],
+  "repos/example-outfitters/trail-planner/issues/135/timeline": [],
+  "repos/example-outfitters/trail-planner/issues/137": {
+   "assignee": null,
+   "assignees": [],
+   "author_association": "NONE",
+   "body": "At zoom 15 and above the blue water-drop markers cover the trail, so you can't see which side of the stream the path is on.",
+   "closed_at": null,
+   "comments": 1,
+   "created_at": "2026-10-31T17:05:00Z",
+   "html_url": "https://github.com/example-outfitters/trail-planner/issues/137",
+   "id": 900137,
+   "labels": [
+    {
+     "color": "e99695",
+     "description": "Look and feel",
+     "name": "ui"
+    }
+   ],
+   "locked": false,
+   "milestone": null,
+   "node_id": "I_kwFake137",
+   "number": 137,
+   "pull_request": null,
+   "reactions": {
+    "+1": 0,
+    "total_count": 0
+   },
+   "state": "open",
+   "state_reason": null,
+   "title": "Water source markers sit on top of the trail line at high zoom",
+   "updated_at": "2026-11-01T21:10:00Z",
+   "user": {
+    "avatar_url": "",
+    "html_url": "https://github.com/sam-example",
+    "id": 108058,
+    "login": "sam-example",
+    "type": "User"
+   }
+  },
+  "repos/example-outfitters/trail-planner/issues/137/dependencies/blocked_by": [],
+  "repos/example-outfitters/trail-planner/issues/137/dependencies/blocking": [],
+  "repos/example-outfitters/trail-planner/issues/137/timeline": [],
+  "repos/example-outfitters/trail-planner/issues/138": {
+   "additions": 84,
+   "assignees": [],
+   "author_association": "CONTRIBUTOR",
+   "auto_merge": null,
+   "base": {
+    "ref": "main",
+    "repo": {
+     "full_name": "example-outfitters/trail-planner"
+    },
+    "sha": "0000000000000000000000000000000000000000"
+   },
+   "body": "Adds `locales/es/checklist.json` for #135. A native speaker reviewed the camping terms.",
+   "changed_files": 3,
+   "closed_at": null,
+   "comments": 1,
+   "commits": 2,
+   "created_at": "2026-10-30T10:00:00Z",
+   "deletions": 9,
+   "draft": false,
+   "head": {
+    "ref": "i18n/es-checklist",
+    "repo": {
+     "full_name": "example-outfitters/trail-planner"
+    },
+    "sha": "c3d4e5f60718293a4b5c6d7e8f9012345678912a"
+   },
+   "html_url": "https://github.com/example-outfitters/trail-planner/pull/138",
+   "id": 800138,
+   "labels": [
+    {
+     "color": "c5def5",
+     "description": "Translations and locale formats",
+     "name": "i18n"
+    }
+   ],
+   "mergeable": true,
+   "mergeable_state": "clean",
+   "merged_at": null,
+   "milestone": null,
+   "node_id": "PR_kwFake138",
+   "number": 138,
+   "pull_request": {
+    "html_url": "https://github.com/example-outfitters/trail-planner/pull/138",
+    "url": "x"
+   },
+   "requested_reviewers": [],
+   "review_comments": 0,
+   "state": "open",
+   "title": "Spanish packing checklist",
+   "updated_at": "2026-10-31T12:30:00Z",
+   "user": {
+    "avatar_url": "",
+    "html_url": "https://github.com/priya-example",
+    "id": 130174,
+    "login": "priya-example",
+    "type": "User"
+   }
+  },
+  "repos/example-outfitters/trail-planner/issues/138/timeline": [
+   {
+    "actor": {
+     "avatar_url": "",
+     "html_url": "https://github.com/jun-example",
+     "id": 109222,
+     "login": "jun-example",
+     "type": "User"
+    },
+    "author_association": "MEMBER",
+    "body": "Tried it on my routes; looks right.",
+    "created_at": "2026-10-31T12:30:00Z",
+    "event": "commented",
+    "html_url": "https://github.com/example-outfitters/trail-planner/pull/138#c1",
+    "id": 238,
+    "user": {
+     "avatar_url": "",
+     "html_url": "https://github.com/jun-example",
+     "id": 109222,
+     "login": "jun-example",
+     "type": "User"
+    }
+   }
+  ],
+  "repos/example-outfitters/trail-planner/issues/139": {
+   "assignee": null,
+   "assignees": [],
+   "author_association": "NONE",
+   "body": "With the region `Sierra High Route` saved for offline use, the app still fetches every tile again when I open it with a connection. On a metered plan that is 180 MB each time.\n\nThe cache folder is there and full, so it looks like the cache key changes between runs.",
+   "closed_at": null,
+   "comments": 2,
+   "created_at": "2026-11-02T08:30:00Z",
+   "html_url": "https://github.com/example-outfitters/trail-planner/issues/139",
+   "id": 900139,
+   "labels": [],
+   "locked": false,
+   "milestone": null,
+   "node_id": "I_kwFake139",
+   "number": 139,
+   "pull_request": null,
+   "reactions": {
+    "+1": 2,
+    "total_count": 2
+   },
+   "state": "open",
+   "state_reason": null,
+   "title": "Offline map tiles are downloaded again on every start",
+   "updated_at": "2026-11-02T19:45:00Z",
+   "user": {
+    "avatar_url": "",
+    "html_url": "https://github.com/leo-example",
+    "id": 107961,
+    "login": "leo-example",
+    "type": "User"
+   }
+  },
+  "repos/example-outfitters/trail-planner/issues/139/dependencies/blocked_by": [],
+  "repos/example-outfitters/trail-planner/issues/139/dependencies/blocking": [],
+  "repos/example-outfitters/trail-planner/issues/139/timeline": [
+   {
+    "actor": {
+     "avatar_url": "",
+     "html_url": "https://github.com/leo-example",
+     "id": 107961,
+     "login": "leo-example",
+     "type": "User"
+    },
+    "author_association": "NONE",
+    "body": "The cache folder name has the date in it. That would explain it.",
+    "created_at": "2026-11-02T09:10:00Z",
+    "event": "commented",
+    "html_url": "https://github.com/example-outfitters/trail-planner/issues/139#c1",
+    "id": 11,
+    "user": {
+     "avatar_url": "",
+     "html_url": "https://github.com/leo-example",
+     "id": 107961,
+     "login": "leo-example",
+     "type": "User"
+    }
+   },
+   {
+    "actor": {
+     "avatar_url": "",
+     "html_url": "https://github.com/maya-example",
+     "id": 118049,
+     "login": "maya-example",
+     "type": "User"
+    },
+    "author_association": "OWNER",
+    "body": "Good catch. A PR is welcome.",
+    "created_at": "2026-11-02T19:45:00Z",
+    "event": "commented",
+    "html_url": "https://github.com/example-outfitters/trail-planner/issues/139#c2",
+    "id": 12,
+    "user": {
+     "avatar_url": "",
+     "html_url": "https://github.com/maya-example",
+     "id": 118049,
+     "login": "maya-example",
+     "type": "User"
+    }
+   }
+  ],
+  "repos/example-outfitters/trail-planner/issues/140": {
+   "additions": 84,
+   "assignees": [],
+   "author_association": "CONTRIBUTOR",
+   "auto_merge": null,
+   "base": {
+    "ref": "main",
+    "repo": {
+     "full_name": "example-outfitters/trail-planner"
+    },
+    "sha": "0000000000000000000000000000000000000000"
+   },
+   "body": "Draft for #139. The cache key included the request timestamp, so every start missed. Still needs a migration for caches already on disk.",
+   "changed_files": 3,
+   "closed_at": null,
+   "comments": 1,
+   "commits": 2,
+   "created_at": "2026-11-02T19:50:00Z",
+   "deletions": 9,
+   "draft": true,
+   "head": {
+    "ref": "offline-cache-key",
+    "repo": {
+     "full_name": "example-outfitters/trail-planner"
+    },
+    "sha": "b2c3d4e5f60718293a4b5c6d7e8f901234567891"
+   },
+   "html_url": "https://github.com/example-outfitters/trail-planner/pull/140",
+   "id": 800140,
+   "labels": [
+    {
+     "color": "fbca04",
+     "description": "Speed, memory or battery",
+     "name": "performance"
+    }
+   ],
+   "mergeable": true,
+   "mergeable_state": "clean",
+   "merged_at": null,
+   "milestone": null,
+   "node_id": "PR_kwFake140",
+   "number": 140,
+   "pull_request": {
+    "html_url": "https://github.com/example-outfitters/trail-planner/pull/140",
+    "url": "x"
+   },
+   "requested_reviewers": [],
+   "review_comments": 0,
+   "state": "open",
+   "title": "Key the offline tile cache by tile hash, not by download time",
+   "updated_at": "2026-11-02T20:10:00Z",
+   "user": {
+    "avatar_url": "",
+    "html_url": "https://github.com/leo-example",
+    "id": 107961,
+    "login": "leo-example",
+    "type": "User"
+   }
+  },
+  "repos/example-outfitters/trail-planner/issues/140/timeline": [
+   {
+    "actor": {
+     "avatar_url": "",
+     "html_url": "https://github.com/jun-example",
+     "id": 109222,
+     "login": "jun-example",
+     "type": "User"
+    },
+    "author_association": "MEMBER",
+    "body": "Tried it on my routes; looks right.",
+    "created_at": "2026-11-02T20:10:00Z",
+    "event": "commented",
+    "html_url": "https://github.com/example-outfitters/trail-planner/pull/140#c1",
+    "id": 240,
+    "user": {
+     "avatar_url": "",
+     "html_url": "https://github.com/jun-example",
+     "id": 109222,
+     "login": "jun-example",
+     "type": "User"
+    }
+   }
+  ],
+  "repos/example-outfitters/trail-planner/issues/141": {
+   "assignee": null,
+   "assignees": [],
+   "author_association": "CONTRIBUTOR",
+   "body": "Most watches and phone apps read GPX. Right now the only way out of the planner is a screenshot.\n\nA first version could export the track and the campsites as waypoints. Elevation can come later.",
+   "closed_at": null,
+   "comments": 5,
+   "created_at": "2026-10-30T14:40:00Z",
+   "html_url": "https://github.com/example-outfitters/trail-planner/issues/141",
+   "id": 900141,
+   "labels": [
+    {
+     "color": "a2eeef",
+     "description": "New feature or request",
+     "name": "enhancement"
+    }
+   ],
+   "locked": false,
+   "milestone": null,
+   "node_id": "I_kwFake141",
+   "number": 141,
+   "pull_request": null,
+   "reactions": {
+    "+1": 2,
+    "total_count": 2
+   },
+   "state": "open",
+   "state_reason": null,
+   "title": "Export a planned route as GPX",
+   "updated_at": "2026-11-03T11:02:00Z",
+   "user": {
+    "avatar_url": "",
+    "html_url": "https://github.com/priya-example",
+    "id": 130174,
+    "login": "priya-example",
+    "type": "User"
+   }
+  },
+  "repos/example-outfitters/trail-planner/issues/141/dependencies/blocked_by": [],
+  "repos/example-outfitters/trail-planner/issues/141/dependencies/blocking": [],
+  "repos/example-outfitters/trail-planner/issues/141/timeline": [],
+  "repos/example-outfitters/trail-planner/issues/142": {
+   "assignee": {
+    "avatar_url": "",
+    "html_url": "https://github.com/ada-example",
+    "id": 105439,
+    "login": "ada-example",
+    "type": "User"
+   },
+   "assignees": [
+    {
+     "avatar_url": "",
+     "html_url": "https://github.com/ada-example",
+     "id": 105439,
+     "login": "ada-example",
+     "type": "User"
+    }
+   ],
+   "author_association": "MEMBER",
+   "body": "Planning the Kamchatka coast route (it crosses 180\u00b0 longitude twice), the elevation chart shows a flat line at 0 m for every day after the first crossing.\n\n**Steps**\n1. Import `kamchatka-coast.gpx` (attached)\n2. Open the Elevation tab\n\n**Expected** the real profile.\n**Actual** a flat line after day 2.\n\nI suspect the segment splitter: longitudes jump from 179.9 to -179.9 and the distance comes out as almost the whole planet.",
+   "closed_at": null,
+   "comments": 3,
+   "created_at": "2026-11-01T09:12:00Z",
+   "html_url": "https://github.com/example-outfitters/trail-planner/issues/142",
+   "id": 900142,
+   "labels": [
+    {
+     "color": "d73a4a",
+     "description": "Something is not working",
+     "name": "bug"
+    }
+   ],
+   "locked": false,
+   "milestone": null,
+   "node_id": "I_kwFake142",
+   "number": 142,
+   "pull_request": null,
+   "reactions": {
+    "+1": 0,
+    "total_count": 0
+   },
+   "state": "open",
+   "state_reason": null,
+   "title": "Elevation profile is flat for routes that cross the antimeridian",
+   "updated_at": "2026-11-03T16:20:00Z",
+   "user": {
+    "avatar_url": "",
+    "html_url": "https://github.com/jun-example",
+    "id": 109222,
+    "login": "jun-example",
+    "type": "User"
+   }
+  },
+  "repos/example-outfitters/trail-planner/issues/142/dependencies/blocked_by": [],
+  "repos/example-outfitters/trail-planner/issues/142/dependencies/blocking": [],
+  "repos/example-outfitters/trail-planner/issues/142/timeline": [
+   {
+    "actor": {
+     "avatar_url": "",
+     "html_url": "https://github.com/ada-example",
+     "id": 105439,
+     "login": "ada-example",
+     "type": "User"
+    },
+    "created_at": "2026-11-01T10:00:00Z",
+    "event": "labeled",
+    "label": {
+     "color": "d73a4a",
+     "description": "Something is not working",
+     "name": "bug"
+    }
+   },
+   {
+    "actor": {
+     "avatar_url": "",
+     "html_url": "https://github.com/ada-example",
+     "id": 105439,
+     "login": "ada-example",
+     "type": "User"
+    },
+    "author_association": "MEMBER",
+    "body": "Reproduced with the attached file. The day 3 segment comes out at 39,800 km.",
+    "created_at": "2026-11-01T10:05:00Z",
+    "event": "commented",
+    "html_url": "https://github.com/example-outfitters/trail-planner/issues/142#c1",
+    "id": 1,
+    "user": {
+     "avatar_url": "",
+     "html_url": "https://github.com/ada-example",
+     "id": 105439,
+     "login": "ada-example",
+     "type": "User"
+    }
+   },
+   {
+    "actor": {
+     "avatar_url": "",
+     "html_url": "https://github.com/ada-example",
+     "id": 105439,
+     "login": "ada-example",
+     "type": "User"
+    },
+    "assignee": {
+     "avatar_url": "",
+     "html_url": "https://github.com/ada-example",
+     "id": 105439,
+     "login": "ada-example",
+     "type": "User"
+    },
+    "created_at": "2026-11-01T10:06:00Z",
+    "event": "assigned"
+   },
+   {
+    "actor": {
+     "avatar_url": "",
+     "html_url": "https://github.com/jun-example",
+     "id": 109222,
+     "login": "jun-example",
+     "type": "User"
+    },
+    "author_association": "MEMBER",
+    "body": "Same thing on the Fiji island-hopping route.",
+    "created_at": "2026-11-02T08:40:00Z",
+    "event": "commented",
+    "html_url": "https://github.com/example-outfitters/trail-planner/issues/142#c2",
+    "id": 2,
+    "user": {
+     "avatar_url": "",
+     "html_url": "https://github.com/jun-example",
+     "id": 109222,
+     "login": "jun-example",
+     "type": "User"
+    }
+   },
+   {
+    "actor": {
+     "avatar_url": "",
+     "html_url": "https://github.com/ada-example",
+     "id": 105439,
+     "login": "ada-example",
+     "type": "User"
+    },
+    "created_at": "2026-11-03T09:41:00Z",
+    "event": "cross-referenced",
+    "source": {
+     "issue": {
+      "html_url": "https://github.com/example-outfitters/trail-planner/pull/143",
+      "number": 143,
+      "pull_request": {
+       "url": "x"
+      },
+      "repository": {
+       "full_name": "example-outfitters/trail-planner"
+      },
+      "state": "open",
+      "title": "Split route segments at the antimeridian before computing elevation"
+     }
+    }
+   },
+   {
+    "actor": {
+     "avatar_url": "",
+     "html_url": "https://github.com/maya-example",
+     "id": 118049,
+     "login": "maya-example",
+     "type": "User"
+    },
+    "author_association": "OWNER",
+    "body": "Thanks both. #143 looks like the fix.",
+    "created_at": "2026-11-03T16:20:00Z",
+    "event": "commented",
+    "html_url": "https://github.com/example-outfitters/trail-planner/issues/142#c3",
+    "id": 3,
+    "user": {
+     "avatar_url": "",
+     "html_url": "https://github.com/maya-example",
+     "id": 118049,
+     "login": "maya-example",
+     "type": "User"
+    }
+   }
+  ],
+  "repos/example-outfitters/trail-planner/issues/143": {
+   "additions": 84,
+   "assignees": [],
+   "author_association": "MEMBER",
+   "auto_merge": null,
+   "base": {
+    "ref": "main",
+    "repo": {
+     "full_name": "example-outfitters/trail-planner"
+    },
+    "sha": "0000000000000000000000000000000000000000"
+   },
+   "body": "Fixes #142.\n\nLongitudes are unwrapped before the haversine distance is taken, so a crossing no longer reads as a 40,000 km segment. Adds a test with the Kamchatka coast route.",
+   "changed_files": 3,
+   "closed_at": null,
+   "comments": 1,
+   "commits": 2,
+   "created_at": "2026-11-03T09:40:00Z",
+   "deletions": 9,
+   "draft": false,
+   "head": {
+    "ref": "fix/antimeridian-elevation",
+    "repo": {
+     "full_name": "example-outfitters/trail-planner"
+    },
+    "sha": "a1b2c3d4e5f60718293a4b5c6d7e8f9012345678"
+   },
+   "html_url": "https://github.com/example-outfitters/trail-planner/pull/143",
+   "id": 800143,
+   "labels": [
+    {
+     "color": "d73a4a",
+     "description": "Something is not working",
+     "name": "bug"
+    }
+   ],
+   "mergeable": true,
+   "mergeable_state": "clean",
+   "merged_at": null,
+   "milestone": null,
+   "node_id": "PR_kwFake143",
+   "number": 143,
+   "pull_request": {
+    "html_url": "https://github.com/example-outfitters/trail-planner/pull/143",
+    "url": "x"
+   },
+   "requested_reviewers": [
+    {
+     "avatar_url": "",
+     "html_url": "https://github.com/maya-example",
+     "id": 118049,
+     "login": "maya-example",
+     "type": "User"
+    }
+   ],
+   "review_comments": 0,
+   "state": "open",
+   "title": "Split route segments at the antimeridian before computing elevation",
+   "updated_at": "2026-11-03T18:05:00Z",
+   "user": {
+    "avatar_url": "",
+    "html_url": "https://github.com/ada-example",
+    "id": 105439,
+    "login": "ada-example",
+    "type": "User"
+   }
+  },
+  "repos/example-outfitters/trail-planner/issues/143/timeline": [
+   {
+    "actor": {
+     "avatar_url": "",
+     "html_url": "https://github.com/jun-example",
+     "id": 109222,
+     "login": "jun-example",
+     "type": "User"
+    },
+    "author_association": "MEMBER",
+    "body": "Tried it on my routes; looks right.",
+    "created_at": "2026-11-03T18:05:00Z",
+    "event": "commented",
+    "html_url": "https://github.com/example-outfitters/trail-planner/pull/143#c1",
+    "id": 243,
+    "user": {
+     "avatar_url": "",
+     "html_url": "https://github.com/jun-example",
+     "id": 109222,
+     "login": "jun-example",
+     "type": "User"
+    }
+   }
+  ],
+  "repos/example-outfitters/trail-planner/labels": [
+   {
+    "color": "d73a4a",
+    "description": "Something is not working",
+    "name": "bug"
+   },
+   {
+    "color": "a2eeef",
+    "description": "New feature or request",
+    "name": "enhancement"
+   },
+   {
+    "color": "7057ff",
+    "description": "Good for newcomers",
+    "name": "good first issue"
+   },
+   {
+    "color": "008672",
+    "description": "Extra attention is needed",
+    "name": "help wanted"
+   },
+   {
+    "color": "0075ca",
+    "description": "Improvements or additions to documentation",
+    "name": "documentation"
+   },
+   {
+    "color": "fbca04",
+    "description": "Speed, memory or battery",
+    "name": "performance"
+   },
+   {
+    "color": "bfd4f2",
+    "description": "Works without a connection",
+    "name": "offline"
+   },
+   {
+    "color": "c5def5",
+    "description": "Translations and locale formats",
+    "name": "i18n"
+   },
+   {
+    "color": "e99695",
+    "description": "Look and feel",
+    "name": "ui"
+   }
+  ],
+  "repos/example-outfitters/trail-planner/pulls": {
+   "_by_query": {
+    "state=closed": []
+   },
+   "_default": [
+    {
+     "additions": 84,
+     "assignees": [],
+     "author_association": "MEMBER",
+     "auto_merge": null,
+     "base": {
+      "ref": "main",
+      "repo": {
+       "full_name": "example-outfitters/trail-planner"
+      },
+      "sha": "0000000000000000000000000000000000000000"
+     },
+     "body": "Fixes #142.\n\nLongitudes are unwrapped before the haversine distance is taken, so a crossing no longer reads as a 40,000 km segment. Adds a test with the Kamchatka coast route.",
+     "changed_files": 3,
+     "closed_at": null,
+     "comments": 1,
+     "commits": 2,
+     "created_at": "2026-11-03T09:40:00Z",
+     "deletions": 9,
+     "draft": false,
+     "head": {
+      "ref": "fix/antimeridian-elevation",
+      "repo": {
+       "full_name": "example-outfitters/trail-planner"
+      },
+      "sha": "a1b2c3d4e5f60718293a4b5c6d7e8f9012345678"
+     },
+     "html_url": "https://github.com/example-outfitters/trail-planner/pull/143",
+     "id": 800143,
+     "labels": [
+      {
+       "color": "d73a4a",
+       "description": "Something is not working",
+       "name": "bug"
+      }
+     ],
+     "mergeable": true,
+     "mergeable_state": "clean",
+     "merged_at": null,
+     "milestone": null,
+     "node_id": "PR_kwFake143",
+     "number": 143,
+     "requested_reviewers": [
+      {
+       "avatar_url": "",
+       "html_url": "https://github.com/maya-example",
+       "id": 118049,
+       "login": "maya-example",
+       "type": "User"
+      }
+     ],
+     "review_comments": 0,
+     "state": "open",
+     "title": "Split route segments at the antimeridian before computing elevation",
+     "updated_at": "2026-11-03T18:05:00Z",
+     "user": {
+      "avatar_url": "",
+      "html_url": "https://github.com/ada-example",
+      "id": 105439,
+      "login": "ada-example",
+      "type": "User"
+     }
+    },
+    {
+     "additions": 84,
+     "assignees": [],
+     "author_association": "CONTRIBUTOR",
+     "auto_merge": null,
+     "base": {
+      "ref": "main",
+      "repo": {
+       "full_name": "example-outfitters/trail-planner"
+      },
+      "sha": "0000000000000000000000000000000000000000"
+     },
+     "body": "Draft for #139. The cache key included the request timestamp, so every start missed. Still needs a migration for caches already on disk.",
+     "changed_files": 3,
+     "closed_at": null,
+     "comments": 1,
+     "commits": 2,
+     "created_at": "2026-11-02T19:50:00Z",
+     "deletions": 9,
+     "draft": true,
+     "head": {
+      "ref": "offline-cache-key",
+      "repo": {
+       "full_name": "example-outfitters/trail-planner"
+      },
+      "sha": "b2c3d4e5f60718293a4b5c6d7e8f901234567891"
+     },
+     "html_url": "https://github.com/example-outfitters/trail-planner/pull/140",
+     "id": 800140,
+     "labels": [
+      {
+       "color": "fbca04",
+       "description": "Speed, memory or battery",
+       "name": "performance"
+      }
+     ],
+     "mergeable": true,
+     "mergeable_state": "clean",
+     "merged_at": null,
+     "milestone": null,
+     "node_id": "PR_kwFake140",
+     "number": 140,
+     "requested_reviewers": [],
+     "review_comments": 0,
+     "state": "open",
+     "title": "Key the offline tile cache by tile hash, not by download time",
+     "updated_at": "2026-11-02T20:10:00Z",
+     "user": {
+      "avatar_url": "",
+      "html_url": "https://github.com/leo-example",
+      "id": 107961,
+      "login": "leo-example",
+      "type": "User"
+     }
+    },
+    {
+     "additions": 84,
+     "assignees": [],
+     "author_association": "CONTRIBUTOR",
+     "auto_merge": null,
+     "base": {
+      "ref": "main",
+      "repo": {
+       "full_name": "example-outfitters/trail-planner"
+      },
+      "sha": "0000000000000000000000000000000000000000"
+     },
+     "body": "Adds `locales/es/checklist.json` for #135. A native speaker reviewed the camping terms.",
+     "changed_files": 3,
+     "closed_at": null,
+     "comments": 1,
+     "commits": 2,
+     "created_at": "2026-10-30T10:00:00Z",
+     "deletions": 9,
+     "draft": false,
+     "head": {
+      "ref": "i18n/es-checklist",
+      "repo": {
+       "full_name": "example-outfitters/trail-planner"
+      },
+      "sha": "c3d4e5f60718293a4b5c6d7e8f9012345678912a"
+     },
+     "html_url": "https://github.com/example-outfitters/trail-planner/pull/138",
+     "id": 800138,
+     "labels": [
+      {
+       "color": "c5def5",
+       "description": "Translations and locale formats",
+       "name": "i18n"
+      }
+     ],
+     "mergeable": true,
+     "mergeable_state": "clean",
+     "merged_at": null,
+     "milestone": null,
+     "node_id": "PR_kwFake138",
+     "number": 138,
+     "requested_reviewers": [],
+     "review_comments": 0,
+     "state": "open",
+     "title": "Spanish packing checklist",
+     "updated_at": "2026-10-31T12:30:00Z",
+     "user": {
+      "avatar_url": "",
+      "html_url": "https://github.com/priya-example",
+      "id": 130174,
+      "login": "priya-example",
+      "type": "User"
+     }
+    }
+   ]
+  },
+  "repos/example-outfitters/trail-planner/pulls/138": {
+   "additions": 84,
+   "assignees": [],
+   "author_association": "CONTRIBUTOR",
+   "auto_merge": null,
+   "base": {
+    "ref": "main",
+    "repo": {
+     "full_name": "example-outfitters/trail-planner"
+    },
+    "sha": "0000000000000000000000000000000000000000"
+   },
+   "body": "Adds `locales/es/checklist.json` for #135. A native speaker reviewed the camping terms.",
+   "changed_files": 3,
+   "closed_at": null,
+   "comments": 1,
+   "commits": 2,
+   "created_at": "2026-10-30T10:00:00Z",
+   "deletions": 9,
+   "draft": false,
+   "head": {
+    "ref": "i18n/es-checklist",
+    "repo": {
+     "full_name": "example-outfitters/trail-planner"
+    },
+    "sha": "c3d4e5f60718293a4b5c6d7e8f9012345678912a"
+   },
+   "html_url": "https://github.com/example-outfitters/trail-planner/pull/138",
+   "id": 800138,
+   "labels": [
+    {
+     "color": "c5def5",
+     "description": "Translations and locale formats",
+     "name": "i18n"
+    }
+   ],
+   "mergeable": true,
+   "mergeable_state": "clean",
+   "merged_at": null,
+   "milestone": null,
+   "node_id": "PR_kwFake138",
+   "number": 138,
+   "requested_reviewers": [],
+   "review_comments": 0,
+   "state": "open",
+   "title": "Spanish packing checklist",
+   "updated_at": "2026-10-31T12:30:00Z",
+   "user": {
+    "avatar_url": "",
+    "html_url": "https://github.com/priya-example",
+    "id": 130174,
+    "login": "priya-example",
+    "type": "User"
+   }
+  },
+  "repos/example-outfitters/trail-planner/pulls/138/comments": [],
+  "repos/example-outfitters/trail-planner/pulls/138/files": [],
+  "repos/example-outfitters/trail-planner/pulls/138/reviews": [],
+  "repos/example-outfitters/trail-planner/pulls/140": {
+   "additions": 84,
+   "assignees": [],
+   "author_association": "CONTRIBUTOR",
+   "auto_merge": null,
+   "base": {
+    "ref": "main",
+    "repo": {
+     "full_name": "example-outfitters/trail-planner"
+    },
+    "sha": "0000000000000000000000000000000000000000"
+   },
+   "body": "Draft for #139. The cache key included the request timestamp, so every start missed. Still needs a migration for caches already on disk.",
+   "changed_files": 3,
+   "closed_at": null,
+   "comments": 1,
+   "commits": 2,
+   "created_at": "2026-11-02T19:50:00Z",
+   "deletions": 9,
+   "draft": true,
+   "head": {
+    "ref": "offline-cache-key",
+    "repo": {
+     "full_name": "example-outfitters/trail-planner"
+    },
+    "sha": "b2c3d4e5f60718293a4b5c6d7e8f901234567891"
+   },
+   "html_url": "https://github.com/example-outfitters/trail-planner/pull/140",
+   "id": 800140,
+   "labels": [
+    {
+     "color": "fbca04",
+     "description": "Speed, memory or battery",
+     "name": "performance"
+    }
+   ],
+   "mergeable": true,
+   "mergeable_state": "clean",
+   "merged_at": null,
+   "milestone": null,
+   "node_id": "PR_kwFake140",
+   "number": 140,
+   "requested_reviewers": [],
+   "review_comments": 0,
+   "state": "open",
+   "title": "Key the offline tile cache by tile hash, not by download time",
+   "updated_at": "2026-11-02T20:10:00Z",
+   "user": {
+    "avatar_url": "",
+    "html_url": "https://github.com/leo-example",
+    "id": 107961,
+    "login": "leo-example",
+    "type": "User"
+   }
+  },
+  "repos/example-outfitters/trail-planner/pulls/140/comments": [],
+  "repos/example-outfitters/trail-planner/pulls/140/files": [],
+  "repos/example-outfitters/trail-planner/pulls/140/reviews": [],
+  "repos/example-outfitters/trail-planner/pulls/143": {
+   "additions": 84,
+   "assignees": [],
+   "author_association": "MEMBER",
+   "auto_merge": null,
+   "base": {
+    "ref": "main",
+    "repo": {
+     "full_name": "example-outfitters/trail-planner"
+    },
+    "sha": "0000000000000000000000000000000000000000"
+   },
+   "body": "Fixes #142.\n\nLongitudes are unwrapped before the haversine distance is taken, so a crossing no longer reads as a 40,000 km segment. Adds a test with the Kamchatka coast route.",
+   "changed_files": 3,
+   "closed_at": null,
+   "comments": 1,
+   "commits": 2,
+   "created_at": "2026-11-03T09:40:00Z",
+   "deletions": 9,
+   "draft": false,
+   "head": {
+    "ref": "fix/antimeridian-elevation",
+    "repo": {
+     "full_name": "example-outfitters/trail-planner"
+    },
+    "sha": "a1b2c3d4e5f60718293a4b5c6d7e8f9012345678"
+   },
+   "html_url": "https://github.com/example-outfitters/trail-planner/pull/143",
+   "id": 800143,
+   "labels": [
+    {
+     "color": "d73a4a",
+     "description": "Something is not working",
+     "name": "bug"
+    }
+   ],
+   "mergeable": true,
+   "mergeable_state": "clean",
+   "merged_at": null,
+   "milestone": null,
+   "node_id": "PR_kwFake143",
+   "number": 143,
+   "requested_reviewers": [
+    {
+     "avatar_url": "",
+     "html_url": "https://github.com/maya-example",
+     "id": 118049,
+     "login": "maya-example",
+     "type": "User"
+    }
+   ],
+   "review_comments": 0,
+   "state": "open",
+   "title": "Split route segments at the antimeridian before computing elevation",
+   "updated_at": "2026-11-03T18:05:00Z",
+   "user": {
+    "avatar_url": "",
+    "html_url": "https://github.com/ada-example",
+    "id": 105439,
+    "login": "ada-example",
+    "type": "User"
+   }
+  },
+  "repos/example-outfitters/trail-planner/pulls/143/comments": [],
+  "repos/example-outfitters/trail-planner/pulls/143/files": [],
+  "repos/example-outfitters/trail-planner/pulls/143/reviews": [],
+  "search/issues": {
+   "incomplete_results": false,
+   "items": [
+    {
+     "assignee": {
+      "avatar_url": "",
+      "html_url": "https://github.com/ada-example",
+      "id": 105439,
+      "login": "ada-example",
+      "type": "User"
+     },
+     "assignees": [
+      {
+       "avatar_url": "",
+       "html_url": "https://github.com/ada-example",
+       "id": 105439,
+       "login": "ada-example",
+       "type": "User"
+      }
+     ],
+     "author_association": "MEMBER",
+     "body": "Planning the Kamchatka coast route (it crosses 180\u00b0 longitude twice), the elevation chart shows a flat line at 0 m for every day after the first crossing.\n\n**Steps**\n1. Import `kamchatka-coast.gpx` (attached)\n2. Open the Elevation tab\n\n**Expected** the real profile.\n**Actual** a flat line after day 2.\n\nI suspect the segment splitter: longitudes jump from 179.9 to -179.9 and the distance comes out as almost the whole planet.",
+     "closed_at": null,
+     "comments": 3,
+     "created_at": "2026-11-01T09:12:00Z",
+     "html_url": "https://github.com/example-outfitters/trail-planner/issues/142",
+     "id": 900142,
+     "labels": [
+      {
+       "color": "d73a4a",
+       "description": "Something is not working",
+       "name": "bug"
+      }
+     ],
+     "locked": false,
+     "milestone": null,
+     "node_id": "I_kwFake142",
+     "number": 142,
+     "pull_request": null,
+     "reactions": {
+      "+1": 0,
+      "total_count": 0
+     },
+     "state": "open",
+     "state_reason": null,
+     "title": "Elevation profile is flat for routes that cross the antimeridian",
+     "updated_at": "2026-11-03T16:20:00Z",
+     "user": {
+      "avatar_url": "",
+      "html_url": "https://github.com/jun-example",
+      "id": 109222,
+      "login": "jun-example",
+      "type": "User"
+     }
+    }
+   ],
+   "total_count": 8
+  },
+  "user": {
+   "avatar_url": "",
+   "html_url": "https://github.com/maya-example",
+   "id": 118049,
+   "login": "maya-example",
+   "type": "User"
+  }
+ }
+}

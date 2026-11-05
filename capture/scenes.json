@@ -1,0 +1,314 @@
+{
+  "app": "issue-radar",
+  "fixture": "minimal",
+  "locale": "en-US",
+  "timezone": "UTC",
+  "provenance_note": "The isolated gateway served this repository's own copy of the app: capture.py's setup installed it from this checkout (POST /api/apps/install), trusted it and enabled it, and every picture shows its committed bundle (ui/dist/index.mjs) and backend. Kiro Crew still ships a built-in issue-radar and refuses a second install under the same name, so the Kiro Crew tree the capture ran on is main at the pinned commit with only the built-in's registration removed (its BUILTIN_NAMES row and its package directory); kirocrew_tree_dirty records that. The gateway's `gh` was this repository's capture/fake_gh/gh (KIROCREW_GH_BIN, and first on PATH for the agent's shell), which answers from the fictional repository in capture/fake_gh/repo.json: no real repository, account or network was used.",
+  "data_notes": [
+    "The repository example-outfitters/trail-planner, its issues, pull requests, comments, labels, checks and every login (all ending in -example) are made up for this README and served by capture/fake_gh/gh; avatars are empty.",
+    "The repository was connected through the app's own POST /connect (capture/scenes.json setup).",
+    "The AI summaries and suggested labels were written by the live model during the capture; the investigation chat is a live agent session that read the issue through the fake gh after one approval.",
+    "Relative times (\"2 days ago\") are against the fixture's fixed dates and the gateway's clock during the capture."
+  ],
+  "init_storage": {
+    "mc-nav": "0",
+    "kc:issue-radar:ui-state": "{}"
+  },
+  "ready": "text=trail-planner",
+  "forbid_text": [
+    "No summary available",
+    "Couldn't load",
+    "could not read",
+    "Something went wrong"
+  ],
+  "setup": [
+    {
+      "name": "install this repository",
+      "method": "POST",
+      "path": "/api/apps/install",
+      "body": {
+        "source": "{{app_root}}"
+      }
+    },
+    {
+      "name": "trust it (it runs its own code)",
+      "method": "POST",
+      "path": "/api/security/trusted-apps/issue-radar"
+    },
+    {
+      "name": "turn the app on",
+      "method": "POST",
+      "path": "/api/apps/issue-radar/enable"
+    },
+    {
+      "name": "retire the host's one-time startup intro",
+      "method": "POST",
+      "path": "/api/feature-videos/feedback",
+      "body": {
+        "id": "crewmates",
+        "status": "dismissed"
+      },
+      "optional": true
+    },
+    {
+      "name": "connect the fictional repository",
+      "method": "POST",
+      "path": "/api/apps/issue-radar/connect",
+      "body": {
+        "url": "https://github.com/example-outfitters/trail-planner"
+      }
+    }
+  ],
+  "screenshots": [
+    {
+      "name": "hero",
+      "path": "/apps/issue-radar",
+      "ready": "text=Needs attention",
+      "settle_ms": 1200,
+      "alt": "Issue Radar's overview for a connected repository: counts of open, untriaged, unanswered, unassigned and stale issues, a Needs attention row of issue cards, the label distribution and the backlog age"
+    },
+    {
+      "name": "use-case-triage",
+      "path": "/apps/issue-radar",
+      "themes": [
+        "light"
+      ],
+      "live": true,
+      "steps": [
+        {
+          "click": "role=button[name=\"Issues\"s]"
+        },
+        {
+          "click": "text=Elevation profile is flat"
+        },
+        {
+          "wait_ms": 2000
+        },
+        {
+          "wait_hidden": "[role=status][aria-label='Generating AI summary']",
+          "timeout_ms": 240000
+        }
+      ],
+      "settle_ms": 1500,
+      "alt": "An issue open in the workbench: the issue list on the left, and on the right the issue's AI summary card restating the bug and its suspected cause in plain language, above the issue's own text, with its assignee, its bug label and its dates beside it"
+    },
+    {
+      "name": "use-case-pull-request",
+      "path": "/apps/issue-radar",
+      "themes": [
+        "light"
+      ],
+      "live": true,
+      "steps": [
+        {
+          "click": "role=button[name=\"Pull Requests\"s]"
+        },
+        {
+          "click": "text=Split route segments"
+        },
+        {
+          "wait_ms": 2000
+        },
+        {
+          "wait_hidden": "[role=status][aria-label='Generating AI summary']",
+          "timeout_ms": 240000
+        }
+      ],
+      "settle_ms": 1500,
+      "alt": "A pull request open in the workbench with Approve, Request changes, Comment, Merge and Close buttons, an AI summary of the change and its conversation, and the side panel showing 2 automated checks passed, the requested reviewer, the branches and the size of the change"
+    },
+    {
+      "name": "use-case-investigate",
+      "path": "/apps/issue-radar",
+      "themes": [
+        "light"
+      ],
+      "live": true,
+      "steps": [
+        {
+          "click": "role=button[name=\"Issues\"s]"
+        },
+        {
+          "click": "text=Offline map tiles are downloaded"
+        },
+        {
+          "click": "role=button[name=\"Investigate\"s]"
+        },
+        {
+          "wait_for": "textarea[aria-label='Message input']"
+        },
+        {
+          "wait_ms": 2000
+        },
+        {
+          "press": "textarea[aria-label='Message input']",
+          "key": "Enter"
+        },
+        {
+          "wait_for": "role=button[name=\"Allow once\"]",
+          "timeout_ms": 240000
+        },
+        {
+          "click": "role=button[name=\"Allow once\"]"
+        },
+        {
+          "wait_ms": 3000
+        },
+        {
+          "wait_for": "role=button[name=\"Allow once\"]",
+          "timeout_ms": 300000
+        }
+      ],
+      "settle_ms": 1500,
+      "alt": "The investigation chat Issue Radar opened for issue #139: the agent has read the issue and its comments and is asking for approval before its next command"
+    }
+  ],
+  "settle_hidden": [
+    "[role=status][aria-label='Generating AI summary']"
+  ],
+  "walkthrough": {
+    "name": "walkthrough",
+    "path": "/apps/issue-radar",
+    "theme": "light",
+    "live": true,
+    "alt": "A walkthrough of Issue Radar on a fictional repository: the overview, an issue with its AI summary, a pull request with its checks and review actions and its AI summary, then an investigation chat the agent starts on another issue, reading it and asking for approval before each command it runs",
+    "tail_ms": 3500,
+    "steps": [
+      {
+        "wait_for": "text=Needs attention"
+      },
+      {
+        "caption": "Your repository at a glance",
+        "position": "bottom"
+      },
+      {
+        "wait_ms": 2600
+      },
+      {
+        "caption": "Open an issue",
+        "position": "bottom"
+      },
+      {
+        "click": "role=button[name=\"Issues\"s]"
+      },
+      {
+        "wait_ms": 800
+      },
+      {
+        "click": "text=Elevation profile is flat"
+      },
+      {
+        "caption": "An AI summary of the issue, kept for next time",
+        "position": "bottom"
+      },
+      {
+        "wait_ms": 1500
+      },
+      {
+        "wait_hidden": "[role=status][aria-label='Generating AI summary']",
+        "timeout_ms": 240000,
+        "cut": true
+      },
+      {
+        "wait_ms": 3200
+      },
+      {
+        "caption": "Review a pull request without leaving",
+        "position": "bottom"
+      },
+      {
+        "click": "role=button[name=\"Pull Requests\"s]"
+      },
+      {
+        "wait_ms": 800
+      },
+      {
+        "click": "text=Split route segments"
+      },
+      {
+        "wait_ms": 1500
+      },
+      {
+        "wait_hidden": "[role=status][aria-label='Generating AI summary']",
+        "timeout_ms": 240000,
+        "cut": true
+      },
+      {
+        "wait_ms": 3200
+      },
+      {
+        "caption": "Hand an issue to an agent",
+        "position": "bottom"
+      },
+      {
+        "click": "role=button[name=\"Issues\"s]"
+      },
+      {
+        "wait_ms": 800
+      },
+      {
+        "click": "text=Offline map tiles are downloaded"
+      },
+      {
+        "wait_ms": 1200
+      },
+      {
+        "click": "role=button[name=\"Investigate\"s]"
+      },
+      {
+        "wait_for": "textarea[aria-label='Message input']"
+      },
+      {
+        "wait_ms": 1500
+      },
+      {
+        "caption": "The prompt is ready: press Enter to send",
+        "above": "textarea[aria-label='Message input']",
+        "offset": 16
+      },
+      {
+        "wait_ms": 2000
+      },
+      {
+        "press": "textarea[aria-label='Message input']",
+        "key": "Enter"
+      },
+      {
+        "caption": ""
+      },
+      {
+        "wait_for": "role=button[name=\"Allow once\"]",
+        "timeout_ms": 240000,
+        "cut": true
+      },
+      {
+        "caption": "It asks before it runs a command",
+        "above": "textarea[aria-label='Message input']",
+        "offset": 120
+      },
+      {
+        "wait_ms": 2500
+      },
+      {
+        "click": "role=button[name=\"Allow once\"]"
+      },
+      {
+        "caption": ""
+      },
+      {
+        "wait_ms": 3000
+      },
+      {
+        "wait_for": "role=button[name=\"Allow once\"]",
+        "timeout_ms": 300000,
+        "cut": true
+      },
+      {
+        "mouse_park": [
+          1400,
+          140
+        ]
+      }
+    ]
+  }
+}
