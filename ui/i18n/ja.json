@@ -140,7 +140,7 @@
         "load_failed": "パイプラインを読み込めませんでした",
         "load_failed_unknown": "理由が示されないまま読み込みに失敗しました。",
         "note_1": "レーンはフェーズ列を左から右へ進み、先端が項目のライブフェーズを示します。",
-        "note_2": "#N ピルはそのアイテムに PR があることを示します。PR のないレーンには #N ピルは表示されません。",
+        "note_2": "{{sigil}}N ピルはそのアイテムに {{changeRequest}} があることを示します。{{changeRequest}} のないレーンには {{sigil}}N ピルは表示されません。",
         "note_3": "一点鎖線の区間は項目がフェーズをスキップしたことを、レーン下の弧は再入フェーズを示します。",
         "note_4": "レーンから伸びるスタブは出口です -- スキップ、譲渡、差し戻し、横取り、返信待ちのいずれか。",
         "note_5": "1時間を超える滞留はフラグされます。進行中の滞留は現フェーズへの最新の入場から計算されます。",
@@ -1063,7 +1063,6 @@
             "connect_another_repo": "別のリポジトリを接続",
             "detail_refresh": "詳細更新",
             "detail_refresh_hint": "オープンしたIssueまたはプルリクエストが再度読み込まれる頻度。クローズしたアイテムは常にバックオフします。",
-            "identity_and_the_repositories_issue_radar_watche": "アイデンティティと Issue Radarが監視するリポジトリ。",
             "in_your_terminal": "ターミナルで。",
             "list_refresh": "リスト更新",
             "list_refresh_hint": "Issue とプルリクエストのリストを再取得する頻度。",
@@ -1076,7 +1075,7 @@
             "refresh_section": "更新",
             "repositories": "リポジトリ",
             "settings": "設定",
-            "your": "あなたの"
+            "your_provider_identity_and_watched_repos": "{{provider}} のアイデンティティと、Issue Radar が監視するリポジトリ。"
           },
           "gitlabGroups": {
             "empty": "まだ GitLab グループをフォローしていません。",
@@ -1123,7 +1122,6 @@
             "leave_empty_to_use_the_default_working_directory": "空欄のままにするとデフォルトの作業ディレクトリを使用します。",
             "loading_members": "メンバーを読み込み中…",
             "loading_this_repo_s_saved_settings": "このリポジトリの保存された設定を読み込み中…",
-            "local_triage_settings_for_this_repo_they_teach_i": "このリポジトリのローカルトリアージ設定 — これらはIssue Radarに次の方法を教えます:",
             "local_workspace_path": "ローカルワークスペースのパス",
             "member_chip_title": "{{login}} — {{role}} · {{provider}} で開く",
             "members": "メンバー",
@@ -1138,7 +1136,6 @@
             "notify_me_when_ci_fails_on_my_pull_request": "{{repo}} の自分のプルリクエストで CI が失敗したら通知する",
             "open_on": "以下で開く:",
             "open_tagging": "タグ付けを開く",
-            "organises_its_issues_and_are_never_written_back": "その Issue を整理しており、以下に書き込まれることはありません:",
             "proposing_new_labels_for_this_repo_now_lives_on": "このリポジトリの新しいラベルを提案する機能は、タグ付けダッシュボードに移動しました。ラベルが適用される未タグ Issue の隣にあります。",
             "re_fetch_issues_and_labels_from": "このリポジトリの issue とラベルを {{provider}} から再取得",
             "recommending_a_taxonomy_and_applying_it_to_issue": "タクソノミーを推奨し、Issue に適用することは 1 つのジョブの 2 つの側面であるため、\n          1 つのページを共有します。この設定ページはローカルの定義を保持しています。以下のどちらが",
@@ -1166,7 +1163,8 @@
             "which_labels_mean_an_issue_still_needs_triage_dr": "Issue がまだトリアージが必要なことを示すラベルはどれですか。概要の「未トリアージ」カウントと注意が必要なキューを駆動します。",
             "without_push_access_to": "へのプッシュアクセス権がない場合:",
             "workspace": "ワークスペース",
-            "your_edits_are_kept_here_but_won_t_persist_if_yo": "編集内容はここに保持されていますが、永続化されません。Issue Radar を更新した場合は、バックエンドを再起動して、設定 API を利用できるようにしてください。"
+            "your_edits_are_kept_here_but_won_t_persist_if_yo": "編集内容はここに保持されていますが、永続化されません。Issue Radar を更新した場合は、バックエンドを再起動して、設定 API を利用できるようにしてください。",
+            "local_triage_settings_intro": "このリポジトリのローカルトリアージ設定です。Issue Radar に {{repo}} の Issue の整理方法を教えるもので、{{provider}} に書き戻されることはありません。"
           }
         },
         "tagging": {
@@ -1212,13 +1210,9 @@
           "applying_is_disabled_until_they_load_because_a_s": "リポジトリが不要になったラベルに名前を付けているため、\n            読み込みまでは適用が無効になります。バッチ全体の入力が却下されます。",
           "applying_needs_write_access": "適用には書き込みアクセスが必要です",
           "available_to_assign": "割り当て可能",
-          "carries_at_least_one_label_nothing_to_tag": "少なくとも 1 つのラベルを持っています。タグ付けするものがありません。",
           "clear_selection": "選択を解除",
-          "couldn_t_load": "読み込みできませんでした",
           "couldn_t_reload_the_queue": "キューの再読み込みができませんでした:",
           "created_but_settings_not_updated": "「{{name}}」を GitHub 上に作成しましたが、このリポジトリのローカルトリアージ設定を更新できませんでした：{{error}}",
-          "defines_no_labels_yet_so_there_is_nothing_to_ass": "まだラベルを定義していないため、割り当てるものがありません。\n            上記でいくつかを提案し、必要なものを作成してから、ここに戻ってラベルを提案してください。",
-          "every_open_issue_in": "内のすべてのオープン Issue",
           "labelled_issue_other": "{{count}}個のIssueにラベルを付けました。",
           "labelled_issue_with_failures_other": "{{count}}個のIssueにラベルを付けました。{{failed}}個は更新できませんでした（下の行を参照）。",
           "loading_the_untagged_queue": "タグなしキューを読み込み中…",
@@ -1227,14 +1221,16 @@
           "reanalyse_issues_other": "提案済みの {{count}} 件の Issue を再分析",
           "reload_the_untagged_queue": "タグなしキューを再読み込み",
           "repo_labels": "リポジトリラベル",
-          "s_labels": "のラベル:",
           "select_all": "すべて選択",
           "suggest_again": "再提案（{{n}}）",
           "suggest_labels_next": "ラベルを提案（次の {{n}} 件）",
           "untagged": "タグなし",
           "untagged_issues": "タグなし Issue",
           "what_you_see_below_is_the_previous_result_not_th": "以下に表示されている内容は、現在の状態ではなく、以前の結果です。",
-          "write_every_staged_label_to": "ステージ済みのラベルをすべて {{provider}} に書き込む"
+          "write_every_staged_label_to": "ステージ済みのラベルをすべて {{provider}} に書き込む",
+          "couldn_t_load_repo_labels": "{{repo}} のラベルを読み込めませんでした",
+          "every_open_issue_in_repo_is_labeled": "{{repo}} 内のすべてのオープン Issue に少なくとも 1 つのラベルがあります。タグ付けするものがありません。",
+          "repo_defines_no_labels_yet": "{{repo}} にはまだラベルが定義されていないため、割り当てるものがありません。上記でいくつかを提案し、必要なものを作成してから、ここに戻ってラベルを提案してください。"
         }
       },
       "welcomeCarousel": {
@@ -1260,12 +1256,12 @@
         "clear_filters": "フィルターをクリア",
         "resize_list": "リストのサイズを変更",
         "resize_sidebar": "サイドバーのサイズを変更",
-        "select_a": "を選択",
         "select_a_work_item_to_see_its_details": "作業項目を選択すると詳細が表示されます。",
         "select_an_issue_to_see_its_details": "詳細を表示する Issue を選択してください。",
         "selected_change_hidden_by_filters": "選択した {{subject}} はアクティブなフィルターによって非表示になっています。",
         "selected_issue_hidden_by_filters": "選択した Issue はアクティブなフィルターによって非表示になっています。",
-        "to_see_its_details": "その詳細を表示するには"
+        "select_crew_to_see_details": "クルーを選択すると詳細が表示されます。",
+        "select_subject_to_see_details": "{{subject}} を選択すると詳細が表示されます。"
       }
     }
   },

@@ -47,7 +47,7 @@ const RefMarkdown = (await import('../../src/components/RefMarkdown')).default
 const RefSheet = (await import('../../src/components/RefSheet')).default
 
 const OWNER = 'kirodotdev'
-const REPO = 'KiroCrew'
+const REPO = 'KiroCrew'  // brand-ok: the repository name
 
 function summary(over: Record<string, unknown> = {}) {
   return {
@@ -249,6 +249,29 @@ describe('RefLink on touch', () => {
     expect(screen.queryByRole('tooltip')).toBeNull()
     act(() => { vi.advanceTimersByTime(320) })
     expect(screen.getByRole('tooltip')).toBeInTheDocument()
+  })
+})
+
+describe('RefLink on scroll', () => {
+  beforeEach(() => { vi.useFakeTimers() })
+  afterEach(() => { vi.useRealTimers() })
+
+  it('keeps the card on a scroll that leaves the link in place, and closes it once the link moved', () => {
+    setCtx()
+    const { container } = renderWithQc(<RefMarkdown content={`https://github.com/${OWNER}/${REPO}/issues/533`} />)
+    const link = screen.getByRole('link')
+    const at = (top: number) => () => ({ left: 100, top, width: 40, height: 16, right: 140, bottom: top + 16, x: 100, y: top, toJSON() {} })
+    link.getBoundingClientRect = at(200)
+    fireEvent.mouseEnter(link)
+    act(() => { vi.advanceTimersByTime(320) })
+    expect(screen.getByRole('tooltip')).toBeInTheDocument()
+    // Another area scrolls: the link stays where the card was placed.
+    fireEvent.scroll(window)
+    expect(screen.getByRole('tooltip')).toBeInTheDocument()
+    // The link's own (nested, non-bubbling) container scrolls it away from its card.
+    link.getBoundingClientRect = at(80)
+    fireEvent.scroll(container)
+    expect(screen.queryByRole('tooltip')).toBeNull()
   })
 })
 

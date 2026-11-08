@@ -144,7 +144,7 @@
         "load_failed": "Could not load the pipeline",
         "load_failed_unknown": "The read failed without a reason.",
         "note_1": "A lane runs left to right across the phase columns; the head marks the item's live phase.",
-        "note_2": "A #N pill means the item has a PR; a lane with no PR shows no #N pill.",
+        "note_2": "A {{sigil}}N pill is the item's {{changeRequest}}; a lane with no {{changeRequest}} shows no {{sigil}}N pill.",
         "note_3": "A dot-dash span means the item skipped a phase; an under-lane arc is a re-entered phase.",
         "note_4": "A stub off the lane is an exit — skipped, yielded, handed back, preempted, or awaiting a reply.",
         "note_5": "A dwell over an hour is flagged; the open dwell counts from the most recent entry into the current phase.",
@@ -1095,7 +1095,6 @@
             "connect_another_repo": "Connect another repo",
             "detail_refresh": "Detail refresh",
             "detail_refresh_hint": "How often an open issue or pull request re-reads. Closed items always back off.",
-            "identity_and_the_repositories_issue_radar_watche": "identity and the repositories Issue Radar watches.",
             "in_your_terminal": "in your terminal.",
             "list_refresh": "List refresh",
             "list_refresh_hint": "How often the issue and pull-request lists re-read.",
@@ -1108,7 +1107,7 @@
             "refresh_section": "Refresh",
             "repositories": "Repositories",
             "settings": "Settings",
-            "your": "Your"
+            "your_provider_identity_and_watched_repos": "Your {{provider}} identity and the repositories Issue Radar watches."
           },
           "gitlabGroups": {
             "empty": "You aren't following any GitLab groups yet.",
@@ -1156,7 +1155,6 @@
             "leave_empty_to_use_the_default_working_directory": "Leave empty to use the default working directory.",
             "loading_members": "Loading members…",
             "loading_this_repo_s_saved_settings": "Loading this repo's saved settings…",
-            "local_triage_settings_for_this_repo_they_teach_i": "Local triage settings for this repo — they teach Issue Radar how",
             "local_workspace_path": "Local workspace path",
             "member_chip_title": "{{login}} — {{role}} · open on {{provider}}",
             "members": "Members",
@@ -1171,7 +1169,6 @@
             "notify_me_when_ci_fails_on_my_pull_request": "Notify me when CI fails on one of my pull requests in {{repo}}",
             "open_on": "Open on",
             "open_tagging": "Open Tagging",
-            "organises_its_issues_and_are_never_written_back": "organises its issues and are never written back to",
             "proposing_new_labels_for_this_repo_now_lives_on": "Proposing NEW labels for this repo now lives on the Tagging dashboard, next to the untagged issues those labels get applied to.",
             "re_fetch_issues_and_labels_from": "Re-fetch this repo's issues + labels from {{provider}}",
             "recommending_a_taxonomy_and_applying_it_to_issue": "Recommending a taxonomy and applying it to issues are two halves of one job, so they share a\n          page. This settings page keeps the local definitions above — which of",
@@ -1199,7 +1196,8 @@
             "which_labels_mean_an_issue_still_needs_triage_dr": "Which labels mean an issue still needs triage. Drives the Overview's “Untriaged” count and the needs-attention queue.",
             "without_push_access_to": "Without push access to",
             "workspace": "Workspace",
-            "your_edits_are_kept_here_but_won_t_persist_if_yo": "Your edits are kept here but won't persist. If you just updated Issue Radar, restart the backend so the settings API is available."
+            "your_edits_are_kept_here_but_won_t_persist_if_yo": "Your edits are kept here but won't persist. If you just updated Issue Radar, restart the backend so the settings API is available.",
+            "local_triage_settings_intro": "Local triage settings for this repo — they teach Issue Radar how {{repo}} organises its issues and are never written back to {{provider}}."
           }
         },
         "tagging": {
@@ -1250,13 +1248,9 @@
           "applying_is_disabled_until_they_load_because_a_s": "applying is disabled until they load, because a suggestion naming a\n            label the repo no longer has would be rejected for the whole batch.",
           "applying_needs_write_access": "applying needs write access",
           "available_to_assign": "available to assign",
-          "carries_at_least_one_label_nothing_to_tag": "carries at least one label. Nothing to tag.",
           "clear_selection": "Clear selection",
-          "couldn_t_load": "Couldn't load",
           "couldn_t_reload_the_queue": "Couldn't reload the queue:",
           "created_but_settings_not_updated": "\"{{name}}\" was created on GitHub, but this repo's local triage settings could not be updated: {{error}}",
-          "defines_no_labels_yet_so_there_is_nothing_to_ass": "defines no labels yet, so there is nothing to assign. Suggest a few above,\n            create the ones you want, then come back and suggest labels here.",
-          "every_open_issue_in": "Every open issue in",
           "labelled_issue_one": "Labelled {{count}} issue.",
           "labelled_issue_other": "Labelled {{count}} issues.",
           "labelled_issue_with_failures_one": "Labelled {{count}} issue; {{failed}} could not be updated (see the rows below).",
@@ -1268,14 +1262,16 @@
           "reanalyse_issues_other": "Re-analyse {{count}} issues that already have a proposal",
           "reload_the_untagged_queue": "Reload the untagged queue",
           "repo_labels": "Repo labels",
-          "s_labels": "'s labels:",
           "select_all": "Select all",
           "suggest_again": "Suggest again ({{n}})",
           "suggest_labels_next": "Suggest labels (next {{n}})",
           "untagged": "Untagged",
           "untagged_issues": "Untagged issues",
           "what_you_see_below_is_the_previous_result_not_th": "what you see below is the previous result, not the current state.",
-          "write_every_staged_label_to": "Write every staged label to {{provider}}"
+          "write_every_staged_label_to": "Write every staged label to {{provider}}",
+          "couldn_t_load_repo_labels": "Couldn't load {{repo}}'s labels",
+          "every_open_issue_in_repo_is_labeled": "Every open issue in {{repo}} carries at least one label. Nothing to tag.",
+          "repo_defines_no_labels_yet": "{{repo}} defines no labels yet, so there is nothing to assign. Suggest a few above, create the ones you want, then come back and suggest labels here."
         }
       },
       "welcomeCarousel": {
@@ -1302,12 +1298,12 @@
         "clear_filters": "Clear filters",
         "resize_list": "Resize list",
         "resize_sidebar": "Resize sidebar",
-        "select_a": "Select a",
         "select_a_work_item_to_see_its_details": "Select a work item to see its details.",
         "select_an_issue_to_see_its_details": "Select an issue to see its details.",
         "selected_change_hidden_by_filters": "The selected {{subject}} is hidden by the active filters.",
         "selected_issue_hidden_by_filters": "The selected issue is hidden by the active filters.",
-        "to_see_its_details": "to see its details."
+        "select_crew_to_see_details": "Select a Crew to see its details.",
+        "select_subject_to_see_details": "Select a {{subject}} to see its details."
       }
     }
   },

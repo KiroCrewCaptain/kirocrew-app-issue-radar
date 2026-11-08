@@ -40,11 +40,14 @@ const CONVERTED: [string, string][] = [
   ['views/settings/RepoSettings.tsx', 'px-4 py-8 md:px-8'],
 ]
 
+/** The page gutter the detail header and the crew page repeat on every box. */
+const PAGE_GUTTER = /px-4 md:px-6/g
+
 describe('issue-radar page gutters are narrow-first', () => {
   it('leaves no unconditional desktop gutter on a converted surface', async () => {
     for (const [file] of CONVERTED) {
       const s = await read(file)
-      // A bare `px-6`/`px-8` in one of these files means a gutter was half-swept:
+      // An unpaired 24px or 32px gutter in one of these files means it was half-swept:
       // the surface would then hold two different left edges at the same width,
       // which is the defect, not a smaller version of it. Two earlier sweeps in
       // this repo each missed sites by grepping ONE spelling, so this is checked
@@ -73,7 +76,7 @@ describe('issue-radar page gutters are narrow-first', () => {
     // title stops sharing a left edge with the state pill under it — nothing
     // overflows, so only an assertion catches it.
     const s = await read('components/DetailHeader.tsx')
-    const gutters = s.match(/px-4 md:px-6/g) ?? []
+    const gutters = s.match(PAGE_GUTTER) ?? []
     expect(gutters, 'expected back row + title block + toolbar to share one gutter')
       .toHaveLength(3)
   })
@@ -82,7 +85,7 @@ describe('issue-radar page gutters are narrow-first', () => {
     // A gutter that changed as the read landed would shift the content sideways
     // on arrival.
     const s = await read('views/CrewPageView.tsx')
-    expect(s.match(/px-4 md:px-6/g) ?? [], 'loading, error and loaded must agree')
+    expect(s.match(PAGE_GUTTER) ?? [], 'loading, error and loaded must agree')
       .toHaveLength(3)
   })
 
@@ -109,13 +112,15 @@ describe('issue-radar page gutters are narrow-first', () => {
       .toContain('scrollbar-none px-4 pt-2 pb-2')
   })
 
-  it('leaves the centered placeholders alone', async () => {    // These two are NOT page gutters: the text is centered and `px-6` is its only
-    // inset, so flushing it would push centered copy against the screen edge for
-    // no width gain. Named here so a future sweep does not read them as misses.
+  it('leaves the centered placeholders alone', async () => {
+    // These two are NOT page gutters: the text is centered and its 24px padding
+    // is its only inset, so flushing it would push centered copy against the
+    // screen edge for no width gain. Named here so a future sweep does not read
+    // them as misses.
     for (const f of ['components/ListEmptyState.tsx', 'Workspace.tsx']) {
       const s = await read(f)
       expect(s, `${f} is a centered placeholder and keeps its own inset`)
-        .toMatch(/items-center justify-center[^"]*px-6|px-6 text-center/)
+        .toMatch(/items-center justify-center[^"]*\bpx-6|\bpx-6 text-center/)
     }
   })
 })

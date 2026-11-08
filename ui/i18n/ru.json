@@ -152,7 +152,7 @@
         "load_failed": "Не удалось загрузить конвейер",
         "load_failed_unknown": "Чтение не удалось, причина не указана.",
         "note_1": "Дорожка идёт слева направо по столбцам фаз; головка отмечает текущую фазу элемента.",
-        "note_2": "Метка #N означает, что у элемента есть PR; на дорожке без PR метка #N не отображается.",
+        "note_2": "Метка {{sigil}}N означает, что у элемента есть {{changeRequest}}; на дорожке без {{changeRequest}} метка {{sigil}}N не отображается.",
         "note_3": "Штрихпунктирный отрезок означает пропущенную фазу; дуга под дорожкой — повторно пройденная фаза.",
         "note_4": "Отвод от дорожки — это выход: skipped, yielded, handed back, preempted или awaiting reply.",
         "note_5": "Задержка более часа помечается; открытая задержка считается с последнего входа в текущую фазу.",
@@ -1159,7 +1159,6 @@
             "connect_another_repo": "Подключить другой репозиторий",
             "detail_refresh": "Обновление сведений",
             "detail_refresh_hint": "Как часто перечитывается открытая задача или запрос. Закрытые элементы всегда обновляются реже.",
-            "identity_and_the_repositories_issue_radar_watche": "учётная запись и репозитории, за которыми следит Issue Radar.",
             "in_your_terminal": "в терминале.",
             "list_refresh": "Обновление списков",
             "list_refresh_hint": "Как часто перечитываются списки задач и запросов на включение изменений.",
@@ -1172,7 +1171,7 @@
             "refresh_section": "Обновление",
             "repositories": "Репозитории",
             "settings": "Настройки",
-            "your": "Ваша"
+            "your_provider_identity_and_watched_repos": "Твоя учётная запись {{provider}} и репозитории, за которыми следит Issue Radar."
           },
           "gitlabGroups": {
             "empty": "Ты пока не подписан ни на одну группу GitLab.",
@@ -1222,7 +1221,6 @@
             "leave_empty_to_use_the_default_working_directory": "Оставьте пустым, чтобы использовать рабочий каталог по умолчанию.",
             "loading_members": "Загрузка участников…",
             "loading_this_repo_s_saved_settings": "Загрузка сохранённых настроек этого репозитория…",
-            "local_triage_settings_for_this_repo_they_teach_i": "Локальные настройки разбора для этого репозитория — они объясняют Issue Radar, как",
             "local_workspace_path": "Локальный путь рабочей области",
             "member_chip_title": "{{login}} — {{role}} · открыть в {{provider}}",
             "members": "Участники",
@@ -1237,7 +1235,6 @@
             "notify_me_when_ci_fails_on_my_pull_request": "Уведомлять, когда CI падает в одном из моих пул-реквестов в {{repo}}",
             "open_on": "Открыть на",
             "open_tagging": "Открыть разметку",
-            "organises_its_issues_and_are_never_written_back": "организует свои задачи, и никогда не записываются обратно в",
             "proposing_new_labels_for_this_repo_now_lives_on": "Предложение НОВЫХ меток для этого репозитория теперь живёт на панели «Разметка» — рядом с задачами без меток, к которым эти метки применяются.",
             "re_fetch_issues_and_labels_from": "Заново загрузить задачи и метки этого репозитория из {{provider}}",
             "recommending_a_taxonomy_and_applying_it_to_issue": "Рекомендация таксономии и её применение к задачам — две половины одной работы, поэтому у них общая\n          страница. Эта страница настроек хранит локальные определения выше — какие из",
@@ -1265,7 +1262,8 @@
             "which_labels_mean_an_issue_still_needs_triage_dr": "Какие метки означают, что задача всё ещё требует разбора. Определяет счётчик «Без разбора» в обзоре и очередь задач, требующих внимания.",
             "without_push_access_to": "Без прав на запись в",
             "workspace": "Рабочая область",
-            "your_edits_are_kept_here_but_won_t_persist_if_yo": "Ваши правки остаются здесь, но не сохранятся. Если вы только что обновили Issue Radar, перезапустите бэкенд, чтобы стал доступен API настроек."
+            "your_edits_are_kept_here_but_won_t_persist_if_yo": "Ваши правки остаются здесь, но не сохранятся. Если вы только что обновили Issue Radar, перезапустите бэкенд, чтобы стал доступен API настроек.",
+            "local_triage_settings_intro": "Локальные настройки разбора для этого репозитория — они объясняют Issue Radar, как {{repo}} организует свои задачи, и никогда не записываются обратно в {{provider}}."
           }
         },
         "tagging": {
@@ -1326,13 +1324,9 @@
           "applying_is_disabled_until_they_load_because_a_s": "применение отключено до их загрузки, потому что предложение с меткой,\n            которой в репозитории больше нет, будет отклонено вместе со всей партией.",
           "applying_needs_write_access": "для применения нужны права на запись",
           "available_to_assign": "доступно для назначения",
-          "carries_at_least_one_label_nothing_to_tag": "имеет хотя бы одну метку. Размечать нечего.",
           "clear_selection": "Снять выделение",
-          "couldn_t_load": "Не удалось загрузить",
           "couldn_t_reload_the_queue": "Не удалось перезагрузить очередь:",
           "created_but_settings_not_updated": "Метка «{{name}}» создана в GitHub, но локальные настройки разбора для этого репозитория обновить не удалось: {{error}}",
-          "defines_no_labels_yet_so_there_is_nothing_to_ass": "пока не содержит меток, поэтому назначать нечего. Предложите несколько выше,\n            создайте нужные, затем вернитесь и предложите метки здесь.",
-          "every_open_issue_in": "Каждая открытая задача в",
           "labelled_issue_few": "Помечены {{count}} задачи.",
           "labelled_issue_many": "Помечено {{count}} задач.",
           "labelled_issue_one": "Помечена {{count}} задача.",
@@ -1350,14 +1344,16 @@
           "reanalyse_issues_other": "Повторно проанализировать {{count}} задачи, у которых уже есть предложение",
           "reload_the_untagged_queue": "Перезагрузить очередь без меток",
           "repo_labels": "Метки репозитория",
-          "s_labels": "метки:",
           "select_all": "Выбрать все",
           "suggest_again": "Предложить снова ({{n}})",
           "suggest_labels_next": "Предложить метки (следующие {{n}})",
           "untagged": "Без меток",
           "untagged_issues": "Задачи без меток",
           "what_you_see_below_is_the_previous_result_not_th": "то, что вы видите ниже — предыдущий результат, а не текущее состояние.",
-          "write_every_staged_label_to": "Записать все подготовленные метки в {{provider}}"
+          "write_every_staged_label_to": "Записать все подготовленные метки в {{provider}}",
+          "couldn_t_load_repo_labels": "Не удалось загрузить метки {{repo}}",
+          "every_open_issue_in_repo_is_labeled": "Каждая открытая задача в {{repo}} имеет хотя бы одну метку. Размечать нечего.",
+          "repo_defines_no_labels_yet": "{{repo}} пока не содержит меток, поэтому назначать нечего. Предложи несколько выше, создай нужные, затем вернись и предложи метки здесь."
         }
       },
       "welcomeCarousel": {
@@ -1386,12 +1382,12 @@
         "clear_filters": "Сбросить фильтры",
         "resize_list": "Изменить размер списка",
         "resize_sidebar": "Изменить размер боковой панели",
-        "select_a": "Выберите",
         "select_a_work_item_to_see_its_details": "Выберите рабочий элемент, чтобы увидеть подробности.",
         "select_an_issue_to_see_its_details": "Выберите задачу для просмотра подробностей.",
         "selected_change_hidden_by_filters": "Выбранный элемент {{subject}} скрыт активными фильтрами.",
         "selected_issue_hidden_by_filters": "Выбранная задача скрыта активными фильтрами.",
-        "to_see_its_details": "для просмотра подробностей."
+        "select_crew_to_see_details": "Выбери команду, чтобы увидеть подробности.",
+        "select_subject_to_see_details": "Выбери {{subject}}, чтобы увидеть подробности."
       }
     }
   },

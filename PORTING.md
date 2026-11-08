@@ -1,47 +1,40 @@
 # Porting notes: built-in → external app
 
-## Needs a maintainer security ruling before adoption
+## The crews' auto-approve grant: `ctx.auto_approve`
 
-**The crew auto-approve grant is OFF in this copy.** The built-in minted a
-`SafetyOverride` auto-approve grant for an unattended crew's chat session
-(`backend/crew_runtime_session.py:116-184`, `_hold_grant` and `sync_trust`:
-`safety_override().activate_scoped(...)` / `renew_scoped(...)`), slid it forward
-every watchdog cycle, and consulted it on every tool approval of that session
-(`slot._trust_scope`). That is a privilege only core code could exercise: there
-is no App Kit seam for it, and this port does not create one.
+An unattended crew's chat session runs with nobody watching, so its tool calls are
+approved by a bounded, audited grant on the crew's own slot. The built-in once
+minted it with its own call into the core's private `SafetyOverride`; the owner
+approved a generic App Kit seam for it (#26967, ruling 1), and Kiro Crew #32667
+added it (`apps/worker_auto_approve.py`, `permissions.workerAutoApprove`,
+`ctx.auto_approve`). The wheel built-in now declares the permission and holds the
+grant through that seam, and so does this copy:
 
-What this copy does instead:
-
-- `backend/_host.py` binds every crew module's `safety_override` to
-  `_DisabledSafetyOverride`. `activate_scoped` and `renew_scoped` answer "not
-  granted" without touching the host; `is_scope_active` and
-  `scope_remaining_secs` report no grant. `AUTO_APPROVE_GRANTS_ENABLED = False`,
-  and nothing sets it.
-- The built-in's code path is kept unchanged, so its existing fail-closed branch
-  runs: `sync_trust` returns `False`, the slot carries no `_trust_scope`, and the
-  wake's dispatch gate (`crew_runtime_supervision.py`, `_wake_crew_body`) starts
-  **no turn for an unattended crew**. An attended crew still runs, and every tool
-  call it makes goes through the ordinary interactive approval prompt.
-- Revocation still reaches the host (`deactivate_scope` calls the gateway's
-  `SafetyOverride` when it has one): a revocation can only remove access.
-- `tests/test_auto_approve_disabled.py` pins the shipped behaviour (the stand-in
-  is the binding of every crew module, it never reaches the host to mint, no
-  other mechanism sets a trust flag, no other module names the host's
-  `SafetyOverride`). The built-in's own grant suites
-  (`tests/test_issue_radar_crew_runtime*.py`) still run the kept code path, against
-  the host's real `SafetyOverride`, through the test-only `host_grants` fixture in
-  `tests/conftest.py`; nothing in `backend/` can reach that binding.
-
-Re-enabling unattended crews needs a ruling on a generic, app-agnostic App Kit
-seam for a bounded, audited auto-approve grant scoped to the app's own slots (the
-24 h ceiling, fail-closed SEL audit and per-call re-check the built-in relied on
-included). Until that ruling, the README states that unattended crews do not run
-in this copy.
+- `app.json` declares `"workerAutoApprove": true`, as the wheel built-in's does
+  (`tests/test_manifest_contract.py` compares the two).
+- `backend/_host.py` `worker_grants()` is the crew modules' handle: `hold`,
+  `release`, `release_slot`, `scope` and `source`, each forwarded to the
+  `ctx.auto_approve` of the context `register_routes` / `on_startup` bound. The
+  crew code (`crew_runtime_session.py`, `crew_runtime_supervision.py`) is the
+  wheel's own, byte for byte apart from its imports: the same TTL, slide, re-mint
+  and revocation paths, the same scope keys (`app:issue-radar:grant:crew-<id>:autoapprove`).
+- The seam decides every grant: the live declaration, the owner's approval and
+  `enabled`, the app's own slots and scope keys only, the approval-mode ceiling, a
+  fail-closed SEL audit, the 24 h cap, and every grant ended when the app is
+  disabled, uninstalled or loses trust.
+- Without the seam (a gateway older than #32667, or a context built while the
+  owner has not approved the permission) nothing is granted: an unattended crew
+  takes no turn and an attended crew's tool calls go through the ordinary approval
+  prompt. A revocation still takes a grant off the slot.
+- Nothing in `backend/` names the host's `SafetyOverride`
+  (`tests/test_auto_approve_seam.py`, which also drives the host's real seam).
 
 ---
 
 This repository was ported from Kiro Crew's built-in Issue Radar at KiroCrew
-`main` `55439d87700799a8789a341da65e2e1c355e26fc`:
+`main` `55439d87700799a8789a341da65e2e1c355e26fc`, and every later change to the
+wheel copy up to `main` `6d07df11cfb64f4c3fda0466165c7a0ba3efe748` is ported
+(see "Wheel fixes ported since the snapshot"):
 
 - the backend, `src/kiro_crew/apps/builtins/issue_radar/` (`app.json`, the 58
   modules of `backend/` and the 13 of `backend/http_routes/`, the two Markdown
@@ -69,7 +62,7 @@ change here.
 
 - `app.json` `name` (`issue-radar`), `version` (`0.1.0`), `author`,
   `permissions` (`api` `/api/apps/issue-radar` and `/api/apps/issue-radar/*`,
-  `network`, `storage`), `platform`, `dependencies.optionalCommands`
+  `network`, `storage`, `workerAutoApprove`), `platform`, `dependencies.optionalCommands`
   (`gh`, `glab`, `az`), `notifications.channels` (`ci-failure`),
   `defaultEnabled: false`, and every display field. `tests/test_manifest_contract.py`
   compares them with the built-in's manifest (`tests/fixtures/builtin-app.json`).
@@ -107,7 +100,7 @@ change here.
 | Absolute self-imports `kiro_crew.apps.builtins.issue_radar.backend.*` (every module) and the facades' dotted owner names (`store.py:41`, `github_client.py:68`, `azure_client.py:94`, `crew_store.py:52`, `crew_runtime.py:600`) | Relative imports; `f"{__package__}.<owner>"` | Hook files load into a synthetic package named after the app; `tests/test_manifest_contract.py` loads the hooks through the gateway's own module loader. |
 | Loggers `kiro_crew.apps.builtins.issue_radar.backend.store` / `.crew_store` (`store_repos.py:23`, `crew_store_records.py:39`) and those classes' `__module__` | `<package>.store` / `<package>.crew_store` | The module's own package name; the other modules already logged as `kirocrew.app.issue-radar`. |
 | SEL caller of the `gh`/`glab`/`az` spawn audits: `core:issue-radar` | Unchanged | The host's runner namespaces the operation from it (`issue_radar.gh_run`) and its audit-or-deny contract is the host's; changing the identity is the host's call at adoption. |
-| (none) | `GET /gitlab-hosts`, `GET /models`, `GET /agents`, `GET /pipeline/live-slots` | The built-in page read four things from the dashboard itself: the GitLab allowlist (its config query), the model list and agent roster (its shared pickers) and which chat slots are live (its slot list). All four paths are outside an installed app's API grant, and adoption refuses a widened grant, so the app answers them under its own prefix. `/gitlab-hosts` is the allowlist `/connect` already enforces; `/models` and `/agents` call the gateway's own handlers for the same request (gap 4); `/pipeline/live-slots` answers only for the keys the caller names. |
+| (none) | `GET /gitlab-hosts`, `GET /models`, `GET /agents`, `GET /pipeline/live-slots` | The built-in page read four things from the dashboard itself: the GitLab allowlist (its config query), the model list and agent roster (its shared pickers) and which chat slots are live (its slot list). All four paths are outside an installed app's API grant, and adoption refuses a widened grant, so the app answers them under its own prefix. `/gitlab-hosts` is the allowlist `/connect` already enforces; `/models` and `/agents` call the gateway's own handlers for the same request (gap 3); `/pipeline/live-slots` answers only for the keys the caller names. |
 | `iconUrl` / `heroImage*` as `/app-assets/issue-radar/*.svg`, `screenshots` `/app-assets/…` (`app.json:62-71`) | `iconPath` / `heroImage*` / `screenshots` as repo-relative PNGs under `assets/` | A registry app's art is repo-relative, and the catalog's publish step refuses SVG for a non-builtin source. The PNGs were rendered from the built-in SVGs (kept beside them): the icon at 512×512 on an opaque tile with `--ico-a` / `--ico-b` resolved to fixed colours, the heroes at 1200×675 and the detail heroes at 1200×288. |
 | `ui.pages` `[{"route": "/issue-radar", "label": "Issue Radar", "icon": "Radar"}]`, page compiled into the dashboard | `ui.entry: "dist/index.mjs"` (a committed ESM bundle built from `ui/src/`), `ui.pages` `[{"route": "/apps/issue-radar", "label": "Issue Radar"}]`, no `icon` | An installed app ships its page as a bundle AppHost loads. The legacy route and the `Radar` glyph of an adopted record come from Kiro Crew's adoption pin, never from this manifest. |
 | App Store copy keys in the dashboard catalogs (`website/src/components/appstore/appManifest.ts:238-255`) | `l10n` block in `app.json` for the 11 non-English locales | The listing copy travels with the app. It is the `apps.issueRadar.manifest` subtree of `ui/i18n/<locale>.json`, kept equal by a test. |
@@ -141,7 +134,10 @@ with a stand-in that never matches or the host's current value.
 | `kiro_crew.autonudge.get_instance`, `autonudge_service.model.*_FAILURE_REASON` | `crew_runtime_session.py:26`, `crew_runtime_supervision.py:20` | An AutoNudge loop API scoped to the app's own slots | Crews are not re-woken on their idle timer |
 | `kiro_crew.apps.teardown` (`register_slot_close_hook`, `register_slot_close_undo_hook`, the app-disable hook registry) | `crew_runtime_supervision.py:17-19` | Slot-close and app-disable hooks for an app | A dismissed crew tab is resurrected by the next sweep; a disable stops crews on the next 60 s sweep |
 | `kiro_crew.apps.manager.is_app_enabled`, `app_lifecycle_lock` | `routes.py:87`, `pipeline_routes.py:25`, `crew_runtime_supervision.py:18`, `ci_watch.py:48` | An "is this app enabled" read and a lifecycle lock on the context | Routes answer 403, crews stand down, CI watch skips |
-| `kiro_crew.safety_override.safety_override` | `crew_runtime_session.py:20`, `crew_runtime_supervision.py:24` | **See the first section: needs a security ruling** | Never minted (by design) |
+| `kiro_crew.apps.worker_auto_approve.WorkerAutoApprove` (the wheel's; the snapshot imported `kiro_crew.safety_override`) | `crew_runtime_session.py:17` | `ctx.auto_approve` (merged, #32667): see the first section | Not a gap |
+| `kiro_crew.dashboard.chat_utils_slots.revoke_slot_trust` | `crew_runtime_supervision.py` (two stop paths, #30864) | (a revocation helper) | The slot's `_trust` flag alone is cleared |
+| `kiro_crew.dashboard.gateway_notice` (`GATEWAY_NOTICE_CREW_TURN_NO_PERMIT`, `gateway_notice_meta`) | `crew_runtime_session.py` (#26497) | (a localization token on a status row) | The no-permit card keeps its English text |
+| `kiro_crew.crew_log.projection_radar.RADAR_TEXT_LIMIT` | `crew_answer_store.py` (#21541) | (a constant) | The value core declares today (`tests/test_host_surface.py`) |
 | `kiro_crew.dashboard.handlers.notifications_push`, `kiro_crew.notifications.bus.NotificationPayload` / `NotificationValidationError` | `ci_watch.py:49-50`, `watch.py` | A notification-push seam for an app's declared channels | New-issue and CI-failure notifications are not sent |
 | `kiro_crew.hooks`, `kiro_crew.memory.workspace_dir` | `pipeline_fold.py:42`, `:46` | A read of the gateway's hook audit and workspace for the pipeline fold | The pipeline dashboard answers 503 |
 | `kiro_crew.loop_lock.LoopBoundLock` | `routes.py:93` | (pure helper) | The probe coalescer cannot be built (the module fails to import; the host has had it since before 0.12) |
@@ -151,8 +147,7 @@ with a stand-in that never matches or the host's current value.
 
 ## Remaining gaps
 
-1. **Unattended crews do not run** (first section).
-2. **Core still hard-codes the app.** Kiro Crew keeps Issue Radar's MCP tools
+1. **Core still hard-codes the app.** Kiro Crew keeps Issue Radar's MCP tools
    (`mcp_tools/apps.py:50`, `:332`, `:358`, `:540-542`, `:620`, `:933`, `:953`,
    `:1100-1108`, `mcp_core.py:929`, `mcp_core_parts/radar_crew.py`), their
    internal-secret path rows (`dashboard/server_internal_paths.py:328-390`) and
@@ -171,17 +166,28 @@ with a stand-in that never matches or the host's current value.
    and `test/campaign_facade_inventories/`. The MCP tools call this app's routes
    by their unchanged paths (`/api/apps/issue-radar/investigation`, `/crew`,
    `/crew/work`), so they keep working after adoption while core ships them.
-   Moving them needs an app-declared MCP tool seam (the tools, their schemas and
-   their internal-secret paths declared by the app) and an app-declared crew-log
-   entry type; the user doc and the spec belong in this repository then.
-3. **Execution trust.** A built-in's in-gateway Python is exempt from the
+   The owner refused app code in the core MCP server (#26967, ruling 2): app tools
+   ship as app-registered MCP tools served from the app's own process. The merged
+   seam for that, the manifest's `agentTools` (#32660), cannot carry them from this
+   side yet, for three reasons a core change has to settle: it lists only a
+   FIRST-PARTY app's block, read from the SHIPPED wheel manifest
+   (`apps/app_agent_tools.py`, `execution.builtin_app_names`), so an adopted
+   record's own `app.json` lists nothing; a name a core tool already has is never
+   the app's, and core keeps all three names; and the two crew tools need what an
+   `agentTools` call does not carry, the calling crew session's identity (core's
+   strict crew-session fence and the `radar` crew-log fold in
+   `mcp_core_parts/radar_crew.py`, `crew_log/projection_radar.py`). So this copy
+   declares no `agentTools` block, and the three tools keep working after adoption
+   through this app's unchanged routes while core ships them. The user doc and the
+   spec belong in this repository once they move.
+2. **Execution trust.** A built-in's in-gateway Python is exempt from the
    third-party execution gate (`apps/execution.py`, `is_builtin_app`). This copy's
    hooks load only when the operator trusts it; for an existing user, Kiro Crew's
    adoption writes that grant for this repository.
-4. **Dashboard reads through private handlers.** `/models` and `/agents` call the
+3. **Dashboard reads through private handlers.** `/models` and `/agents` call the
    gateway's own `api_models` / `api_agent_catalog` for the same request. A generic
    SDK read for the model list and the agent roster would remove them.
-5. **Investigate and Review open a draft, not a filed, titled, running session.**
+4. **Investigate and Review open a draft, not a filed, titled, running session.**
    The built-in dispatched the dashboard's Redux thunks: it filed the session into
    a per-repo "Issue Radar - <repo>" folder, titled it, opened it in the repo's
    working copy (`workspace_path`), seeded and ran the first turn, and linked the
@@ -194,23 +200,23 @@ with a stand-in that never matches or the host's current value.
    item opens a second draft. A record the built-in linked still resumes. A launch option that
    names the folder, title and working directory and answers the slot key would
    close this.
-6. **Repo-settings working-copy picker.** The dashboard's `ProjectPicker` browses
+5. **Repo-settings working-copy picker.** The dashboard's `ProjectPicker` browses
    the gateway's filesystem and recent projects through dashboard routes; this copy
    offers a typed path (`ui/src/host/ProjectPicker.tsx`). The backend validates it
    on save, as before.
-7. **Markdown reference cards.** The built-in turned `#123` links in rendered
+6. **Markdown reference cards.** The built-in turned `#123` links in rendered
    issue bodies into hover cards through the dashboard's `LinkOverrideCtx`, which
    the SDK's `MarkdownRenderer` does not expose; links render as plain links.
-8. **Model credit badges.** The crew editor's model rows carried credit-multiplier
+7. **Model credit badges.** The crew editor's model rows carried credit-multiplier
    pills through `SimpleSelect`'s `optionBadges`, which the SDK's `Select` does not
    take.
-9. **Error hand-off report.** `ErrorNotice`'s "Ask the agent" hand-off carried the
+8. **Error hand-off report.** `ErrorNotice`'s "Ask the agent" hand-off carried the
    dashboard's journaled error report (`utils/errorReport.findReport`); a bundle
    cannot read that journal, so the hand-off carries the message alone.
-10. **Styles.** The page keeps the built-in's Tailwind utility class strings. They
+9. **Styles.** The page keeps the built-in's Tailwind utility class strings. They
     render because the dashboard's stylesheet still carries them while the
     compiled built-in page ships with Kiro Crew.
-11. **Store listing localization**, **sidebar icon on a fresh install** and
+10. **Store listing localization**, **sidebar icon on a fresh install** and
     **author**: as for every first-party port (the catalog's publish step does not
     carry `l10n` yet; the `Radar` glyph and `/issue-radar` route come only from
     the adoption pin; `"author": "kirocrew"` is stated on the catalog row).
@@ -231,14 +237,14 @@ dashboard provides (`tests/test_manifest_contract.py` checks the built file);
 | `i18n/format`, `i18n/languages` | `ui/src/host/format.ts` (the dashboard's, over the host's `activeLocale`), `languages.ts` |
 | `components/ui` (`Badge`, `Btn`, `Card`, `CardTitle`, `EmptyState`, `Input`, `PageHeader`, `StatCard`, `Toggle`), `ErrorNotice`, `Clickable`, `MarkdownRenderer`, `hooks/useImeGuard` | The host's, from `@kirocrew/app-sdk/ui` and `@kirocrew/app-sdk` |
 | `IconButton`, `components/ui/{dialog,dropdown-menu,popover,tabs,tabsPill}`, `ConfirmDialog.useConfirm`, `ListDetailBack`, `StatusNotice`, `RadioChipGroup`, `ResizeHandle`, the provider logos, `overlayRoot.OverlayPortal`, `CopyCommandButton`, the `useColumnResize` / `useDialogFocusTrap` / `useListDetailView` / `useReducedMotion` / `useTouchReplay` hooks, `columnWidth`, `safeUrl`, `splitOnPlaceholder`, `safeStorage`, `codePoints`, `pullRequestErrors`, `gitlabHostSet`, `maskInlineCode`, `errMessage`, `formatMultiplier`, `isPricedMultiplier` | Restated in `ui/src/host/` from the dashboard's source, minus the guide's probe hooks and the remote-crew overlay scope |
-| `components/SimpleSelect` | The host's level-1 `Select` (native `<select>` on an older host); see gap 8 |
-| `components/ProjectPicker` | `ui/src/host/ProjectPicker.tsx`; see gap 6 |
+| `components/SimpleSelect` | The host's level-1 `Select` (native `<select>` on an older host); see gap 7 |
+| `components/ProjectPicker` | `ui/src/host/ProjectPicker.tsx`; see gap 5 |
 | `react-router-dom` `useNavigate` / `Link` | The host's `useNavigate` (`ui/src/host/router.tsx`) |
-| `store` + `store/chatSlice` (`createSlot`, `switchSlot`, `deleteSlot`, `requestSlotFolderOpen`), `api.chatFolders` / `createChatFolder` / `chatSlotDetail`, `chat-core/transport/sendTurn`, `utils/ensureChatFolder`, `utils/seedReceipt` (`lib/agentSession.ts`, `views/CrewPageView.tsx:400`) | `useChatLauncher().openChat` (`lib/agentSession.ts`); see gap 5. The liveness probe before a resume is `GET /pipeline/live-slots` |
+| `store` + `store/chatSlice` (`createSlot`, `switchSlot`, `deleteSlot`, `requestSlotFolderOpen`), `api.chatFolders` / `createChatFolder` / `chatSlotDetail`, `chat-core/transport/sendTurn`, `utils/ensureChatFolder`, `utils/seedReceipt` (`lib/agentSession.ts`, `views/CrewPageView.tsx:400`) | `useChatLauncher().openChat` (`lib/agentSession.ts`); see gap 4. The liveness probe before a resume is `GET /pipeline/live-slots` |
 | `api.chatSlots` (`pipeline/views/ItemSessionsTable.tsx:296`) | `autoTriagePipelineFoldApi.liveSlots` over `GET /pipeline/live-slots` |
 | `api/dashboardConfigQuery.fetchDashboardConfig` (`ConnectPanel.tsx:377`) | `issueRadarApi.gitlabHosts` over `GET /gitlab-hosts` |
 | `hooks/useAgents`, `hooks/useAvailableModels` (`components/CrewEditor.tsx:357`, `:361`) | `ui/src/lib/roster.ts` over `GET /agents` and `GET /models` |
-| `utils/errorReport.findReport` | No report; see gap 9 |
+| `utils/errorReport.findReport` | No report; see gap 8 |
 
 ## Tests
 
@@ -256,21 +262,49 @@ collaborators as the built-in's did.
 | `test_issue_radar_facades.py` | Scans this repository's test tree; `backend.*` and the host through `backend._host` are the project homes | The tree moved. |
 | `test_issue_radar_crew_triage_model.py::TestPickGenerationWriters` | Scans the pinned host minus its built-in copy of this app, plus `backend/` | The tree moved. |
 | `test_issue_radar_http_routes_surface.py` (package re-export, fresh-interpreter import) | The manifest hook and `backend.app_hooks` | No package re-export. |
-| `test_issue_radar_crew_runtime*.py` | Unchanged cases, run with the `host_grants` fixture | See the first section. |
-| Issue Radar cases of `test/test_github_runner.py`, `test_link_screen_hold_pin.py`, `test_read_json_or_signal.py`, `test_owner_only_files.py`, `test_crew_log_routes_dispatch_fence.py`, `test_slot_close_nudge_race.py`, `test_provider_cli_invoked_name.py` | `tests/test_ported_core_cases.py` | The core cases stay in Kiro Crew. `test_mcp_apps_tool_gate.py` and the ratchet tables pin core's own tables and stay there (gap 2). |
-| (none) | `tests/test_no_host_imports.py`, `test_host_surface.py`, `test_app_hooks.py`, `test_auto_approve_disabled.py`, `test_manifest_contract.py` | The host surface pinned, the seams' fail-closed fallbacks, the hook contract and the added reads, the disabled grant, the manifest and the bundle. |
+| `test_issue_radar_crew_runtime*.py` | Unchanged cases; the test context carries the host's real `WorkerAutoApprove` as `ctx.auto_approve` (`tests/harness.py`) | See the first section. |
+| Issue Radar cases of `test/test_github_runner.py`, `test_link_screen_hold_pin.py`, `test_read_json_or_signal.py`, `test_owner_only_files.py`, `test_crew_log_routes_dispatch_fence.py`, `test_slot_close_nudge_race.py`, `test_provider_cli_invoked_name.py` | `tests/test_ported_core_cases.py` | The core cases stay in Kiro Crew. `test_mcp_apps_tool_gate.py` and the ratchet tables pin core's own tables and stay there (gap 1). |
+| `src/.../issue_radar/tests/test_auto_approve_seam.py` | `tests/test_auto_approve_seam.py` | Over `ctx.auto_approve` (`_host.worker_grants`): the declaration, no `SafetyOverride` reach, the scope key, the fail-closed handle without a seam, and the host's real seam. |
+| `src/.../issue_radar/tests/test_core_parity.py`, `test_config_lock_owner_only.py`, `test/test_issue_radar_crew_close_race.py`, `test_issue_radar_glab_invoked_name.py`, `test_issue_radar_read_signals_degrade.py` (#30101 moved them out of core test files) | `tests/test_ported_core_cases.py` | Already there from the snapshot's core files; the core-held tool gate's app-id pin is added. |
+| (none) | `tests/test_no_host_imports.py`, `test_host_surface.py`, `test_app_hooks.py`, `test_manifest_contract.py` | The host surface pinned, the seams' fail-closed fallbacks, the hook contract and the added reads, the manifest and the bundle. |
 | `website/src/apps/issue-radar/**/*.test.*` (28), `website/src/test/IssueRadar*` / `issueRadar*` (51) and eleven others | `ui/tests/app/`, `ui/tests/ext/` | Run by vitest in the dashboard's own environment (happy-dom, UTC) with a stand-in host SDK (`ui/tests/stubs/`) whose components are restated from the dashboard's source, so the suites see the markup they were written against. Imports point at `ui/src/`; `renderWithProviders`, `MemoryRouter`, `readSource` and the `i18n/all` loader are test helpers; the dev-only `en-XA` pseudolocale is a test fixture. |
-| `agentSessionConcludedNoRerun`, `agentSessionResumeMissingSlot`, `agentSessionFolderResolve`, `agentSessionSeedReceipt`, `IssueRadarSessionTitle` | `ui/tests/ext/agentSessionLauncher.test.ts` | They drove the dashboard's Redux slot flow (gap 5). Every rule of theirs this copy still owns is a case there: probe before resume, a failed probe is an error, decline a concluded item (an unknown status too, an absent one not), re-read first, a failed re-read surfaces, reattach a replacement, `force` starts over, the verdict is never cleared, the merge-request namespace. The `isMissingSlotError`, folder, title, seed-receipt and Auto Improvement cases test dashboard code and stay in Kiro Crew. |
+| `agentSessionConcludedNoRerun`, `agentSessionResumeMissingSlot`, `agentSessionFolderResolve`, `agentSessionSeedReceipt`, `IssueRadarSessionTitle` | `ui/tests/ext/agentSessionLauncher.test.ts` | They drove the dashboard's Redux slot flow (gap 4). Every rule of theirs this copy still owns is a case there: probe before resume, a failed probe is an error, decline a concluded item (an unknown status too, an absent one not), re-read first, a failed re-read surfaces, reattach a replacement, `force` starts over, the verdict is never cleared, the merge-request namespace. The `isMissingSlotError`, folder, title, seed-receipt and Auto Improvement cases test dashboard code and stay in Kiro Crew. |
 | `ItemSessionsTable.test.tsx`, `CrewEditor.agentRoster.test.tsx`, `IssueRadarConnectFlow.test.tsx`, `IssueRadarGitLabGroups.test.tsx`, `RadioChipGroup.test.tsx`, `issueRadarPolling.test.tsx` | Same files | Mock this app's routes (`liveSlots`, `agents`, `gitlabHosts`) instead of the dashboard's client; the error hand-off is the stub host's navigation; the revert guard lists this app's one converted file; the host's cache-retention constant is pinned locally. |
 | (none) | `ui/tests/port/` | The transport, the catalogs (every key the page names resolves), the level-1 fallbacks and the path picker. |
+
+## Wheel fixes ported since the snapshot
+
+Every change to the wheel copy (`src/kiro_crew/apps/builtins/issue_radar/`,
+`website/src/apps/issue-radar/`, its tests and its catalog strings) from the
+snapshot to `main` `6d07df11cfb64f4c3fda0466165c7a0ba3efe748`, merged three-way
+onto this tree, so only the imports differ:
+
+| Kiro Crew | What |
+|---|---|
+| #28667 | the PR AI summary cache is keyed to the prompt it was built from (`http_routes/ai.py`, `routes.py`) |
+| #32667 | the crews' grant through the worker auto-approve seam, `permissions.workerAutoApprove` |
+| #21541 | a human removing the needs-human label resumes a skipped issue (`crew_answer_store.py`, the ledger, the sweep, the brief and ledger spec, Azure reads) |
+| #19820 | crews work GitLab repos (the fabric, the runtime, the routes, Item lanes' `!N` pill) |
+| #30864 | the crew stop paths clear the slot's shared trust and cached approval policy (`revoke_slot_trust`) |
+| #26497 | the crew no-permit card carries its localization token |
+| #31481, #31687 | refresh and retry buttons keep focus while busy |
+| #31683, #31947, #31187, #32054 | the filter rows, label pills, rail sections and open dashboard announce their state |
+| #31127 | a scroll that leaves a reference link in place keeps its card |
+| #30511, #31961, #32043 | whole-sentence catalog strings on tagging, the empty panes and the settings intros |
+| #30807 | `sliceCodePoints` from its own module |
+| #30101, #30746, #29687 | test moves and mixins (the moved core cases were already in `tests/test_ported_core_cases.py`) |
+
+The core-only test `test/test_gitlab_merge_request_comment_wake.py` (core's
+monitoring provider) and the dashboard-structure test `issueRadarBoundary.test.ts`
+stay in Kiro Crew; `prBulkBarTokens.test.ts`'s rule is already
+`ui/tests/ext/IssueRadarPrActions.test.tsx`'s.
 
 ## What Kiro Crew keeps doing
 
 The release that adds adoption still ships the built-in. A user's built-in record
 moves onto this repository at the commit Kiro Crew pins; a record that cannot
 move keeps running the built-in copy, unchanged. Removing the built-in from Kiro
-Crew is a later release, after gap 2 (and the security ruling, for anyone who
-runs unattended crews) is settled.
+Crew is a later release, after gap 1 is settled.
 
 ## Release handoff: one commit for both pins
 
@@ -278,8 +312,6 @@ runs unattended crews) is settled.
 2. In the Kiro Crew release PR that adds adoption, run
    `python3 scripts/adoption_pin.py compute <this URL> C`, add the row it prints
    to `src/kiro_crew/apps/adoption-pins.json`, then
-   `python3 scripts/adoption_pin.py verify`. **Do not add the row before the
-   security ruling above**: adoption would silently stop every unattended crew a
-   user runs today.
+   `python3 scripts/adoption_pin.py verify`.
 3. The KiroCrewApps row for `issue-radar` switches to `"type": "git"`, this URL,
    `"ref": "C"`, in the same release, never a branch name.

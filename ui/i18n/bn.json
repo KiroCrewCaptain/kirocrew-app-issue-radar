@@ -144,7 +144,7 @@
         "load_failed": "পাইপলাইন লোড করা যায়নি",
         "load_failed_unknown": "কোনো কারণ ছাড়াই পড়া ব্যর্থ হয়েছে।",
         "note_1": "একটি লেন ফেজ কলাম জুড়ে বাঁ থেকে ডানে চলে; মাথা আইটেমের সরাসরি ফেজ চিহ্নিত করে।",
-        "note_2": "#N পিল মানে আইটেমটির একটি PR আছে; PR ছাড়া লেনে #N পিল দেখায় না।",
+        "note_2": "{{sigil}}N পিল মানে আইটেমটির একটি {{changeRequest}} আছে; {{changeRequest}} ছাড়া লেনে {{sigil}}N পিল দেখায় না।",
         "note_3": "একটি ডট-ড্যাশ অংশ মানে আইটেমটি একটি ফেজ এড়িয়ে গেছে; লেনের নিচের চাপ হলো পুনঃপ্রবেশ করা ফেজ।",
         "note_4": "লেন থেকে বেরোনো স্টাব একটি প্রস্থান -- এড়ানো, ছেড়ে দেওয়া, ফেরত দেওয়া, দখল করা, বা উত্তরের অপেক্ষা।",
         "note_5": "এক ঘণ্টার বেশি অবস্থান ফ্ল্যাগ করা হয়; চলমান অবস্থান বর্তমান ফেজে সর্বশেষ প্রবেশ থেকে গোনা হয়।",
@@ -1095,7 +1095,6 @@
             "connect_another_repo": "আরেকটি রেপো সংযুক্ত করুন",
             "detail_refresh": "বিবরণ রিফ্রেশ",
             "detail_refresh_hint": "একটি খোলা ইস্যু বা পুল রিকোয়েস্ট কত ঘন ঘন পুনরায় পড়া হয়। বন্ধ আইটেম সবসময় ধীর হয়ে যায়।",
-            "identity_and_the_repositories_issue_radar_watche": "পরিচয় এবং Issue Radar যে রিপোজিটরিগুলো পর্যবেক্ষণ করে।",
             "in_your_terminal": "আপনার টার্মিনালে।",
             "list_refresh": "তালিকা রিফ্রেশ",
             "list_refresh_hint": "ইস্যু ও পুল রিকোয়েস্ট তালিকা কত ঘন ঘন পুনরায় পড়া হয়।",
@@ -1108,7 +1107,7 @@
             "refresh_section": "রিফ্রেশ সেটিংস",
             "repositories": "রিপোজিটরি",
             "settings": "সেটিংস",
-            "your": "আপনার"
+            "your_provider_identity_and_watched_repos": "তোমার {{provider}} পরিচয় এবং Issue Radar যে রিপোজিটরিগুলো পর্যবেক্ষণ করে।"
           },
           "gitlabGroups": {
             "empty": "তুমি এখনও কোনো GitLab গ্রুপ ফলো করছ না।",
@@ -1156,7 +1155,6 @@
             "leave_empty_to_use_the_default_working_directory": "ডিফল্ট কাজের ডিরেক্টরি ব্যবহার করতে খালি রাখুন।",
             "loading_members": "সদস্য লোড হচ্ছে…",
             "loading_this_repo_s_saved_settings": "এই রেপোর সংরক্ষিত সেটিংস লোড হচ্ছে…",
-            "local_triage_settings_for_this_repo_they_teach_i": "এই রেপোর জন্য লোকাল ট্রায়াজ সেটিংস — এগুলো Issue Radar-কে শেখায় কীভাবে",
             "local_workspace_path": "স্থানীয় ওয়ার্কস্পেস পাথ",
             "member_chip_title": "{{login}} — {{role}} · {{provider}}-এ খোলো",
             "members": "সদস্য",
@@ -1171,7 +1169,6 @@
             "notify_me_when_ci_fails_on_my_pull_request": "{{repo}}-এ আমার কোনো pull request-এ CI ব্যর্থ হলে আমাকে জানান",
             "open_on": "এখানে খুলুন:",
             "open_tagging": "ট্যাগিং খুলুন",
-            "organises_its_issues_and_are_never_written_back": "নিজের ইস্যু সাজায়, এবং এগুলো কখনোই ফেরত লেখা হয় না এখানে:",
             "proposing_new_labels_for_this_repo_now_lives_on": "এই রিপোর জন্য নতুন লেবেল প্রস্তাব করার জায়গা এখন ট্যাগিং ড্যাশবোর্ড — যেসব ট্যাগহীন ইস্যুতে সেই লেবেল বসবে, ঠিক তার পাশেই।",
             "re_fetch_issues_and_labels_from": "{{provider}} থেকে এই রিপোর ইস্যু + লেবেল আবার আনো",
             "recommending_a_taxonomy_and_applying_it_to_issue": "একটি ট্যাক্সোনমি সুপারিশ করা আর সেটি ইস্যুতে প্রয়োগ করা একই কাজের দুই অর্ধেক, তাই তারা একটি\n          পেজ ভাগ করে নেয়। এই সেটিংস পেজ উপরের লোকাল সংজ্ঞাগুলো রাখে — অর্থাৎ",
@@ -1199,7 +1196,8 @@
             "which_labels_mean_an_issue_still_needs_triage_dr": "কোন লেবেলগুলো বোঝায় যে ইস্যুর এখনো ট্রায়াজ দরকার। এটাই ওভারভিউয়ের “ট্রায়াজ হয়নি” সংখ্যা আর মনোযোগ-দরকার তালিকা ঠিক করে।",
             "without_push_access_to": "পুশ অ্যাক্সেস না থাকলে এখানে:",
             "workspace": "ওয়ার্কস্পেস",
-            "your_edits_are_kept_here_but_won_t_persist_if_yo": "আপনার সম্পাদনাগুলো এখানে রাখা হচ্ছে, কিন্তু স্থায়ী হবে না। আপনি যদি সদ্য Issue Radar আপডেট করে থাকেন, তবে ব্যাকএন্ড পুনরায় চালু করুন যাতে সেটিংস API পাওয়া যায়।"
+            "your_edits_are_kept_here_but_won_t_persist_if_yo": "আপনার সম্পাদনাগুলো এখানে রাখা হচ্ছে, কিন্তু স্থায়ী হবে না। আপনি যদি সদ্য Issue Radar আপডেট করে থাকেন, তবে ব্যাকএন্ড পুনরায় চালু করুন যাতে সেটিংস API পাওয়া যায়।",
+            "local_triage_settings_intro": "এই রেপোর জন্য লোকাল ট্রায়াজ সেটিংস — এগুলো Issue Radar-কে শেখায় {{repo}} কীভাবে নিজের ইস্যু সাজায়, এবং এগুলো কখনোই {{provider}}-এ ফেরত লেখা হয় না।"
           }
         },
         "tagging": {
@@ -1250,13 +1248,9 @@
           "applying_is_disabled_until_they_load_because_a_s": "এগুলো লোড হওয়া পর্যন্ত প্রয়োগ করা নিষ্ক্রিয়, কারণ রেপোতে আর নেই এমন কোনো\n            লেবেলের নাম দেওয়া সুপারিশ পুরো ব্যাচের জন্যই প্রত্যাখ্যাত হবে।",
           "applying_needs_write_access": "প্রয়োগ করতে রাইট অ্যাক্সেস প্রয়োজন",
           "available_to_assign": "অ্যাসাইন করার জন্য উপলব্ধ",
-          "carries_at_least_one_label_nothing_to_tag": "— অন্তত একটি লেবেল বহন করে। ট্যাগ করার কিছু নেই।",
           "clear_selection": "নির্বাচন সাফ করো",
-          "couldn_t_load": "লোড করা যায়নি",
           "couldn_t_reload_the_queue": "কিউ আবার লোড করা যায়নি:",
           "created_but_settings_not_updated": "\"{{name}}\" GitHub-এ তৈরি হয়েছে, কিন্তু এই রিপোর লোকাল ট্রায়াজ সেটিংস আপডেট করা যায়নি: {{error}}",
-          "defines_no_labels_yet_so_there_is_nothing_to_ass": "এখনো কোনো লেবেল সংজ্ঞায়িত করেনি, তাই বরাদ্দ করার কিছু নেই। উপরে কয়েকটি প্রস্তাব করুন,\n            যেগুলো চান সেগুলো তৈরি করুন, তারপর এখানে ফিরে এসে লেবেল প্রস্তাব করুন।",
-          "every_open_issue_in": "প্রতিটি খোলা ইস্যু এই রিপোজিটরিতে —",
           "labelled_issue_one": "{{count}}টি ইস্যুতে লেবেল যুক্ত হয়েছে।",
           "labelled_issue_other": "{{count}}টি ইস্যুতে লেবেল যুক্ত হয়েছে।",
           "labelled_issue_with_failures_one": "{{count}}টি ইস্যুতে লেবেল যুক্ত হয়েছে; {{failed}}টি আপডেট করা যায়নি (নিচের সারিগুলি দেখুন)।",
@@ -1268,14 +1262,16 @@
           "reanalyse_issues_other": "আগে থেকেই প্রস্তাব আছে এমন {{count}}টি ইস্যু আবার বিশ্লেষণ করো",
           "reload_the_untagged_queue": "ট্যাগ-না-করা কিউ আবার লোড করুন",
           "repo_labels": "রেপো লেবেল",
-          "s_labels": "-এর লেবেল:",
           "select_all": "সব নির্বাচন করো",
           "suggest_again": "আবার পরামর্শ দাও ({{n}})",
           "suggest_labels_next": "লেবেল পরামর্শ দাও (পরবর্তী {{n}})",
           "untagged": "ট্যাগ করা হয়নি",
           "untagged_issues": "ট্যাগ-না-করা ইস্যু",
           "what_you_see_below_is_the_previous_result_not_th": "নিচে যা দেখছেন তা আগের ফলাফল, বর্তমান অবস্থা নয়।",
-          "write_every_staged_label_to": "সব স্টেজ করা লেবেল {{provider}}-এ লিখুন"
+          "write_every_staged_label_to": "সব স্টেজ করা লেবেল {{provider}}-এ লিখুন",
+          "couldn_t_load_repo_labels": "{{repo}}-এর লেবেল লোড করা যায়নি",
+          "every_open_issue_in_repo_is_labeled": "{{repo}}-এর প্রতিটি খোলা ইস্যুতে অন্তত একটি লেবেল আছে। ট্যাগ করার কিছু নেই।",
+          "repo_defines_no_labels_yet": "{{repo}} এখনো কোনো লেবেল সংজ্ঞায়িত করেনি, তাই বরাদ্দ করার কিছু নেই। উপরে কয়েকটি প্রস্তাব করো, যেগুলো চাও সেগুলো তৈরি করো, তারপর এখানে ফিরে এসে লেবেল প্রস্তাব করো।"
         }
       },
       "welcomeCarousel": {
@@ -1302,12 +1298,12 @@
         "clear_filters": "ফিল্টার সাফ করুন",
         "resize_list": "তালিকার আকার বদলান",
         "resize_sidebar": "সাইডবারের আকার বদলান",
-        "select_a": "বেছে নিন একটি",
         "select_a_work_item_to_see_its_details": "বিশদ দেখতে একটি ওয়ার্ক আইটেম নির্বাচন করুন।",
         "select_an_issue_to_see_its_details": "বিবরণ দেখতে একটি ইস্যু বেছে নিন।",
         "selected_change_hidden_by_filters": "নির্বাচিত {{subject}} সক্রিয় ফিল্টার দ্বারা লুকানো রয়েছে।",
         "selected_issue_hidden_by_filters": "নির্বাচিত ইস্যুটি সক্রিয় ফিল্টার দ্বারা লুকানো রয়েছে।",
-        "to_see_its_details": "— এর বিবরণ দেখতে।"
+        "select_crew_to_see_details": "বিবরণ দেখতে একটি ক্রু বেছে নাও।",
+        "select_subject_to_see_details": "বিবরণ দেখতে একটি {{subject}} বেছে নাও।"
       }
     }
   },

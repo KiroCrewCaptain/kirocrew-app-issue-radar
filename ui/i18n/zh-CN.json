@@ -140,7 +140,7 @@
         "load_failed": "无法加载流水线",
         "load_failed_unknown": "读取失败，未给出原因。",
         "note_1": "泳道自左向右穿过各阶段列；道头标示该项的实时阶段。",
-        "note_2": "#N 标签表示该条目有 PR；没有 PR 的泳道不显示 #N 标签。",
+        "note_2": "{{sigil}}N 标签表示该条目有 {{changeRequest}}；没有 {{changeRequest}} 的泳道不显示 {{sigil}}N 标签。",
         "note_3": "点划线段表示该项跳过了某阶段；泳道下方的弧线表示重新进入的阶段。",
         "note_4": "从泳道伸出的短枝是出口 -- 跳过、让出、退回、被抢占或等待回复。",
         "note_5": "停留超过一小时会被标记；进行中的停留从最近一次进入当前阶段起计。",
@@ -1063,7 +1063,6 @@
             "connect_another_repo": "连接另一个仓库",
             "detail_refresh": "详情刷新",
             "detail_refresh_hint": "打开的问题或拉取请求重新读取的频率。已关闭的项目始终降低频率。",
-            "identity_and_the_repositories_issue_radar_watche": "身份以及 Issue Radar 监视的仓库。",
             "in_your_terminal": "在你的终端中。",
             "list_refresh": "列表刷新",
             "list_refresh_hint": "问题和拉取请求列表重新读取的频率。",
@@ -1076,7 +1075,7 @@
             "refresh_section": "刷新设置",
             "repositories": "仓库",
             "settings": "设置",
-            "your": "你的"
+            "your_provider_identity_and_watched_repos": "你的 {{provider}} 身份以及 Issue Radar 监视的仓库。"
           },
           "gitlabGroups": {
             "empty": "你还没有关注任何 GitLab 群组。",
@@ -1123,7 +1122,6 @@
             "leave_empty_to_use_the_default_working_directory": "留空则使用默认工作目录。",
             "loading_members": "正在加载成员…",
             "loading_this_repo_s_saved_settings": "正在加载此仓库已保存的设置…",
-            "local_triage_settings_for_this_repo_they_teach_i": "此仓库的本地分类设置 — 它们告诉 Issue Radar",
             "local_workspace_path": "本地工作区路径",
             "member_chip_title": "{{login}} — {{role}} · 在 {{provider}} 上打开",
             "members": "成员",
@@ -1138,7 +1136,6 @@
             "notify_me_when_ci_fails_on_my_pull_request": "当我在 {{repo}} 中的拉取请求 CI 失败时通知我",
             "open_on": "打开于",
             "open_tagging": "打开标记页",
-            "organises_its_issues_and_are_never_written_back": "如何组织其 issue，且永不写回 GitHub",
             "proposing_new_labels_for_this_repo_now_lives_on": "为此仓库提议新标签的入口已移至标记仪表板，紧邻这些标签将应用到的未标记 issue。",
             "re_fetch_issues_and_labels_from": "从 {{provider}} 重新获取此仓库的 issue 与标签",
             "recommending_a_taxonomy_and_applying_it_to_issue": "推荐分类体系与将其应用到 issue 是同一项工作的两半，因此共用一个\n          页面。此设置页保留上方的本地定义 — 即哪些",
@@ -1166,7 +1163,8 @@
             "which_labels_mean_an_issue_still_needs_triage_dr": "哪些标签表示 issue 仍需分类。它决定概览中的“未分类”计数和待关注队列。",
             "without_push_access_to": "若没有对以下仓库的 push 权限：",
             "workspace": "工作区",
-            "your_edits_are_kept_here_but_won_t_persist_if_yo": "你的编辑会保留在此处但不会持久化。如果你刚更新了 Issue Radar，请重启后端以启用设置 API。"
+            "your_edits_are_kept_here_but_won_t_persist_if_yo": "你的编辑会保留在此处但不会持久化。如果你刚更新了 Issue Radar，请重启后端以启用设置 API。",
+            "local_triage_settings_intro": "此仓库的本地分类设置 — 它们告诉 Issue Radar {{repo}} 如何组织其 issue，且永不写回 {{provider}}。"
           }
         },
         "tagging": {
@@ -1212,13 +1210,9 @@
           "applying_is_disabled_until_they_load_because_a_s": "在加载完成前无法应用，因为若建议指定了仓库已不存在的\n            标签，整批都会被拒绝。",
           "applying_needs_write_access": "应用需要写入权限",
           "available_to_assign": "可分配",
-          "carries_at_least_one_label_nothing_to_tag": "都至少有一个标签。无需标记。",
           "clear_selection": "清除选择",
-          "couldn_t_load": "无法加载",
           "couldn_t_reload_the_queue": "无法重新加载队列：",
           "created_but_settings_not_updated": "“{{name}}”已在 GitHub 上创建，但此仓库的本地分类设置无法更新：{{error}}",
-          "defines_no_labels_yet_so_there_is_nothing_to_ass": "尚未定义任何标签，因此无可分配项。请先在上方提出几个建议，\n            创建你需要的标签，然后回到这里推荐标签。",
-          "every_open_issue_in": "以下位置的每个待处理 issue：",
           "labelled_issue_other": "已为 {{count}} 个 issue 添加标签。",
           "labelled_issue_with_failures_other": "已为 {{count}} 个 issue 添加标签；{{failed}} 个未能更新（见下方行）。",
           "loading_the_untagged_queue": "正在加载未标记队列…",
@@ -1227,14 +1221,16 @@
           "reanalyse_issues_other": "重新分析已有提案的 {{count}} 个 issue",
           "reload_the_untagged_queue": "重新加载未标记队列",
           "repo_labels": "仓库标签",
-          "s_labels": "的标签：",
           "select_all": "全选",
           "suggest_again": "再次建议（{{n}}）",
           "suggest_labels_next": "建议标签（接下来 {{n}} 个）",
           "untagged": "未标记",
           "untagged_issues": "未标记的 issue",
           "what_you_see_below_is_the_previous_result_not_th": "下方显示的是上一次的结果，而非当前状态。",
-          "write_every_staged_label_to": "将所有暂存的标签写入 {{provider}}"
+          "write_every_staged_label_to": "将所有暂存的标签写入 {{provider}}",
+          "couldn_t_load_repo_labels": "无法加载 {{repo}} 的标签",
+          "every_open_issue_in_repo_is_labeled": "{{repo}} 中的每个待处理 issue 都至少有一个标签。无需标记。",
+          "repo_defines_no_labels_yet": "{{repo}} 尚未定义任何标签，因此无可分配项。请先在上方提出几个建议，创建你需要的标签，然后回到这里推荐标签。"
         }
       },
       "welcomeCarousel": {
@@ -1260,12 +1256,12 @@
         "clear_filters": "清除筛选",
         "resize_list": "调整列表大小",
         "resize_sidebar": "调整侧边栏大小",
-        "select_a": "选择一个",
         "select_a_work_item_to_see_its_details": "选择一个工作项以查看详情。",
         "select_an_issue_to_see_its_details": "选择一个 issue 查看其详情。",
         "selected_change_hidden_by_filters": "所选 {{subject}} 已被当前筛选条件隐藏。",
         "selected_issue_hidden_by_filters": "所选 issue 已被当前筛选条件隐藏。",
-        "to_see_its_details": "以查看其详情。"
+        "select_crew_to_see_details": "选择一个小队以查看其详情。",
+        "select_subject_to_see_details": "选择一个 {{subject}} 以查看其详情。"
       }
     }
   },

@@ -148,7 +148,7 @@
         "load_failed": "Impossible de charger le pipeline",
         "load_failed_unknown": "La lecture a échoué sans raison indiquée.",
         "note_1": "Une voie va de gauche à droite sur les colonnes de phases ; la tête marque la phase active de l'élément.",
-        "note_2": "Une pastille #N signifie que l'élément a un PR ; une voie sans PR n'affiche pas de pastille #N.",
+        "note_2": "Une pastille {{sigil}}N signifie que l'élément a un {{changeRequest}} ; une voie sans {{changeRequest}} n'affiche pas de pastille {{sigil}}N.",
         "note_3": "Un tronçon en trait mixte signifie que l'élément a sauté une phase ; un arc sous la voie est une phase ré-entrée.",
         "note_4": "Un ergot hors de la voie est une sortie -- sautée, cédée, rendue, préemptée ou en attente de réponse.",
         "note_5": "Un séjour de plus d'une heure est signalé ; le séjour en cours compte depuis la dernière entrée dans la phase actuelle.",
@@ -1127,7 +1127,6 @@
             "connect_another_repo": "Connecter un autre dépôt",
             "detail_refresh": "Actualisation des détails",
             "detail_refresh_hint": "À quelle fréquence un ticket ou une demande ouverte est relu. Les éléments fermés ralentissent toujours.",
-            "identity_and_the_repositories_issue_radar_watche": "et les dépôts qu’Issue Radar surveille.",
             "in_your_terminal": "dans votre terminal.",
             "list_refresh": "Actualisation des listes",
             "list_refresh_hint": "À quelle fréquence les listes de tickets et de demandes de tirage sont relues.",
@@ -1140,7 +1139,7 @@
             "refresh_section": "Actualisation",
             "repositories": "Dépôts",
             "settings": "Paramètres",
-            "your": "Votre identité"
+            "your_provider_identity_and_watched_repos": "Ton identité {{provider}} et les dépôts qu’Issue Radar surveille."
           },
           "gitlabGroups": {
             "empty": "Tu ne suis encore aucun groupe GitLab.",
@@ -1189,7 +1188,6 @@
             "leave_empty_to_use_the_default_working_directory": "Laissez vide pour utiliser le répertoire de travail par défaut.",
             "loading_members": "Chargement des membres…",
             "loading_this_repo_s_saved_settings": "Chargement des paramètres enregistrés de ce dépôt…",
-            "local_triage_settings_for_this_repo_they_teach_i": "Paramètres de triage locaux pour ce dépôt — ils indiquent à Issue Radar comment",
             "local_workspace_path": "Chemin local de l'espace de travail",
             "member_chip_title": "{{login}} — {{role}} · ouvrir sur {{provider}}",
             "members": "Membres",
@@ -1204,7 +1202,6 @@
             "notify_me_when_ci_fails_on_my_pull_request": "M’avertir quand la CI échoue sur une de mes pull requests dans {{repo}}",
             "open_on": "Ouvrir sur",
             "open_tagging": "Ouvrir l’étiquetage",
-            "organises_its_issues_and_are_never_written_back": "organise ses tickets ; ils ne sont jamais réécrits dans",
             "proposing_new_labels_for_this_repo_now_lives_on": "Proposer de NOUVELLES étiquettes pour ce dépôt se fait désormais sur le tableau de bord d’étiquetage, à côté des tickets non étiquetés auxquels ces étiquettes s’appliquent.",
             "re_fetch_issues_and_labels_from": "Récupérer à nouveau les tickets et étiquettes de ce dépôt depuis {{provider}}",
             "recommending_a_taxonomy_and_applying_it_to_issue": "Recommander une taxonomie et l’appliquer aux tickets sont les deux moitiés d’une même tâche : elles partagent donc une\n          page. Cette page de paramètres conserve les définitions locales ci-dessus, à propos de",
@@ -1232,7 +1229,8 @@
             "which_labels_mean_an_issue_still_needs_triage_dr": "Quelles étiquettes signifient qu’un ticket nécessite encore un triage. Alimente le compteur « Non triés » de la vue d’ensemble et la file des tickets nécessitant une attention.",
             "without_push_access_to": "Sans accès en écriture à",
             "workspace": "Espace de travail",
-            "your_edits_are_kept_here_but_won_t_persist_if_yo": "Vos modifications sont conservées ici mais ne seront pas persistées. Si vous venez de mettre à jour Issue Radar, redémarrez le backend pour que l’API des paramètres soit disponible."
+            "your_edits_are_kept_here_but_won_t_persist_if_yo": "Vos modifications sont conservées ici mais ne seront pas persistées. Si vous venez de mettre à jour Issue Radar, redémarrez le backend pour que l’API des paramètres soit disponible.",
+            "local_triage_settings_intro": "Paramètres de triage locaux pour ce dépôt — ils indiquent à Issue Radar comment {{repo}} organise ses tickets et ne sont jamais réécrits dans {{provider}}."
           }
         },
         "tagging": {
@@ -1288,13 +1286,9 @@
           "applying_is_disabled_until_they_load_because_a_s": "l’application est désactivée jusqu’à leur chargement, car une suggestion nommant une\n            étiquette que le dépôt ne possède plus serait rejetée pour tout le lot.",
           "applying_needs_write_access": "l’application nécessite un accès en écriture",
           "available_to_assign": "disponibles à attribuer",
-          "carries_at_least_one_label_nothing_to_tag": "porte au moins une étiquette. Rien à étiqueter.",
           "clear_selection": "Effacer la sélection",
-          "couldn_t_load": "Impossible de charger",
           "couldn_t_reload_the_queue": "Impossible de recharger la file :",
           "created_but_settings_not_updated": "« {{name}} » a été créée sur GitHub, mais les paramètres de tri locaux de ce dépôt n’ont pas pu être mis à jour : {{error}}",
-          "defines_no_labels_yet_so_there_is_nothing_to_ass": "ne définit encore aucune étiquette, il n’y a donc rien à attribuer. Proposez-en quelques-unes ci-dessus,\n            créez celles que vous voulez, puis revenez suggérer des étiquettes ici.",
-          "every_open_issue_in": "Chaque ticket ouvert dans",
           "labelled_issue_many": "{{count}} issues étiquetées.",
           "labelled_issue_one": "{{count}} issue étiquetée.",
           "labelled_issue_other": "{{count}} issues étiquetées.",
@@ -1309,14 +1303,16 @@
           "reanalyse_issues_other": "Réanalyser {{count}} issues qui ont déjà une proposition",
           "reload_the_untagged_queue": "Recharger la file des tickets non étiquetés",
           "repo_labels": "Étiquettes du dépôt",
-          "s_labels": ", étiquettes :",
           "select_all": "Tout sélectionner",
           "suggest_again": "Suggérer à nouveau ({{n}})",
           "suggest_labels_next": "Suggérer des étiquettes ({{n}} suivants)",
           "untagged": "Non étiquetés",
           "untagged_issues": "Tickets non étiquetés",
           "what_you_see_below_is_the_previous_result_not_th": "ce qui s’affiche ci-dessous est le résultat précédent, pas l’état actuel.",
-          "write_every_staged_label_to": "Écrire tous les labels préparés dans {{provider}}"
+          "write_every_staged_label_to": "Écrire tous les labels préparés dans {{provider}}",
+          "couldn_t_load_repo_labels": "Impossible de charger les étiquettes de {{repo}}",
+          "every_open_issue_in_repo_is_labeled": "Chaque ticket ouvert dans {{repo}} porte au moins une étiquette. Rien à étiqueter.",
+          "repo_defines_no_labels_yet": "{{repo}} ne définit encore aucune étiquette, il n’y a donc rien à attribuer. Proposes-en quelques-unes ci-dessus, crée celles que tu veux, puis reviens suggérer des étiquettes ici."
         }
       },
       "welcomeCarousel": {
@@ -1344,12 +1340,12 @@
         "clear_filters": "Effacer les filtres",
         "resize_list": "Redimensionner la liste",
         "resize_sidebar": "Redimensionner la barre latérale",
-        "select_a": "Sélectionnez un",
         "select_a_work_item_to_see_its_details": "Sélectionnez un élément de travail pour voir ses détails.",
         "select_an_issue_to_see_its_details": "Sélectionnez un ticket pour voir ses détails.",
         "selected_change_hidden_by_filters": "L’élément {{subject}} sélectionné est masqué par les filtres actifs.",
         "selected_issue_hidden_by_filters": "Le ticket sélectionné est masqué par les filtres actifs.",
-        "to_see_its_details": "pour voir ses détails."
+        "select_crew_to_see_details": "Sélectionne une équipe pour voir ses détails.",
+        "select_subject_to_see_details": "Sélectionne un {{subject}} pour voir ses détails."
       }
     }
   },

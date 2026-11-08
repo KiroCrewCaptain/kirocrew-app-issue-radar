@@ -144,7 +144,7 @@
         "load_failed": "पाइपलाइन लोड नहीं हो सकी",
         "load_failed_unknown": "पढ़ना बिना किसी कारण के विफल हुआ।",
         "note_1": "एक लेन फेज कॉलमों के आर-पार बाएँ से दाएँ चलती है; सिरा आइटम के लाइव फेज को दर्शाता है।",
-        "note_2": "#N पिल का मतलब है कि आइटम का एक PR है; बिना PR वाली लेन में #N पिल नहीं दिखती।",
+        "note_2": "{{sigil}}N पिल का मतलब है कि आइटम का एक {{changeRequest}} है; बिना {{changeRequest}} वाली लेन में {{sigil}}N पिल नहीं दिखती।",
         "note_3": "डॉट-डैश खंड का मतलब आइटम ने एक फेज छोड़ दिया; लेन के नीचे का चाप पुनः प्रवेश किया गया फेज है।",
         "note_4": "लेन से निकला स्टब एक निकास है -- छोड़ा गया, त्यागा गया, वापस सौंपा गया, हड़पा गया, या उत्तर की प्रतीक्षा।",
         "note_5": "एक घंटे से अधिक ठहराव फ्लैग किया जाता है; चालू ठहराव वर्तमान फेज में सबसे हालिया प्रवेश से गिना जाता है।",
@@ -1095,7 +1095,6 @@
             "connect_another_repo": "दूसरा रिपो कनेक्ट करें",
             "detail_refresh": "विवरण रिफ़्रेश",
             "detail_refresh_hint": "खुला इशू या पुल रिक्वेस्ट कितनी बार दोबारा पढ़ा जाता है। बंद आइटम हमेशा धीमे हो जाते हैं।",
-            "identity_and_the_repositories_issue_radar_watche": "पहचान और वे रिपॉज़िटरी जिन्हें Issue Radar देखता है।",
             "in_your_terminal": "अपने टर्मिनल में।",
             "list_refresh": "सूची रिफ़्रेश",
             "list_refresh_hint": "इशू और पुल रिक्वेस्ट सूचियाँ कितनी बार दोबारा पढ़ी जाती हैं।",
@@ -1108,7 +1107,7 @@
             "refresh_section": "रिफ़्रेश सेटिंग्स",
             "repositories": "रिपॉज़िटरी",
             "settings": "सेटिंग",
-            "your": "आपकी"
+            "your_provider_identity_and_watched_repos": "तुम्हारी {{provider}} पहचान और वे रिपॉज़िटरी जिन्हें Issue Radar देखता है।"
           },
           "gitlabGroups": {
             "empty": "तुम अभी किसी GitLab समूह को फ़ॉलो नहीं कर रहे हो।",
@@ -1156,7 +1155,6 @@
             "leave_empty_to_use_the_default_working_directory": "डिफ़ॉल्ट कार्य डायरेक्टरी उपयोग करने के लिए खाली छोड़ें।",
             "loading_members": "सदस्य लोड हो रहे हैं…",
             "loading_this_repo_s_saved_settings": "इस रिपो की सहेजी गई सेटिंग लोड हो रही है…",
-            "local_triage_settings_for_this_repo_they_teach_i": "इस रिपो के लिए स्थानीय ट्राइएज सेटिंग — ये Issue Radar को सिखाती हैं कि",
             "local_workspace_path": "स्थानीय वर्कस्पेस पथ",
             "member_chip_title": "{{login}} — {{role}} · {{provider}} पर खोलो",
             "members": "सदस्य",
@@ -1171,7 +1169,6 @@
             "notify_me_when_ci_fails_on_my_pull_request": "जब {{repo}} में मेरे किसी pull request पर CI विफल हो, तो मुझे सूचित करो",
             "open_on": "यहाँ खोलें:",
             "open_tagging": "टैगिंग खोलें",
-            "organises_its_issues_and_are_never_written_back": "अपने इश्यू व्यवस्थित करता है, और इन्हें कभी वापस नहीं लिखा जाता",
             "proposing_new_labels_for_this_repo_now_lives_on": "इस रिपो के लिए नए लेबल प्रस्तावित करना अब टैगिंग डैशबोर्ड पर है, उन बिना-टैग इश्यू के साथ जिन पर ये लेबल लगाए जाते हैं।",
             "re_fetch_issues_and_labels_from": "{{provider}} से इस रिपो के इश्यू और लेबल दोबारा लाओ",
             "recommending_a_taxonomy_and_applying_it_to_issue": "टैक्सोनॉमी की सिफ़ारिश करना और उसे इश्यू पर लागू करना एक ही काम के दो हिस्से हैं, इसलिए वे एक\n          पेज साझा करते हैं। यह सेटिंग पेज ऊपर दी गई स्थानीय परिभाषाएँ रखता है — कि",
@@ -1199,7 +1196,8 @@
             "which_labels_mean_an_issue_still_needs_triage_dr": "कौन से लेबल का अर्थ है कि किसी इश्यू को अभी ट्राइएज चाहिए। यह ओवरव्यू की “अनट्राइएज्ड” गिनती और ध्यान-चाहिए कतार को चलाता है।",
             "without_push_access_to": "इसमें पुश एक्सेस के बिना:",
             "workspace": "वर्कस्पेस",
-            "your_edits_are_kept_here_but_won_t_persist_if_yo": "आपके संपादन यहाँ रखे जाते हैं लेकिन बने नहीं रहेंगे। यदि आपने Issue Radar अभी अपडेट किया है, तो बैकएंड को पुनः आरंभ करें ताकि सेटिंग API उपलब्ध हो।"
+            "your_edits_are_kept_here_but_won_t_persist_if_yo": "आपके संपादन यहाँ रखे जाते हैं लेकिन बने नहीं रहेंगे। यदि आपने Issue Radar अभी अपडेट किया है, तो बैकएंड को पुनः आरंभ करें ताकि सेटिंग API उपलब्ध हो।",
+            "local_triage_settings_intro": "इस रिपो के लिए स्थानीय ट्राइएज सेटिंग — ये Issue Radar को सिखाती हैं कि {{repo}} अपने इश्यू कैसे व्यवस्थित करता है, और इन्हें कभी वापस {{provider}} में नहीं लिखा जाता।"
           }
         },
         "tagging": {
@@ -1250,13 +1248,9 @@
           "applying_is_disabled_until_they_load_because_a_s": "जब तक वे लोड न हो जाएँ, लागू करना अक्षम है, क्योंकि ऐसे\n            लेबल का नाम लेने वाला सुझाव जो रिपो में अब नहीं है, पूरे बैच के लिए अस्वीकार हो जाएगा।",
           "applying_needs_write_access": "लागू करने के लिए राइट एक्सेस चाहिए",
           "available_to_assign": "असाइन करने के लिए उपलब्ध",
-          "carries_at_least_one_label_nothing_to_tag": "में कम से कम एक लेबल रखता है। टैग करने के लिए कुछ नहीं।",
           "clear_selection": "चयन साफ़ करें",
-          "couldn_t_load": "लोड नहीं हो सका",
           "couldn_t_reload_the_queue": "कतार पुनः लोड नहीं हो सकी:",
           "created_but_settings_not_updated": "\"{{name}}\" GitHub पर बन गया, लेकिन इस रिपो की लोकल ट्राइएज सेटिंग्स अपडेट नहीं हो सकीं: {{error}}",
-          "defines_no_labels_yet_so_there_is_nothing_to_ass": "अभी कोई लेबल परिभाषित नहीं करता, इसलिए असाइन करने के लिए कुछ नहीं है। ऊपर कुछ सुझाएँ,\n            जो चाहें उन्हें बनाएँ, फिर वापस आकर यहाँ लेबल सुझाएँ।",
-          "every_open_issue_in": "हर खुला इश्यू",
           "labelled_issue_one": "{{count}} इश्यू पर लेबल लगाया गया।",
           "labelled_issue_other": "{{count}} इश्यू पर लेबल लगाए गए।",
           "labelled_issue_with_failures_one": "{{count}} इश्यू पर लेबल लगाया गया; {{failed}} को अपडेट नहीं किया जा सका (नीचे की पंक्तियाँ देखें)।",
@@ -1268,14 +1262,16 @@
           "reanalyse_issues_other": "पहले से प्रस्ताव वाले {{count}} इश्यू का फिर से विश्लेषण करो",
           "reload_the_untagged_queue": "अनटैग्ड कतार पुनः लोड करें",
           "repo_labels": "रिपो लेबल",
-          "s_labels": "के लेबल:",
           "select_all": "सभी चुनें",
           "suggest_again": "फिर सुझाओ ({{n}})",
           "suggest_labels_next": "लेबल सुझाओ (अगले {{n}})",
           "untagged": "अनटैग्ड",
           "untagged_issues": "अनटैग्ड इश्यू",
           "what_you_see_below_is_the_previous_result_not_th": "नीचे आप जो देख रहे हैं वह पिछला परिणाम है, वर्तमान स्थिति नहीं।",
-          "write_every_staged_label_to": "सभी स्टेज किए गए लेबल {{provider}} पर लिखो"
+          "write_every_staged_label_to": "सभी स्टेज किए गए लेबल {{provider}} पर लिखो",
+          "couldn_t_load_repo_labels": "{{repo}} के लेबल लोड नहीं हो सके",
+          "every_open_issue_in_repo_is_labeled": "{{repo}} के हर खुले इश्यू में कम से कम एक लेबल है। टैग करने के लिए कुछ नहीं।",
+          "repo_defines_no_labels_yet": "{{repo}} अभी कोई लेबल परिभाषित नहीं करता, इसलिए असाइन करने के लिए कुछ नहीं है। ऊपर कुछ सुझाओ, जो चाहो उन्हें बनाओ, फिर वापस आकर यहाँ लेबल सुझाओ।"
         }
       },
       "welcomeCarousel": {
@@ -1302,12 +1298,12 @@
         "clear_filters": "फ़िल्टर साफ़ करें",
         "resize_list": "सूची का आकार बदलें",
         "resize_sidebar": "साइडबार का आकार बदलें",
-        "select_a": "एक",
         "select_a_work_item_to_see_its_details": "विवरण देखने के लिए कोई वर्क आइटम चुनो।",
         "select_an_issue_to_see_its_details": "विवरण देखने के लिए एक इश्यू चुनें।",
         "selected_change_hidden_by_filters": "चयनित {{subject}} सक्रिय फ़िल्टर द्वारा छिपा हुआ है।",
         "selected_issue_hidden_by_filters": "चयनित इश्यू सक्रिय फ़िल्टर द्वारा छिपा हुआ है।",
-        "to_see_its_details": "चुनें ताकि उसका विवरण दिखे।"
+        "select_crew_to_see_details": "विवरण देखने के लिए एक क्रू चुनो।",
+        "select_subject_to_see_details": "विवरण देखने के लिए एक {{subject}} चुनो।"
       }
     }
   },

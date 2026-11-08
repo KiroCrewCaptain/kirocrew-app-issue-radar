@@ -144,7 +144,7 @@
         "load_failed": "Pipeline konnte nicht geladen werden",
         "load_failed_unknown": "Das Lesen ist ohne Angabe eines Grundes fehlgeschlagen.",
         "note_1": "Eine Spur läuft links nach rechts über die Phasenspalten; der Kopf markiert die aktive Phase des Elements.",
-        "note_2": "Ein #N-Pill bedeutet, dass das Element einen PR hat; eine Spur ohne PR zeigt keinen #N-Pill.",
+        "note_2": "Ein {{sigil}}N-Pill bedeutet, dass das Element einen {{changeRequest}} hat; eine Spur ohne {{changeRequest}} zeigt keinen {{sigil}}N-Pill.",
         "note_3": "Eine Strichpunktstrecke bedeutet, das Element hat eine Phase übersprungen; ein Bogen unter der Spur ist eine erneut betretene Phase.",
         "note_4": "Ein Stummel an der Spur ist ein Ausgang -- übersprungen, abgegeben, zurückgegeben, verdrängt oder auf Antwort wartend.",
         "note_5": "Eine Verweildauer über einer Stunde wird markiert; die offene Verweildauer zählt ab dem letzten Eintritt in die aktuelle Phase.",
@@ -1095,7 +1095,6 @@
             "connect_another_repo": "Weiteres Repo verbinden",
             "detail_refresh": "Detail-Aktualisierung",
             "detail_refresh_hint": "Wie oft ein offenes Issue oder ein Pull Request neu gelesen wird. Geschlossene Elemente drosseln immer.",
-            "identity_and_the_repositories_issue_radar_watche": "Identität und die Repositories, die Issue Radar überwacht.",
             "in_your_terminal": "in Ihrem Terminal.",
             "list_refresh": "Listen-Aktualisierung",
             "list_refresh_hint": "Wie oft die Issue- und Pull-Request-Listen neu gelesen werden.",
@@ -1108,7 +1107,7 @@
             "refresh_section": "Aktualisierung",
             "repositories": "Repositories",
             "settings": "Einstellungen",
-            "your": "Ihr"
+            "your_provider_identity_and_watched_repos": "Deine {{provider}}-Identität und die Repositories, die Issue Radar überwacht."
           },
           "gitlabGroups": {
             "empty": "Du folgst noch keiner GitLab-Gruppe.",
@@ -1156,7 +1155,6 @@
             "leave_empty_to_use_the_default_working_directory": "Leer lassen, um das Standard-Arbeitsverzeichnis zu verwenden.",
             "loading_members": "Mitglieder werden geladen…",
             "loading_this_repo_s_saved_settings": "Gespeicherte Einstellungen dieses Repos werden geladen…",
-            "local_triage_settings_for_this_repo_they_teach_i": "Lokale Triage-Einstellungen für dieses Repo — sie bringen Issue Radar bei, wie",
             "local_workspace_path": "Lokaler Arbeitsbereichspfad",
             "member_chip_title": "{{login}} — {{role}} · auf {{provider}} öffnen",
             "members": "Mitglieder",
@@ -1171,7 +1169,6 @@
             "notify_me_when_ci_fails_on_my_pull_request": "Benachrichtige mich, wenn CI bei einem meiner Pull Requests in {{repo}} fehlschlägt",
             "open_on": "Öffnen auf",
             "open_tagging": "Tagging öffnen",
-            "organises_its_issues_and_are_never_written_back": "seine Issues organisiert und werden niemals zurückgeschrieben nach",
             "proposing_new_labels_for_this_repo_now_lives_on": "Das Vorschlagen NEUER Labels für dieses Repo befindet sich jetzt im Tagging-Dashboard, direkt neben den nicht getaggten Issues, auf die diese Labels angewendet werden.",
             "re_fetch_issues_and_labels_from": "Issues und Labels dieses Repos erneut von {{provider}} abrufen",
             "recommending_a_taxonomy_and_applying_it_to_issue": "Eine Taxonomie zu empfehlen und sie auf Issues anzuwenden sind zwei Hälften einer Aufgabe, daher teilen sie sich eine\n          Seite. Diese Einstellungsseite behält die lokalen Definitionen oben — welche der",
@@ -1199,7 +1196,8 @@
             "which_labels_mean_an_issue_still_needs_triage_dr": "Welche Labels bedeuten, dass ein Issue noch triagiert werden muss. Steuert die Zählung „Nicht triagiert“ in der Übersicht und die Warteschlange der Issues, die Aufmerksamkeit brauchen.",
             "without_push_access_to": "Ohne Push-Zugriff auf",
             "workspace": "Arbeitsbereich",
-            "your_edits_are_kept_here_but_won_t_persist_if_yo": "Ihre Änderungen bleiben hier erhalten, werden aber nicht dauerhaft gespeichert. Wenn Sie Issue Radar gerade aktualisiert haben, starten Sie das Backend neu, damit die Einstellungs-API verfügbar ist."
+            "your_edits_are_kept_here_but_won_t_persist_if_yo": "Ihre Änderungen bleiben hier erhalten, werden aber nicht dauerhaft gespeichert. Wenn Sie Issue Radar gerade aktualisiert haben, starten Sie das Backend neu, damit die Einstellungs-API verfügbar ist.",
+            "local_triage_settings_intro": "Lokale Triage-Einstellungen für dieses Repo — sie bringen Issue Radar bei, wie {{repo}} seine Issues organisiert, und werden nie nach {{provider}} zurückgeschrieben."
           }
         },
         "tagging": {
@@ -1250,13 +1248,9 @@
           "applying_is_disabled_until_they_load_because_a_s": "Das Anwenden ist deaktiviert, bis sie geladen sind, denn ein Vorschlag, der ein\n            Label nennt, das das Repo nicht mehr hat, würde für den gesamten Stapel abgelehnt.",
           "applying_needs_write_access": "Anwenden erfordert Schreibzugriff",
           "available_to_assign": "zum Zuweisen verfügbar",
-          "carries_at_least_one_label_nothing_to_tag": "trägt mindestens ein Label. Nichts zu taggen.",
           "clear_selection": "Auswahl aufheben",
-          "couldn_t_load": "Konnte nicht geladen werden",
           "couldn_t_reload_the_queue": "Die Warteschlange konnte nicht neu geladen werden:",
           "created_but_settings_not_updated": "„{{name}}“ wurde auf GitHub erstellt, aber die lokalen Triage-Einstellungen dieses Repos konnten nicht aktualisiert werden: {{error}}",
-          "defines_no_labels_yet_so_there_is_nothing_to_ass": "definiert noch keine Labels, daher gibt es nichts zuzuweisen. Schlagen Sie oben einige vor,\n            erstellen Sie die gewünschten und kommen Sie dann zurück, um hier Labels vorzuschlagen.",
-          "every_open_issue_in": "Jedes offene Issue in",
           "labelled_issue_one": "{{count}} Issue mit Label versehen.",
           "labelled_issue_other": "{{count}} Issues mit Label versehen.",
           "labelled_issue_with_failures_one": "{{count}} Issue mit Label versehen; {{failed}} nicht aktualisiert (siehe Zeilen unten).",
@@ -1268,14 +1262,16 @@
           "reanalyse_issues_other": "Analysiere {{count}} Issues mit vorhandenem Vorschlag erneut",
           "reload_the_untagged_queue": "Warteschlange ohne Tags neu laden",
           "repo_labels": "Repo-Labels",
-          "s_labels": "s Labels:",
           "select_all": "Alle auswählen",
           "suggest_again": "Erneut vorschlagen ({{n}})",
           "suggest_labels_next": "Labels vorschlagen (nächste {{n}})",
           "untagged": "Ohne Tag",
           "untagged_issues": "Issues ohne Label",
           "what_you_see_below_is_the_previous_result_not_th": "was Sie unten sehen, ist das vorherige Ergebnis, nicht der aktuelle Zustand.",
-          "write_every_staged_label_to": "Alle vorgemerkten Labels nach {{provider}} schreiben"
+          "write_every_staged_label_to": "Alle vorgemerkten Labels nach {{provider}} schreiben",
+          "couldn_t_load_repo_labels": "Labels von {{repo}} konnten nicht geladen werden",
+          "every_open_issue_in_repo_is_labeled": "Jedes offene Issue in {{repo}} trägt mindestens ein Label. Nichts zu taggen.",
+          "repo_defines_no_labels_yet": "{{repo}} definiert noch keine Labels, daher gibt es nichts zuzuweisen. Schlag oben ein paar vor, leg die gewünschten an und komm dann zurück, um hier Labels vorzuschlagen."
         }
       },
       "welcomeCarousel": {
@@ -1302,12 +1298,12 @@
         "clear_filters": "Filter zurücksetzen",
         "resize_list": "Größe der Liste ändern",
         "resize_sidebar": "Größe der Seitenleiste ändern",
-        "select_a": "Wählen Sie ein",
         "select_a_work_item_to_see_its_details": "Wähle ein Arbeitselement, um seine Details zu sehen.",
         "select_an_issue_to_see_its_details": "Wählen Sie ein Issue, um seine Details zu sehen.",
         "selected_change_hidden_by_filters": "Das ausgewählte {{subject}} wird durch die aktiven Filter ausgeblendet.",
         "selected_issue_hidden_by_filters": "Das ausgewählte Issue wird durch die aktiven Filter ausgeblendet.",
-        "to_see_its_details": "um seine Details zu sehen."
+        "select_crew_to_see_details": "Wähle eine Crew aus, um die Details zu sehen.",
+        "select_subject_to_see_details": "Wähle einen {{subject}} aus, um die Details zu sehen."
       }
     }
   },

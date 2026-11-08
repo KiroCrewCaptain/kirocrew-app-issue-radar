@@ -198,11 +198,13 @@ Once the work is finished, **Investigate** says **Already finished — transcrip
 under Older Sessions.** instead.
 
 **Does Issue Radar run crews on its own?**
-You can set up **Crews**, agents that work through issues for you. In this
-version a crew does not run on its own (**Run unattended**): unattended work
-needs a permission Kiro Crew does not yet give apps, so such a crew waits rather
-than acting without you. Investigations and reviews you start yourself work as
-described above.
+Yes. A crew set to **Run unattended** works through issues while nobody is
+watching, and its tool calls run without a prompt. Issue Radar asks to approve
+tool calls in its own background sessions (never your chats) when you trust it;
+if an update adds that request, its page shows it until you approve it there, and
+until then such a crew waits rather than acting without you. Your approval-mode policy still
+applies, every grant is recorded in the security log, and turning Issue Radar off
+ends every grant.
 
 **Merge was refused.**
 The service enforces your repository's rules. The page shows the reason (for

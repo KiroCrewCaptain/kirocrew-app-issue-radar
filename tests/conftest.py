@@ -147,22 +147,3 @@ def bound_ctx(_isolated_home: Path):
     _host.bind(ctx)
     yield ctx
     _host.unbind()
-
-
-@pytest.fixture
-def host_grants(monkeypatch: pytest.MonkeyPatch):
-    """Run the crew grant code path against the HOST's real ``SafetyOverride``.
-
-    The shipped app never mints an auto-approve grant: ``backend._host.safety_override``
-    is a stand-in whose grants are never active (``tests/test_auto_approve_disabled.py``
-    pins that). The crew code that would mint, renew and revoke a grant is kept,
-    and these suites -- the built-in's own -- exercise it the way the built-in's
-    suite did, by binding the crew modules to the host's grant registry for the
-    test alone. Nothing in ``backend/`` can reach this binding.
-    """
-    from kiro_crew.safety_override import safety_override as host_safety_override
-
-    from backend import crew_runtime
-
-    monkeypatch.setattr(crew_runtime, "safety_override", host_safety_override)
-    yield host_safety_override

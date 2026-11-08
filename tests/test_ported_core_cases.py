@@ -51,6 +51,27 @@ class TestOneHome:
             runner.parse_github_repo_url("https://evil.example/o/r")
 
 
+# ── src/kiro_crew/apps/builtins/issue_radar/tests/test_core_parity.py ──────────
+#
+# While Kiro Crew still ships this app's three MCP tools (PORTING.md, gap 2), its
+# ``kirocrew-core`` server gates them on the ``installed.json`` of the app id it
+# spells as a literal; that literal must be the id this app's routes read.
+
+_CORE_HELD_TOOLS = frozenset(
+    {"issue_radar_crew_read", "issue_radar_crew_record", "issue_radar_record_investigation"}
+)
+
+
+def test_the_core_gates_this_apps_tools_on_its_own_app_id():
+    from kiro_crew.mcp_tools import apps as apps_tools
+
+    from backend import store
+
+    assert {tool: apps_tools.TOOL_APPS.get(tool) for tool in _CORE_HELD_TOOLS} == {
+        tool: store.APP_NAME for tool in _CORE_HELD_TOOLS
+    }
+
+
 # ── test/test_link_screen_hold_pin.py ─────────────────────────────────────────
 
 

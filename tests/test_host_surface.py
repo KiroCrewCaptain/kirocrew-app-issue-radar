@@ -108,7 +108,6 @@ class TestHostNamesFailClosed(unittest.TestCase):
         with mock.patch.object(_host, "_host_module", return_value=None):
             issues = _host.capability_issues()
         self.assertTrue(any(i.startswith("github_runner:") for i in issues))
-        self.assertFalse(any(i.startswith("safety_override:") for i in issues))
 
     def test_an_absent_exception_type_never_matches(self) -> None:
         try:
@@ -145,6 +144,57 @@ class TestTheCrewLedgerVocabulary(unittest.TestCase):
                     fallback = _host._const(module, name, getattr(_host, name))
                 self.assertEqual(getattr(entry_types, name), getattr(_host, name))
                 self.assertEqual(fallback, getattr(entry_types, name))
+
+
+class TestTheSmallHostReads(unittest.TestCase):
+    """The reads ported with the wheel's fixes since the snapshot, and their fallbacks."""
+
+    def test_the_text_cap_and_the_notice_token_are_the_hosts(self) -> None:
+        import inspect
+
+        from kiro_crew.crew_log import projection_radar
+        from kiro_crew.dashboard import gateway_notice
+
+        self.assertEqual(_host.RADAR_TEXT_LIMIT, projection_radar.RADAR_TEXT_LIMIT)
+        self.assertEqual(
+            _host.GATEWAY_NOTICE_CREW_TURN_NO_PERMIT,
+            gateway_notice.GATEWAY_NOTICE_CREW_TURN_NO_PERMIT,
+        )
+        # The literal fallbacks a host without them gets are the host's values too.
+        source = inspect.getsource(_host)
+        self.assertIn('"RADAR_TEXT_LIMIT", 5000)', source)
+        self.assertEqual(projection_radar.RADAR_TEXT_LIMIT, 5000)
+        self.assertIn('"crew_turn_no_permit",', source)
+
+    def test_the_notice_meta_is_the_hosts_and_absent_without_it(self) -> None:
+        from kiro_crew.dashboard import gateway_notice
+
+        token = _host.GATEWAY_NOTICE_CREW_TURN_NO_PERMIT
+        self.assertEqual(
+            _host.gateway_notice_meta(token), gateway_notice.gateway_notice_meta(token)
+        )
+        with mock.patch.object(_host, "_host_attr", return_value=None):
+            self.assertEqual(_host.gateway_notice_meta(token), {})
+
+    def test_revoking_a_slots_trust_without_the_host_still_clears_the_flag(self) -> None:
+        from types import SimpleNamespace
+
+        slot = SimpleNamespace(key="crew-c_1", _trust=True)
+        with mock.patch.object(_host, "_host_attr", return_value=None):
+            _host.revoke_slot_trust(SimpleNamespace(), slot)
+        self.assertFalse(slot._trust)
+
+    def test_revoking_a_slots_trust_goes_through_the_host(self) -> None:
+        from types import SimpleNamespace
+
+        calls = []
+        slot = SimpleNamespace(key="crew-c_1", _trust=True)
+        state = SimpleNamespace()
+        with mock.patch.object(
+            _host, "_host_attr", return_value=lambda st, sl: calls.append((st, sl))
+        ):
+            _host.revoke_slot_trust(state, slot)
+        self.assertEqual(calls, [(state, slot)])
 
 
 class TestTheDataDirectory(unittest.TestCase):

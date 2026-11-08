@@ -15,4 +15,4 @@ pytest==9.0.3
 pytest-asyncio==0.21.2
 pytest-timeout==2.2.0
 pytest-xdist==3.5.0
-kirocrew @ https://github.com/kirodotdev/KiroCrew/archive/55439d87700799a8789a341da65e2e1c355e26fc.tar.gz
+kirocrew @ https://github.com/kirodotdev/KiroCrew/archive/6d07df11cfb64f4c3fda0466165c7a0ba3efe748.tar.gz

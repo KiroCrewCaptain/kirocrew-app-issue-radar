@@ -15,7 +15,7 @@ const gl = (owner: string, repo: string, host = 'gitlab.com'): RepoRef =>
 // negative cases matter as much as the positive ones.
 describe('parseRepoRef', () => {
   const OWNER = 'kirodotdev'
-  const REPO = 'KiroCrew'
+  const REPO = 'KiroCrew'  // brand-ok: the repository name
 
   it('resolves an issue URL in the same repo', () => {
     expect(parseRepoRef(`https://github.com/${OWNER}/${REPO}/issues/533`, gh(OWNER, REPO)))
@@ -114,7 +114,7 @@ describe('refUrl / refKey', () => {
 
 describe('linkifyIssueRefs', () => {
   const O = 'kirodotdev'
-  const R = 'KiroCrew'
+  const R = 'KiroCrew'  // brand-ok: the repository name
   const link = (n: number) => `[#${n}](https://github.com/${O}/${R}/issues/${n})`
 
   it('rewrites a bare shorthand reference', () => {
@@ -223,7 +223,7 @@ describe('linkifyIssueRefs', () => {
   it('does not touch an HTML entity or a cross-repo shorthand', () => {
     expect(linkifyIssueRefs('&#123; literal', gh(O, R))).toBe('&#123; literal')
     expect(linkifyIssueRefs('other/repo#5 elsewhere', gh(O, R))).toBe('other/repo#5 elsewhere')
-    expect(linkifyIssueRefs('KiroCrew#5 elsewhere', gh(O, R))).toBe('KiroCrew#5 elsewhere')
+    expect(linkifyIssueRefs('KiroCrew#5 elsewhere', gh(O, R))).toBe('KiroCrew#5 elsewhere')  // brand-ok: the repository name
   })
 
   it('treats an all-digit run as a reference even when it could be a hex colour', () => {

@@ -78,6 +78,12 @@ PINNED = {
     ),
     "chat_runner": ("kiro_crew.dashboard.chat_runner", ("_run_chat",)),
     "chat_utils": ("kiro_crew.dashboard.chat_utils", ("slot_history_key",)),
+    "chat_utils_slots": ("kiro_crew.dashboard.chat_utils_slots", ("revoke_slot_trust",)),
+    "gateway_notice": (
+        "kiro_crew.dashboard.gateway_notice",
+        ("GATEWAY_NOTICE_CREW_TURN_NO_PERMIT", "gateway_notice_meta"),
+    ),
+    "crew_log.projection_radar": ("kiro_crew.crew_log.projection_radar", ("RADAR_TEXT_LIMIT",)),
     "notifications_push": ("kiro_crew.dashboard.handlers.notifications_push", ("*",)),
     "notifications_bus": (
         "kiro_crew.notifications.bus",
@@ -98,7 +104,6 @@ PINNED = {
     ),
     "loop_lock": ("kiro_crew.loop_lock", ("LoopBoundLock",)),
     "memory": ("kiro_crew.memory", ("workspace_dir",)),
-    "safety_override": ("kiro_crew.safety_override", ("safety_override",)),
     "security": ("kiro_crew.security", ("redact_local_paths",)),
     "sel": ("kiro_crew.sel", ("sel",)),
     "shared_crew": ("kiro_crew.shared_crew.admission_gate", ("actor_budget",)),

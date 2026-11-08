@@ -8,7 +8,8 @@ prefix, so a test request uses the URL a dashboard request uses and
 ``ctx.http_app`` is that application, as the gateway's is.
 
 :func:`make_ctx` builds the context at App Kit level 1 with the host's real
-``ScrubSDK`` and ``AuditSDK`` and an owner gate that is the host's own
+``ScrubSDK``, ``AuditSDK`` and worker auto-approve seam (``auto_approve``) and an
+owner gate that is the host's own
 (Kiro Crew is a pinned test dependency). Its ``data_dir`` follows the data home
 the way the built-in's ``app_data_dir`` did: resolved when read, so a test that
 moves ``KIROCREW_HOME`` moves the app's data with it.
@@ -55,6 +56,10 @@ class FakeCtx:
         self.http_app = seams.pop("http_app", None)
         self.health = seams.pop("health", FakeHealth())
         self.logger = seams.pop("logger", None)
+        # The manifest declares ``permissions.workerAutoApprove``, so the gateway's
+        # context carries the host's seam; a test modelling an older gateway, or an
+        # owner who has not approved the permission, passes ``auto_approve=None``.
+        self.auto_approve = seams.pop("auto_approve", _host_worker_grants())
         owner_gate = seams.pop("require_owner", _host_owner_gate)
         if owner_gate is not None:
             self.require_owner = owner_gate
@@ -72,6 +77,13 @@ class FakeCtx:
     @data_dir.setter
     def data_dir(self, value: Path) -> None:
         self._data_dir = value
+
+
+def _host_worker_grants() -> Any:
+    """``ctx.auto_approve``: the host's ``WorkerAutoApprove`` for this app."""
+    from kiro_crew.apps.worker_auto_approve import WorkerAutoApprove
+
+    return WorkerAutoApprove(APP_NAME)
 
 
 async def _host_owner_gate(request: Any, operation: str) -> Any | None:

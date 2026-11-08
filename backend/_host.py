@@ -26,15 +26,18 @@ kinds of host surface:
    ``tests/test_no_host_imports.py`` pins it; ``PORTING.md`` lists each entry as a
    gap with the generic seam that would replace it.
 
-3. **One capability that stays OFF.** The built-in minted a ``SafetyOverride``
-   auto-approve grant for an unattended crew's session. This copy never mints
-   one: :data:`safety_override` is a stand-in whose grants are never active, so
-   an unattended crew is given no turn at all (the wake's dispatch gate in
-   ``crew_runtime_supervision`` refuses it), while an attended crew's tool calls
-   go through the ordinary interactive approval prompt. Revoking
-   a grant (``deactivate_scope``) still reaches the host, because revoking can
-   only remove access. Restoring the grant needs a maintainer security ruling on
-   a generic, bounded auto-approve seam (``PORTING.md``, first section).
+3. **The crews' auto-approve grant, through ``ctx.auto_approve``.** An
+   unattended crew's chat session runs with nobody watching, so its tool calls are
+   approved by a bounded, audited grant held on the crew's own slot. The manifest
+   declares ``permissions.workerAutoApprove``, and the gateway hands the hooks the
+   App Kit's worker auto-approve seam as ``ctx.auto_approve``; :func:`worker_grants`
+   is the crew modules' handle on it. Every grant goes through that seam (its own
+   slots and scope keys only, the owner's approval, the approval-mode ceiling, a
+   fail-closed SEL audit, the 24 h cap, ended with the app). Without the seam (an
+   older gateway, or the owner has not approved the permission) nothing is granted:
+   an unattended crew takes no turn and an attended crew's tool calls go through
+   the ordinary approval prompt. This module never names the host's
+   ``SafetyOverride``.
 
 Nothing else in ``backend/`` names ``kiro_crew`` in an import, and this module has
 no ``import kiro_crew`` statement: every host name goes through :func:`_host_attr`,
@@ -385,6 +388,12 @@ HOST_SURFACE: dict[str, tuple[str, tuple[str, ...]]] = {
     ),
     "chat_runner": ("kiro_crew.dashboard.chat_runner", ("_run_chat",)),
     "chat_utils": ("kiro_crew.dashboard.chat_utils", ("slot_history_key",)),
+    "chat_utils_slots": ("kiro_crew.dashboard.chat_utils_slots", ("revoke_slot_trust",)),
+    "gateway_notice": (
+        "kiro_crew.dashboard.gateway_notice",
+        ("GATEWAY_NOTICE_CREW_TURN_NO_PERMIT", "gateway_notice_meta"),
+    ),
+    "crew_log.projection_radar": ("kiro_crew.crew_log.projection_radar", ("RADAR_TEXT_LIMIT",)),
     "notifications_push": ("kiro_crew.dashboard.handlers.notifications_push", ("*",)),
     "notifications_bus": (
         "kiro_crew.notifications.bus",
@@ -405,7 +414,6 @@ HOST_SURFACE: dict[str, tuple[str, tuple[str, ...]]] = {
     ),
     "loop_lock": ("kiro_crew.loop_lock", ("LoopBoundLock",)),
     "memory": ("kiro_crew.memory", ("workspace_dir",)),
-    "safety_override": ("kiro_crew.safety_override", ("safety_override",)),
     "security": ("kiro_crew.security", ("redact_local_paths",)),
     "sel": ("kiro_crew.sel", ("sel",)),
     "shared_crew": (
@@ -419,8 +427,8 @@ HOST_SURFACE: dict[str, tuple[str, tuple[str, ...]]] = {
 }
 
 #: The surfaces an operation cannot run without, named in ``ctx.health`` when the
-#: gateway lacks one. (``safety_override`` is not here: it is never used to mint.)
-_REQUIRED_FOR_HEALTH = tuple(s for s in HOST_SURFACE if s != "safety_override")
+#: gateway lacks one.
+_REQUIRED_FOR_HEALTH = tuple(HOST_SURFACE)
 
 
 def capability_issues() -> list[str]:
@@ -754,69 +762,145 @@ RADAR_NUMBER_BOUNDS = _const(
 )
 
 
-# ── the auto-approve grant: kept OFF in this copy ───────────────────────────
+# ── the auto-approve grant: the App Kit's worker auto-approve seam ──────────
+
+#: A grant name, as the seam accepts it (``ctx.auto_approve``).
+_GRANT_NAME_RE = re.compile(r"[A-Za-z0-9][A-Za-z0-9_.-]{0,127}")
 
 
-@dataclass(frozen=True)
-class _NoGrant:
-    """What a refused grant call answers: never active, never renewed."""
+class _WorkerGrants:
+    """The crews' handle on ``ctx.auto_approve``, the App Kit worker auto-approve seam.
 
-    active: bool = False
-    renewed: bool = False
+    The same four members as the seam's ``WorkerAutoApprove`` (``source``,
+    ``scope``, ``hold``, ``release``, ``release_slot``), each forwarded to the seam
+    on the context :func:`bind` installed, read on every call so a re-enable's new
+    context is the one used. The seam decides every grant: it re-reads the
+    declaration, the owner's approval and ``enabled``, attaches only to this app's
+    own slots under this app's own scope keys, and audits fail-closed.
 
-
-class _DisabledSafetyOverride:
-    """The ``SafetyOverride`` surface the crew code calls, with minting disabled.
-
-    The built-in minted a scoped auto-approve grant (``activate_scoped``) for an
-    unattended crew's session and slid it forward every watchdog cycle
-    (``renew_scoped``). An external app has no reviewed seam for that, and this
-    port does not create one: ``activate_scoped`` and ``renew_scoped`` answer "not
-    granted" without touching the host, and ``is_scope_active`` and
-    ``scope_remaining_secs`` report no grant, so the crew code's existing
-    fail-closed branch runs (``sync_trust`` returns ``False``, the slot carries no
-    ``_trust_scope``, every tool call goes through the ordinary approval path).
-
-    ``deactivate_scope`` still reaches the gateway's ``SafetyOverride`` when it
-    has one, because a revocation only removes access: a grant this scope holds
-    from an earlier run of the built-in in the same process is taken away, never
-    extended.
+    Without the seam (no context yet, a gateway older than the seam, or a context
+    built without ``permissions.workerAutoApprove`` because the owner has not
+    approved it) nothing is granted: ``hold`` answers ``False`` and takes this
+    app's scope off the slot. ``release`` and ``release_slot`` still take a grant
+    off the slot, because a revocation can only remove access. A seam that raises
+    on a grant fails closed the same way; a malformed name or TTL is the caller's
+    bug and raises ``ValueError``, as the seam does.
     """
 
-    def activate_scoped(self, scope: str, **_kwargs: Any) -> _NoGrant:
-        logger.info(
-            "issue-radar: auto-approve grant for %s not minted (disabled in the external app)",
-            scope,
-        )
-        return _NoGrant()
+    @property
+    def source(self) -> str:
+        """The ``source`` every grant of this app is audited under."""
+        return f"app:{APP_NAME}"
 
-    def renew_scoped(self, scope: str, **_kwargs: Any) -> _NoGrant:
-        return _NoGrant()
+    @staticmethod
+    def _seam() -> Any | None:
+        seam = getattr(bound(), "auto_approve", None)
+        return seam if callable(getattr(seam, "hold", None)) else None
 
-    def is_scope_active(self, scope: str) -> bool:
+    def scope(self, name: str) -> str:
+        """The scope key of grant *name*: the seam's, inside this app's namespace."""
+        seam = self._seam()
+        if seam is not None:
+            return str(seam.scope(name))
+        if not isinstance(name, str) or not _GRANT_NAME_RE.fullmatch(name):
+            raise ValueError(f"a grant name is 1-128 letters, digits, '_', '.' or '-', not {name!r}")
+        return f"app:{APP_NAME}:grant:{name}:autoapprove"
+
+    @staticmethod
+    def _clear(slot: Any, scope: str) -> bool:
+        if slot is not None and str(getattr(slot, "_trust_scope", "") or "") == scope:
+            slot._trust_scope = ""
+            return True
         return False
 
-    def scope_remaining_secs(self, scope: str) -> float:
-        return 0.0
-
-    def deactivate_scope(self, scope: str) -> Any:
-        factory = _host_attr("kiro_crew.safety_override", "safety_override")
-        if not callable(factory):
-            return None
+    def hold(self, slot: Any, name: str, *, ttl_secs: float) -> bool:
+        """Mint or slide grant *name* on *slot* through the seam. ``False``: no grant."""
+        seam = self._seam()
+        if seam is None:
+            self._clear(slot, self.scope(name))
+            logger.info(
+                "issue-radar: auto-approve grant %s not held: the gateway offers no "
+                "ctx.auto_approve (permissions.workerAutoApprove not approved, or an "
+                "older Kiro Crew)",
+                name,
+            )
+            return False
         try:
-            return factory().deactivate_scope(scope)
-        except Exception:  # noqa: BLE001 - a revocation must not break the caller
-            logger.warning("issue-radar: could not revoke grant %s", scope, exc_info=True)
-            return None
+            return bool(seam.hold(slot, name, ttl_secs=ttl_secs))
+        except ValueError:
+            raise
+        except Exception:  # noqa: BLE001 - a broken seam grants nothing
+            logger.warning("issue-radar: the auto-approve seam failed on %s", name, exc_info=True)
+            self._clear(slot, self.scope(name))
+            return False
+
+    def release(self, name: str, slot: Any = None) -> bool:
+        """End grant *name* and clear it from *slot*. Whether anything was live or cleared."""
+        seam = self._seam()
+        if seam is not None:
+            try:
+                return bool(seam.release(name, slot))
+            except ValueError:
+                raise
+            except Exception:  # noqa: BLE001 - a revocation must not break the caller
+                logger.warning("issue-radar: could not release grant %s", name, exc_info=True)
+        return self._clear(slot, self.scope(name))
+
+    def release_slot(self, slot: Any) -> bool:
+        """Clear whatever grant this app's own crew *slot* carries. Whether any was."""
+        seam = self._seam()
+        if seam is not None:
+            try:
+                return bool(seam.release_slot(slot))
+            except Exception:  # noqa: BLE001 - a revocation must not break the caller
+                logger.warning("issue-radar: could not release a slot's grant", exc_info=True)
+        if str(getattr(slot, "_app", "") or "") != APP_NAME:
+            return False
+        if not str(getattr(slot, "_trust_scope", "") or ""):
+            return False
+        slot._trust_scope = ""
+        return True
 
 
-_DISABLED_SAFETY_OVERRIDE = _DisabledSafetyOverride()
-
-#: Whether this copy may mint an auto-approve grant. ``False``, and nothing sets
-#: it: turning it on needs a maintainer security ruling (``PORTING.md``).
-AUTO_APPROVE_GRANTS_ENABLED = False
+_WORKER_GRANTS = _WorkerGrants()
 
 
-def safety_override() -> _DisabledSafetyOverride:
-    """The disabled stand-in for the host's ``safety_override()`` (see above)."""
-    return _DISABLED_SAFETY_OVERRIDE
+def worker_grants() -> _WorkerGrants:
+    """The crew modules' handle on the worker auto-approve seam (see above)."""
+    return _WORKER_GRANTS
+
+
+# ── small host reads with a fallback ────────────────────────────────────────
+
+#: The crew log's cap on one ``radar/recorded`` text field.
+RADAR_TEXT_LIMIT = _const("kiro_crew.crew_log.projection_radar", "RADAR_TEXT_LIMIT", 5000)
+GATEWAY_NOTICE_CREW_TURN_NO_PERMIT = _const(
+    "kiro_crew.dashboard.gateway_notice",
+    "GATEWAY_NOTICE_CREW_TURN_NO_PERMIT",
+    "crew_turn_no_permit",
+)
+
+
+def gateway_notice_meta(token: str, **args: Any) -> dict[str, object]:
+    """The host's ``gateway_notice_meta``: the localization token a status row carries.
+
+    Without it the row keeps its English text and carries no token.
+    """
+    fn = _host_attr("kiro_crew.dashboard.gateway_notice", "gateway_notice_meta")
+    if not callable(fn):
+        return {}
+    return fn(token, **args)
+
+
+def revoke_slot_trust(state: Any, slot: Any) -> None:
+    """Clear a slot's interactive trust the way the host does, or at least the flag.
+
+    The host's ``chat_utils_slots.revoke_slot_trust`` also clears the sibling slots
+    sharing the session and the cached ``approval_policy`` turn admission. A
+    gateway without it gets the flag cleared, which only removes access.
+    """
+    fn = _host_attr("kiro_crew.dashboard.chat_utils_slots", "revoke_slot_trust")
+    if callable(fn):
+        fn(state, slot)
+        return
+    slot._trust = False

@@ -148,7 +148,7 @@
         "load_failed": "Impossibile caricare la pipeline",
         "load_failed_unknown": "La lettura non è riuscita senza indicare un motivo.",
         "note_1": "Una corsia va da sinistra a destra lungo le colonne delle fasi; la testa segna la fase attiva dell'elemento.",
-        "note_2": "Un badge #N indica che l'elemento ha un PR; una corsia senza PR non mostra alcun badge #N.",
+        "note_2": "Un badge {{sigil}}N indica che l'elemento ha un {{changeRequest}}; una corsia senza {{changeRequest}} non mostra alcun badge {{sigil}}N.",
         "note_3": "Un tratto punto-linea indica che l'elemento ha saltato una fase; un arco sotto la corsia è una fase rientrata.",
         "note_4": "Un moncone fuori dalla corsia è un'uscita -- saltata, ceduta, restituita, prelazionata o in attesa di risposta.",
         "note_5": "Una permanenza oltre un'ora viene segnalata; la permanenza aperta conta dall'ultimo ingresso nella fase corrente.",
@@ -1127,7 +1127,6 @@
             "connect_another_repo": "Collega un altro repo",
             "detail_refresh": "Aggiornamento dettagli",
             "detail_refresh_hint": "Con quale frequenza viene riletta una issue o pull request aperta. Gli elementi chiusi rallentano sempre.",
-            "identity_and_the_repositories_issue_radar_watche": "identità e i repository monitorati da Issue Radar.",
             "in_your_terminal": "nel tuo terminale.",
             "list_refresh": "Aggiornamento elenchi",
             "list_refresh_hint": "Con quale frequenza vengono riletti gli elenchi di issue e pull request.",
@@ -1140,7 +1139,7 @@
             "refresh_section": "Aggiornamento",
             "repositories": "Repository",
             "settings": "Impostazioni",
-            "your": "Il tuo"
+            "your_provider_identity_and_watched_repos": "La tua identità {{provider}} e i repository monitorati da Issue Radar."
           },
           "gitlabGroups": {
             "empty": "Non segui ancora nessun gruppo GitLab.",
@@ -1189,7 +1188,6 @@
             "leave_empty_to_use_the_default_working_directory": "Lascia vuoto per usare la directory di lavoro predefinita.",
             "loading_members": "Caricamento dei membri…",
             "loading_this_repo_s_saved_settings": "Caricamento delle impostazioni salvate di questo repo…",
-            "local_triage_settings_for_this_repo_they_teach_i": "Impostazioni di triage locali per questo repo — insegnano a Issue Radar come",
             "local_workspace_path": "Percorso locale dell'area di lavoro",
             "member_chip_title": "{{login}} — {{role}} · apri su {{provider}}",
             "members": "Membri",
@@ -1204,7 +1202,6 @@
             "notify_me_when_ci_fails_on_my_pull_request": "Avvisami quando la CI fallisce su una delle mie pull request in {{repo}}",
             "open_on": "Apri su",
             "open_tagging": "Apri l'assegnazione dei tag",
-            "organises_its_issues_and_are_never_written_back": "organizza le sue issue e non vengono mai riscritte su",
             "proposing_new_labels_for_this_repo_now_lives_on": "La proposta di NUOVE etichette per questo repo si trova ora nella dashboard di assegnazione dei tag, accanto alle issue senza tag a cui quelle etichette vengono applicate.",
             "re_fetch_issues_and_labels_from": "Recupera di nuovo le issue e le etichette di questo repo da {{provider}}",
             "recommending_a_taxonomy_and_applying_it_to_issue": "Consigliare una tassonomia e applicarla alle issue sono due metà dello stesso lavoro, quindi condividono una\n          pagina. Questa pagina delle impostazioni conserva le definizioni locali sopra — quali delle",
@@ -1232,7 +1229,8 @@
             "which_labels_mean_an_issue_still_needs_triage_dr": "Quali etichette indicano che una issue necessita ancora di triage. Determina il conteggio \"Senza triage\" della Panoramica e la coda degli elementi che richiedono attenzione.",
             "without_push_access_to": "Senza accesso push a",
             "workspace": "Area di lavoro",
-            "your_edits_are_kept_here_but_won_t_persist_if_yo": "Le tue modifiche vengono mantenute qui ma non verranno salvate in modo permanente. Se hai appena aggiornato Issue Radar, riavvia il backend così l'API delle impostazioni diventa disponibile."
+            "your_edits_are_kept_here_but_won_t_persist_if_yo": "Le tue modifiche vengono mantenute qui ma non verranno salvate in modo permanente. Se hai appena aggiornato Issue Radar, riavvia il backend così l'API delle impostazioni diventa disponibile.",
+            "local_triage_settings_intro": "Impostazioni di triage locali per questo repo — insegnano a Issue Radar come {{repo}} organizza le sue issue e non vengono mai riscritte su {{provider}}."
           }
         },
         "tagging": {
@@ -1288,13 +1286,9 @@
           "applying_is_disabled_until_they_load_because_a_s": "l'applicazione è disattivata finché non vengono caricate, perché un suggerimento che nomina\n            un'etichetta non più presente nel repo comporterebbe il rifiuto dell'intero lotto.",
           "applying_needs_write_access": "l'applicazione richiede l'accesso in scrittura",
           "available_to_assign": "disponibili da assegnare",
-          "carries_at_least_one_label_nothing_to_tag": "ha almeno un'etichetta. Nulla da etichettare.",
           "clear_selection": "Cancella la selezione",
-          "couldn_t_load": "Impossibile caricare",
           "couldn_t_reload_the_queue": "Impossibile ricaricare la coda:",
           "created_but_settings_not_updated": "\"{{name}}\" è stata creata su GitHub, ma non è stato possibile aggiornare le impostazioni locali di triage di questo repo: {{error}}",
-          "defines_no_labels_yet_so_there_is_nothing_to_ass": "non definisce ancora alcuna etichetta, quindi non c'è nulla da assegnare. Proponine alcune sopra,\n            crea quelle che vuoi, poi torna qui a suggerire le etichette.",
-          "every_open_issue_in": "Ogni issue aperta in",
           "labelled_issue_many": "{{count}} issue etichettate.",
           "labelled_issue_one": "{{count}} issue etichettata.",
           "labelled_issue_other": "{{count}} issue etichettate.",
@@ -1309,14 +1303,16 @@
           "reanalyse_issues_other": "Rianalizza {{count}} issue che hanno già una proposta",
           "reload_the_untagged_queue": "Ricarica la coda senza tag",
           "repo_labels": "Etichette del repo",
-          "s_labels": " - etichette:",
           "select_all": "Seleziona tutto",
           "suggest_again": "Suggerisci di nuovo ({{n}})",
           "suggest_labels_next": "Suggerisci etichette (prossime {{n}})",
           "untagged": "Senza tag",
           "untagged_issues": "Issue senza tag",
           "what_you_see_below_is_the_previous_result_not_th": "quello che vedi qui sotto è il risultato precedente, non lo stato attuale.",
-          "write_every_staged_label_to": "Scrivi tutte le etichette preparate su {{provider}}"
+          "write_every_staged_label_to": "Scrivi tutte le etichette preparate su {{provider}}",
+          "couldn_t_load_repo_labels": "Impossibile caricare le etichette di {{repo}}",
+          "every_open_issue_in_repo_is_labeled": "Ogni issue aperta in {{repo}} ha almeno un'etichetta. Nulla da etichettare.",
+          "repo_defines_no_labels_yet": "{{repo}} non definisce ancora alcuna etichetta, quindi non c'è nulla da assegnare. Proponine alcune sopra, crea quelle che vuoi, poi torna qui a suggerire le etichette."
         }
       },
       "welcomeCarousel": {
@@ -1344,12 +1340,12 @@
         "clear_filters": "Cancella filtri",
         "resize_list": "Ridimensiona l'elenco",
         "resize_sidebar": "Ridimensiona la barra laterale",
-        "select_a": "Seleziona un",
         "select_a_work_item_to_see_its_details": "Seleziona un elemento di lavoro per vederne i dettagli.",
         "select_an_issue_to_see_its_details": "Seleziona una issue per vederne i dettagli.",
         "selected_change_hidden_by_filters": "L’elemento {{subject}} selezionato è nascosto dai filtri attivi.",
         "selected_issue_hidden_by_filters": "La issue selezionata è nascosta dai filtri attivi.",
-        "to_see_its_details": "per vederne i dettagli."
+        "select_crew_to_see_details": "Seleziona una crew per vederne i dettagli.",
+        "select_subject_to_see_details": "Seleziona un {{subject}} per vederne i dettagli."
       }
     }
   },
