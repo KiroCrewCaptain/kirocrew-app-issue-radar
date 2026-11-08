@@ -300,7 +300,10 @@ def test_the_manifest_hook_reaches_the_facade_registrar():
     assert manifest["backend"]["hooks"]["routes"] == "backend.app_hooks:register_routes"
     assert "routes" not in {k for k in manifest["backend"] if k != "hooks"}
     with mock.patch.object(routes, "register_routes", return_value=["sentinel"]) as reg:
-        assert app_hooks.register_routes("ctx") == ["sentinel"]
+        records = app_hooks.register_routes("ctx")
+    # The facade's records, then the ``agentTools`` route the manifest declares.
+    assert records[0] == "sentinel"
+    assert [(r.method, r.path) for r in records[1:]] == [("POST", "/agent-tools")]
     reg.assert_called_once_with("ctx")
 
 
@@ -506,4 +509,8 @@ def test_the_package_import_loads_every_owner_but_defers_crew_routes(tmp_path):
     )
     assert result.returncode == 0, result.stderr
     owners = sorted(p.stem for p in HTTP_ROUTES.glob("*.py") if p.stem != "__init__")
-    assert result.stdout.split() == [",".join(owners), str(len(MAIN_ROUTES) + len(TAIL_ROUTES))]
+    # The facade's records plus the ``agentTools`` route.
+    assert result.stdout.split() == [
+        ",".join(owners),
+        str(len(MAIN_ROUTES) + len(TAIL_ROUTES) + 1),
+    ]

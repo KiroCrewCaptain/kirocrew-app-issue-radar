@@ -147,39 +147,33 @@ with a stand-in that never matches or the host's current value.
 
 ## Remaining gaps
 
-1. **Core still hard-codes the app.** Kiro Crew keeps Issue Radar's MCP tools
-   (`mcp_tools/apps.py:50`, `:332`, `:358`, `:540-542`, `:620`, `:933`, `:953`,
-   `:1100-1108`, `mcp_core.py:929`, `mcp_core_parts/radar_crew.py`), their
-   internal-secret path rows (`dashboard/server_internal_paths.py:328-390`) and
-   argument schemas (`validation.py:146-162`, `validation_parts/app_schemas.py`),
-   the crew-log entry type and its fold (`crew_log/entry_types_ledgers.py:56-190`,
-   `:350-495`, `crew_log/projection_radar.py`, `projection.py:275`, `:756`,
-   `projection_registry.py:25`, `:643`, `crew_log/schema.py`), the
-   `core:issue-radar` caller namespace in `github_runner.py:1287-1328`, rows in
-   `security_posture*.py`, `data/mcp_tool_titles.json`, the dashboard catalogs,
-   `website/src/apps/builtinRegistry.ts`, `appManifest.ts:238-255`, the module spec
-   `docs/system-specs/modules/issue-radar.md` and the RFCs
+1. **Core still hard-codes parts of the app.** The three agent tools are this app's
+   now: `app.json` declares `issue_radar_record_investigation`,
+   `issue_radar_crew_read` and `issue_radar_crew_record` on the `agentTools` seam
+   (route `agent-tools`; the two crew tools `strictSession`), and
+   `backend/agent_tools.py` serves them, running the crew read, the crew write and
+   the investigation write in-process (Kiro Crew `fix/adoption-radar-tools`, which
+   deletes the core copies, their `TOOL_APPS` rows, their schemas and their three
+   internal-secret paths). The tools keep their names, descriptions, arguments and
+   answers; core forwards a crew call only from a directly identified session and
+   sends its key, and the crew is resolved from that key on this app's own routes.
+   Two things still need core: the `agentTools` reader lists only a first-party
+   app's block, read from the shipped wheel manifest (`apps/app_agent_tools.py`),
+   so an adopted record's own `app.json` lists nothing until core reads an adopted
+   copy's block; and the crew-log entry type and its fold
+   (`crew_log/entry_types_ledgers.py`, `crew_log/projection_radar.py`,
+   `projection.py`, `projection_registry.py`, `crew_log/schema.py`) are core's,
+   with no app-declared fold seam yet. Also still in core: the `core:issue-radar`
+   caller namespace in `github_runner.py`, rows in `security_posture*.py`,
+   `data/mcp_tool_titles.json`, the dashboard catalogs,
+   `website/src/apps/builtinRegistry.ts`, `appManifest.ts`, the module spec
+   `docs/system-specs/modules/issue-radar.md`, the RFCs
    `rfc-issue-radar-crews.md` / `rfc-issue-radar-dispatch.md`, and the ratchet rows
    in `test/spawn_audit_app_spawns.py`, `test/link_screen_sites.py`,
    `test/test_chat_follow_default_slot_kinds.py`, `test/test_start_priority.py`,
-   `test/test_campaign_facades_base_public_names.py`, `test/test_mcp_apps_tool_gate.py`
-   and `test/campaign_facade_inventories/`. The MCP tools call this app's routes
-   by their unchanged paths (`/api/apps/issue-radar/investigation`, `/crew`,
-   `/crew/work`), so they keep working after adoption while core ships them.
-   The owner refused app code in the core MCP server (#26967, ruling 2): app tools
-   ship as app-registered MCP tools served from the app's own process. The merged
-   seam for that, the manifest's `agentTools` (#32660), cannot carry them from this
-   side yet, for three reasons a core change has to settle: it lists only a
-   FIRST-PARTY app's block, read from the SHIPPED wheel manifest
-   (`apps/app_agent_tools.py`, `execution.builtin_app_names`), so an adopted
-   record's own `app.json` lists nothing; a name a core tool already has is never
-   the app's, and core keeps all three names; and the two crew tools need what an
-   `agentTools` call does not carry, the calling crew session's identity (core's
-   strict crew-session fence and the `radar` crew-log fold in
-   `mcp_core_parts/radar_crew.py`, `crew_log/projection_radar.py`). So this copy
-   declares no `agentTools` block, and the three tools keep working after adoption
-   through this app's unchanged routes while core ships them. The user doc and the
-   spec belong in this repository once they move.
+   `test/test_campaign_facades_base_public_names.py` and
+   `test/campaign_facade_inventories/`. The user doc and the spec belong in this
+   repository once they move.
 2. **Execution trust.** A built-in's in-gateway Python is exempt from the
    third-party execution gate (`apps/execution.py`, `is_builtin_app`). This copy's
    hooks load only when the operator trusts it; for an existing user, Kiro Crew's
@@ -283,6 +277,7 @@ onto this tree, so only the imports differ:
 |---|---|
 | #28667 | the PR AI summary cache is keyed to the prompt it was built from (`http_routes/ai.py`, `routes.py`) |
 | #32667 | the crews' grant through the worker auto-approve seam, `permissions.workerAutoApprove` |
+| `fix/adoption-radar-tools` | the three agent tools on the `agentTools` seam: the `app.json` block, `backend/agent_tools.py`, `crew_read_for_session` / `crew_work_for_session` and `put_investigation`; the tool tests drive the host's real call path |
 | #21541 | a human removing the needs-human label resumes a skipped issue (`crew_answer_store.py`, the ledger, the sweep, the brief and ledger spec, Azure reads) |
 | #19820 | crews work GitLab repos (the fabric, the runtime, the routes, Item lanes' `!N` pill) |
 | #30864 | the crew stop paths clear the slot's shared trust and cached approval policy (`revoke_slot_trust`) |

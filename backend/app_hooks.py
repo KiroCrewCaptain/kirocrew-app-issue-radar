@@ -10,14 +10,15 @@ from __future__ import annotations
 import logging
 from typing import Any
 
-from . import _host, routes
+from . import _host, agent_tools, routes
 
 logger = logging.getLogger("kirocrew.app.issue-radar")
 
 
 def register_routes(ctx: Any) -> list[_host.Route]:
-    """``hooks.routes``: the route records (see :func:`routes.register_routes`)."""
-    return routes.register_routes(ctx)
+    """``hooks.routes``: the route records (see :func:`routes.register_routes`), and the
+    ``agentTools`` route the manifest declares (:mod:`agent_tools`)."""
+    return [*routes.register_routes(ctx), agent_tools.agent_tool_route()]
 
 
 async def on_startup(ctx: Any) -> None:

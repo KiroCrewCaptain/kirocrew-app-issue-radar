@@ -9,10 +9,12 @@
 # security event log and grant registry, and the suite exercises those real
 # collaborators the way the built-in's suite did. The backend still imports none
 # of it (tests/test_no_host_imports.py); it reaches the host only through
-# backend/_host.py, by name, at call time.
+# backend/_host.py, by name, at call time. The pin is the Kiro Crew commit that
+# moves this app's three agent tools onto the agentTools seam (strictSession and
+# the text answer), the first host these tools' tests run against.
 aiohttp==3.14.3
 pytest==9.0.3
 pytest-asyncio==0.21.2
 pytest-timeout==2.2.0
 pytest-xdist==3.5.0
-kirocrew @ https://github.com/kirodotdev/KiroCrew/archive/6d07df11cfb64f4c3fda0466165c7a0ba3efe748.tar.gz
+kirocrew @ https://github.com/kirodotdev/KiroCrew/archive/f7713dc77e2f2f5d8e6293f86699f5d59577f8f8.tar.gz

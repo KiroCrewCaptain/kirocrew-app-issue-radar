@@ -37,7 +37,8 @@ def test_records_are_relative_and_match_the_built_in_table():
         if r.method != "HEAD"
     ]
     got = [(r.method, r.path) for r in _records()]
-    assert got == expected
+    # The built-in table plus the ``agentTools`` route the manifest declares.
+    assert got == [*expected, ("POST", "/agent-tools")]
     assert all(p.startswith("/") and not p.startswith("/api/") for _, p in got)
     assert all(callable(r.handler) for r in _records())
 
