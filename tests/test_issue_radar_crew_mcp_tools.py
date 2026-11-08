@@ -968,6 +968,74 @@ class TestReadOutput(unittest.TestCase):
         assert out["open_items"][0]["worktree"] == "/home/user/src/project"
 
 
+#: Item prose at the declared 5,000-character bound, in words the redactor leaves alone.
+_PROSE = ("tried the obvious fix and it broke the windows branch " * 100)[:5000]
+
+
+def _item(number: int, phase: str) -> dict:
+    return {"crew_id": "c_7f3a", "number": number, "phase": phase, "why": _PROSE}
+
+
+class TestReadFitsTheCap(unittest.TestCase):
+    """A ledger bigger than the tool's cap still answers whole JSON with its skip index.
+
+    The core cuts an answer at ``maxResultChars``; a cut through the JSON loses every
+    field after the cut point, the skip index among them. These go through the core's
+    cap (:func:`call`), so a read that relied on the cut would fail to parse here.
+    """
+
+    def _read(self, **over):
+        with forwarded(read={**CREW_PAYLOAD, **over}):
+            return call(READ_TOOL, {})
+
+    def test_the_fitted_budget_is_under_the_declared_cap(self):
+        assert shipped(READ_TOOL).decl.max_result_chars == agent_tools._CREW_READ_CAP
+        assert agent_tools._CREW_READ_BUDGET < agent_tools._CREW_READ_CAP
+
+    def test_finished_items_go_first_and_the_skip_index_stays_whole(self):
+        # Newest progress first, as ``list_work_items`` returns: two unfinished items,
+        # then forty finished ones that alone are over the cap.
+        items = [_item(1, "implementing"), _item(2, "awaiting-ci")]
+        items += [_item(100 + n, "resolved") for n in range(40)]
+        skipped = list(range(1000, 4000))
+        text = self._read(items=items, skipped_numbers=skipped)
+
+        assert len(text) <= agent_tools._CREW_READ_CAP
+        out = json.loads(text)
+        assert out["skipped_numbers"] == skipped
+        numbers = [it["number"] for it in out["open_items"]]
+        assert numbers[:2] == [1, 2]
+        # The newest finished items are kept and the oldest are the ones dropped.
+        assert numbers[2:] == list(range(100, 100 + len(numbers) - 2))
+        assert out["omitted"] == {"finished_items": 42 - len(numbers)}
+        assert "crew page" in out["omitted_note"]
+
+    def test_unfinished_items_go_last_and_oldest_first(self):
+        # Only unfinished items, each about 46,000 characters with its tried rows: every
+        # history list goes before any of them, and the newest item is the last to go.
+        tried = [{"approach": _PROSE[:500], "rejected_because": _PROSE[:500]}] * 40
+        items = [{**_item(n, "implementing"), "tried": tried} for n in (7, 8, 9)]
+        events = [{"text": _PROSE[:500]} for _ in range(20)]
+        text = self._read(items=items, events=events)
+
+        assert len(text) <= agent_tools._CREW_READ_CAP
+        out = json.loads(text)
+        assert [it["number"] for it in out["open_items"]] == [7]
+        assert out["omitted"] == {"recent_events": 20, "recent_skips": 1, "open_items": 2}
+        assert out["recent_events"] == []
+        assert out["skipped_numbers"] == [4, 91]
+
+    def test_a_ledger_that_fits_is_answered_as_built(self):
+        out = json.loads(self._read())
+        assert "omitted" not in out
+        assert list(out)[-1] == "open_items"
+
+    def test_a_skip_index_over_the_cap_is_refused_not_cut(self):
+        text = self._read(skipped_numbers=list(range(10**8, 10**8 + 7000)))
+        assert text.startswith("Error:")
+        assert "crew page" in text
+
+
 class TestMiddlewareDecision:
     """Drive the real auth middleware over the crew paths.
 

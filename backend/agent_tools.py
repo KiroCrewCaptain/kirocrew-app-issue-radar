@@ -40,6 +40,12 @@ from ._host import redact
 #: an unbounded slice would grow to dominate a crew's context.
 _CREW_MAX_EVENTS = 20
 
+#: ``maxResultChars`` of ``issue_radar_crew_read`` in ``app.json``: where the core cuts
+#: the answer. A cut there splits the JSON, so the read is fitted under it here.
+_CREW_READ_CAP = 60_000
+#: What the read may fill: the cap less room for the core's second redaction pass.
+_CREW_READ_BUDGET = _CREW_READ_CAP - 2_000
+
 # Abbreviated-or-full git object name. Bounds ``base_sha`` to something that can
 # actually be handed to git on a resume; a resumed turn checks out from this
 # value, so an arbitrary string here is a resume that fails much later. The
@@ -166,7 +172,6 @@ def _crew_ledger_view(payload: dict[str, Any]) -> dict[str, Any]:
     view: dict[str, Any] = {
         "crew": payload.get("crew") or {},
         "settings": payload.get("settings") or {},
-        "open_items": payload.get("items") or [],
         "counts": payload.get("counts") or {},
         "skipped_numbers": payload.get("skipped_numbers") or [],
         "recent_skips": payload.get("recent_skips") or [],
@@ -182,7 +187,88 @@ def _crew_ledger_view(payload: dict[str, Any]) -> dict[str, Any]:
         view["recent_events_note"] = (
             f"newest {_CREW_MAX_EVENTS} of {len(events)} — the full log is on the crew page"
         )
+    # Last, so even a cut that reached the JSON would take items before the skip index.
+    view["open_items"] = payload.get("items") or []
     return view
+
+
+def _render_view(view: dict[str, Any], indent: int | None) -> str:
+    # Redact the OUTPUT too: the ledger holds LLM prose written from untrusted issue
+    # text, and a resume re-reads it into context. Paths in `worktree` survive this
+    # pass (it removes credentials and exfil URLs, not paths), which the resume needs.
+    return redact(json.dumps(view, indent=indent, ensure_ascii=False))
+
+
+def _without_oldest(
+    entries: list[Any], count: int, droppable: Callable[[Any], bool], oldest_last: bool
+) -> list[Any]:
+    """*entries* less the *count* oldest that *droppable* accepts."""
+    order = [i for i, entry in enumerate(entries) if droppable(entry)]
+    if oldest_last:
+        order.reverse()
+    gone = set(order[:count])
+    return [entry for i, entry in enumerate(entries) if i not in gone]
+
+
+def _any_entry(_entry: Any) -> bool:
+    return True
+
+
+def _fit_ledger_view(view: dict[str, Any], finished: Callable[[Any], bool]) -> str:
+    """The read's answer, whole JSON within ``_CREW_READ_BUDGET``, or a refusal.
+
+    The view as built when it fits. Otherwise it is rendered without indentation and
+    sheds the oldest entries, least needed first: finished items, progress lines,
+    skip reasons, answers, then unfinished items. ``omitted`` counts what went. The
+    crew record, settings, counts and ``skipped_numbers`` are never shed: a trimmed
+    skip list answers "not skipped" for an issue that is.
+    """
+    text = _render_view(view, indent=2)
+    if len(text) <= _CREW_READ_BUDGET:
+        return text
+    # (field, label in ``omitted``, which entries may go, oldest at the end?)
+    stages: tuple[tuple[str, str, Callable[[Any], bool], bool], ...] = (
+        ("open_items", "finished_items", finished, True),
+        ("recent_events", "recent_events", _any_entry, False),
+        ("recent_skips", "recent_skips", _any_entry, True),
+        ("recent_answers", "recent_answers", _any_entry, True),
+        ("open_items", "open_items", _any_entry, True),
+    )
+    omitted: dict[str, int] = {}
+
+    def trimmed(field: str, label: str, keep: list[Any]) -> dict[str, Any]:
+        gone = {**omitted, label: len(view[field]) - len(keep)}
+        return {
+            **view,
+            field: keep,
+            "omitted": gone,
+            "omitted_note": (
+                "left out to fit this answer, oldest first; the crew page has all of it"
+            ),
+        }
+
+    for field, label, droppable, oldest_last in stages:
+        entries: list[Any] = view[field]
+        candidates = sum(1 for entry in entries if droppable(entry))
+        # Fewest entries to drop for a fit: dropping more never grows the text.
+        low, high = 0, candidates
+        while low < high:
+            mid = (low + high) // 2
+            keep = _without_oldest(entries, mid, droppable, oldest_last)
+            if len(_render_view(trimmed(field, label, keep), None)) <= _CREW_READ_BUDGET:
+                high = mid
+            else:
+                low = mid + 1
+        if low:
+            view = trimmed(field, label, _without_oldest(entries, low, droppable, oldest_last))
+            omitted = view["omitted"]
+        text = _render_view(view, None)
+        if len(text) <= _CREW_READ_BUDGET:
+            return text
+    return (
+        "Error: this crew's ledger does not fit in one answer even without its work "
+        "items and recent history; open the crew page to read it."
+    )
 
 
 def _crew_record_argument_error(args: dict[str, Any]) -> str:
@@ -271,12 +357,11 @@ async def crew_read(request: web.Request, args: dict[str, Any]) -> str:
             "Error: this session is not bound to an Issue Radar crew, so there "
             "is no ledger to read. Only a crew's own session can use this tool."
         )
-    _cr_view = _crew_ledger_view(_cr_payload)
-    # Redact the OUTPUT too: the ledger holds LLM prose written from
-    # untrusted issue text, and a resume re-reads it into context. Paths in
-    # `worktree` survive this pass (it removes credentials and exfil URLs,
-    # not paths) — which is required, since the resume needs them.
-    return redact(json.dumps(_cr_view, indent=2, ensure_ascii=False))
+    finished = crew_routes.crew_store.TERMINAL_PHASES
+    return _fit_ledger_view(
+        _crew_ledger_view(_cr_payload),
+        lambda item: isinstance(item, dict) and item.get("phase") in finished,
+    )
 
 
 async def crew_record(request: web.Request, args: dict[str, Any]) -> str:
