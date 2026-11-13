@@ -17,7 +17,6 @@ import pytest
 from aiohttp import web
 from aiohttp.test_utils import make_mocked_request
 from dashboard_owner_helpers import NoConfiguredOwner
-
 from issue_radar_agent_tools_helpers import INVESTIGATION_TOOL as TOOL
 from issue_radar_agent_tools_helpers import call, clean, descriptor, forwarded, listed, shipped
 

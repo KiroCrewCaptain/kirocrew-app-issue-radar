@@ -21,8 +21,6 @@ from unittest.mock import MagicMock, patch
 import pytest
 from aiohttp import web
 from aiohttp.test_utils import make_mocked_request
-from turn_harness import SlotSpec, TurnScript, run_turn
-
 from issue_radar_agent_tools_helpers import (
     CREW_SESSION,
     READ_TOOL,
@@ -34,6 +32,7 @@ from issue_radar_agent_tools_helpers import (
     listed,
     shipped,
 )
+from turn_harness import SlotSpec, TurnScript, run_turn
 
 from kiro_crew import mcp_core
 from kiro_crew.acp.types import EVENT_COMPLETE, EVENT_TEXT_CHUNK, STOP_REASON_END_TURN, AcpEvent

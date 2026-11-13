@@ -26,7 +26,10 @@ BACKEND = Path(__file__).resolve().parents[1] / "backend"
 
 PINNED = {
     "github_runner": ("kiro_crew.github_runner", ("*",)),
-    "github_runner.names": ("kiro_crew.github_runner", ("RepoUrlError", "apply_session_bus_address")),
+    "github_runner.names": (
+        "kiro_crew.github_runner",
+        ("PROVIDER_WINGET_ID", "RepoUrlError", "apply_session_bus_address"),
+    ),
     "platform_compat": ("kiro_crew.platform_compat", ("*",)),
     "owner_only_files": ("kiro_crew.owner_only_files", ("ensure_directory",)),
     "atomic_write": (
@@ -108,6 +111,7 @@ PINNED = {
     "sel": ("kiro_crew.sel", ("sel",)),
     "shared_crew": ("kiro_crew.shared_crew.admission_gate", ("actor_budget",)),
     "shared_crew.turn_gate": ("kiro_crew.shared_crew.turn_gate", ("run_admitted_or_raise",)),
+    "session_ledger_control": ("kiro_crew.session_ledger_control", ("_causal_units",)),
     "validation": ("kiro_crew.validation", ("MODEL_PICKER_HIDDEN_MODEL_ID_RE",)),
     "dashboard_handlers": ("kiro_crew.dashboard.handlers", ("api_models",)),
     "agent_catalog": ("kiro_crew.dashboard.handlers.agent_catalog", ("api_agent_catalog",)),

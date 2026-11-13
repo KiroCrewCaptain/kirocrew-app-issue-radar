@@ -33,7 +33,7 @@ grant through that seam, and so does this copy:
 
 This repository was ported from Kiro Crew's built-in Issue Radar at KiroCrew
 `main` `55439d87700799a8789a341da65e2e1c355e26fc`, and every later change to the
-wheel copy up to `main` `6d07df11cfb64f4c3fda0466165c7a0ba3efe748` is ported
+wheel copy up to `main` `4e4bba39eacfbb805d962e5cf6307de33da27fb9` is ported
 (see "Wheel fixes ported since the snapshot"):
 
 - the backend, `src/kiro_crew/apps/builtins/issue_radar/` (`app.json`, the 58
@@ -138,6 +138,8 @@ with a stand-in that never matches or the host's current value.
 | `kiro_crew.dashboard.chat_utils_slots.revoke_slot_trust` | `crew_runtime_supervision.py` (two stop paths, #30864) | (a revocation helper) | The slot's `_trust` flag alone is cleared |
 | `kiro_crew.dashboard.gateway_notice` (`GATEWAY_NOTICE_CREW_TURN_NO_PERMIT`, `gateway_notice_meta`) | `crew_runtime_session.py` (#26497) | (a localization token on a status row) | The no-permit card keeps its English text |
 | `kiro_crew.crew_log.projection_radar.RADAR_TEXT_LIMIT` | `crew_answer_store.py` (#21541) | (a constant) | The value core declares today (`tests/test_host_surface.py`) |
+| `kiro_crew.session_ledger_control._causal_units` | `crew_store_log.py` (#33830) | The same crew-log seam (its unit order) | The earlier order: every unrecorded unit folds first, so a reset's new session may refold the crew's ledger cold; the record folded is the same |
+| `kiro_crew.github_runner.PROVIDER_WINGET_ID` | `gitlab_client.py` (#34236) | (a constant) | The ids core declares today (`GitHub.cli`, `GLab.GLab`) |
 | `kiro_crew.dashboard.handlers.notifications_push`, `kiro_crew.notifications.bus.NotificationPayload` / `NotificationValidationError` | `ci_watch.py:49-50`, `watch.py` | A notification-push seam for an app's declared channels | New-issue and CI-failure notifications are not sent |
 | `kiro_crew.hooks`, `kiro_crew.memory.workspace_dir` | `pipeline_fold.py:42`, `:46` | A read of the gateway's hook audit and workspace for the pipeline fold | The pipeline dashboard answers 503 |
 | `kiro_crew.loop_lock.LoopBoundLock` | `routes.py:93` | (pure helper) | The probe coalescer cannot be built (the module fails to import; the host has had it since before 0.12) |
@@ -270,8 +272,8 @@ collaborators as the built-in's did.
 
 Every change to the wheel copy (`src/kiro_crew/apps/builtins/issue_radar/`,
 `website/src/apps/issue-radar/`, its tests and its catalog strings) from the
-snapshot to `main` `6d07df11cfb64f4c3fda0466165c7a0ba3efe748`, merged three-way
-onto this tree, so only the imports differ:
+snapshot to `main` `4e4bba39eacfbb805d962e5cf6307de33da27fb9`, merged three-way onto this tree, so only
+the imports differ:
 
 | Kiro Crew | What |
 |---|---|
@@ -288,6 +290,17 @@ onto this tree, so only the imports differ:
 | #30511, #31961, #32043 | whole-sentence catalog strings on tagging, the empty panes and the settings intros |
 | #30807 | `sliceCodePoints` from its own module |
 | #30101, #30746, #29687 | test moves and mixins (the moved core cases were already in `tests/test_ported_core_cases.py`) |
+| #33156 | the agent tools as merged: the `fix/adoption-radar-tools` port above, re-merged onto the merged wheel copy (only the route record and the host reads differ) |
+| #22123 | the watcher wakes a crew on new work and on an @mention (`crew_mention_scan.py`, `crew_wake_inflight.py`, `gitlab_client_crew_reads.py`, `mention_match.py`, the two crew desk switches and their strings) |
+| #28668 | dismissed GitHub reviews are left out of the PR AI summary |
+| #28286 | a review verb the provider cannot record is refused with 400 |
+| #28199 | a bulk approve row keeps its real head-read error |
+| #33830 | a reset's unrecorded unit is listed last on the crew ledger read (`_host.causal_units`) |
+| #34236 | `glab` on Windows is offered through winget (`_host.PROVIDER_WINGET_ID`) |
+| #33132, #33667 | the Investigate and Review buttons and the remaining action buttons keep focus while busy (the host's `Btn` `busy`) |
+| #33029, #33204 | a failed issue refresh and a failed overview refresh show in an error notice |
+| #33275, #33327, #34380 | whole-sentence catalog strings around inline code, a styled name, a label, a milestone and a repo line (`ui/tests/ext/IssueRadarMarkupSentences.test.tsx`) |
+| #26777, #33539, #33542 | test-only: the glab resolution tests on Windows, folded test groups, a crew ledger spec line |
 
 The core-only test `test/test_gitlab_merge_request_comment_wake.py` (core's
 monitoring provider) and the dashboard-structure test `issueRadarBoundary.test.ts`

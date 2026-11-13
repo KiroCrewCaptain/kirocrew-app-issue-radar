@@ -91,7 +91,7 @@ declare module '@kirocrew/app-sdk/ui' {
   type Loose = { className?: string; children?: ReactNode; [prop: string]: unknown }
 
   export const Btn: ForwardRefExoticComponent<
-    ButtonHTMLAttributes<HTMLButtonElement> & { danger?: boolean; primary?: boolean } & RefAttributes<HTMLButtonElement>
+    ButtonHTMLAttributes<HTMLButtonElement> & { danger?: boolean; primary?: boolean; busy?: boolean } & RefAttributes<HTMLButtonElement>
   >
   export const SendBtn: ForwardRefExoticComponent<
     ButtonHTMLAttributes<HTMLButtonElement> & RefAttributes<HTMLButtonElement>

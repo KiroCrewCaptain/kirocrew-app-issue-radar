@@ -335,7 +335,7 @@ HOST_SURFACE: dict[str, tuple[str, tuple[str, ...]]] = {
     "github_runner": ("kiro_crew.github_runner", ("*",)),
     "github_runner.names": (
         "kiro_crew.github_runner",
-        ("RepoUrlError", "apply_session_bus_address"),
+        ("PROVIDER_WINGET_ID", "RepoUrlError", "apply_session_bus_address"),
     ),
     "platform_compat": ("kiro_crew.platform_compat", ("*",)),
     "owner_only_files": ("kiro_crew.owner_only_files", ("ensure_directory",)),
@@ -421,6 +421,7 @@ HOST_SURFACE: dict[str, tuple[str, tuple[str, ...]]] = {
         ("actor_budget",),
     ),
     "shared_crew.turn_gate": ("kiro_crew.shared_crew.turn_gate", ("run_admitted_or_raise",)),
+    "session_ledger_control": ("kiro_crew.session_ledger_control", ("_causal_units",)),
     "validation": ("kiro_crew.validation", ("MODEL_PICKER_HIDDEN_MODEL_ID_RE",)),
     "dashboard_handlers": ("kiro_crew.dashboard.handlers", ("api_models",)),
     "agent_catalog": ("kiro_crew.dashboard.handlers.agent_catalog", ("api_agent_catalog",)),
@@ -640,6 +641,27 @@ def redact_local_paths(text: str) -> tuple[str, list[str]]:
     return fn(text)
 
 
+def causal_units(
+    slot_key: str, units: tuple[str, ...], recorded: tuple[str, ...]
+) -> tuple[str, ...]:
+    """*units* reordered by the *recorded* order tail, the host's ledger rule.
+
+    The host's ``session_ledger_control._causal_units``: a unit missing from the
+    tail folds before the recorded ones, except the slot's newest unit by
+    succession (a reset's new session that has not recorded yet), which folds
+    last. A gateway without it gets the earlier rule, every missing unit first;
+    the record folded is the same either way, only the warm cell may refold.
+    """
+    fn = _host_attr("kiro_crew.session_ledger_control", "_causal_units")
+    if callable(fn):
+        return tuple(fn(slot_key, units, recorded))
+    if not recorded:
+        return units
+    known = [unit for unit in recorded if unit in units]
+    rest = [unit for unit in units if unit not in recorded]
+    return tuple(rest + known)
+
+
 # Exception types an ``except`` clause names, resolved once.
 RepoUrlError = _const("kiro_crew.github_runner", "RepoUrlError", _AbsentHostError)
 NotificationValidationError = _const(
@@ -647,6 +669,9 @@ NotificationValidationError = _const(
 )
 
 # Constants, resolved once, with the host's current values as the fallback.
+PROVIDER_WINGET_ID = _const(
+    "kiro_crew.github_runner", "PROVIDER_WINGET_ID", {"gh": "GitHub.cli", "glab": "GLab.GLab"}
+)
 CONSECUTIVE_FAILURE_REASON = _const(
     "kiro_crew.autonudge_service.model", "CONSECUTIVE_FAILURE_REASON", "consecutive_failures"
 )

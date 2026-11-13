@@ -1,8 +1,9 @@
 /** The app's own catalogs (`src/host/i18n.tsx`, `ui/i18n/*.json`). */
 import { readdirSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
+import { render } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
-import { CATALOGS, i18nT, localeChain } from '../../src/host/i18n'
+import { CATALOGS, i18nT, localeChain, Trans } from '../../src/host/i18n'
 import { stubLocale } from '../stubs/app-sdk'
 
 const SRC = join(__dirname, '..', '..', 'src')
@@ -62,5 +63,29 @@ describe('catalogs', () => {
   it('reads the host language at call time', () => {
     stubLocale('de')
     expect(i18nT('apps.issueRadar.host.projectPicker.use')).toBe('Diesen Ordner verwenden')
+  })
+
+  it('keeps an element\'s own children under a self-closing tag, as react-i18next does', () => {
+    stubLocale('en')
+    const { container } = render(
+      <Trans
+        i18nKey="apps.issueRadar.views.settings.generalSettings.authenticated_through_cli"
+        components={{ cli: <code>gh</code> }}
+      />,
+    )
+    expect(container.querySelector('code')?.textContent).toBe('gh')
+    expect(container.textContent).toContain('Authenticated through your local gh CLI')
+  })
+
+  it('gives a paired tag\'s element the span text from the catalog', () => {
+    stubLocale('en')
+    const { container } = render(
+      <Trans
+        i18nKey="apps.issueRadar.views.settings.repoSettings.triage_needed_of_open"
+        values={{ n: '5', triage: '2' }}
+        components={{ strong: <strong /> }}
+      />,
+    )
+    expect(container.querySelector('strong')?.textContent).toBeTruthy()
   })
 })

@@ -150,7 +150,8 @@ const TAG = /<(\w+)>([\s\S]*?)<\/\1>|<(\w+)\s*\/>/g
 
 /** `react-i18next`'s `Trans` for the shape the page uses: a catalog string whose
  * `<name>…</name>` (or `<name/>`) spans are rendered with `components[name]`,
- * the element given there receiving the span's text as its children. */
+ * the element given there receiving the span's text as its children, and a
+ * `<name/>` keeping the children the element was given. */
 export function Trans({
   i18nKey,
   values,
@@ -174,7 +175,10 @@ export function Trans({
     const inner = match[2] ?? ''
     const el = components[name]
     if (el && isValidElement(el)) {
-      out.push(cloneElement(el as ReactElement<{ children?: ReactNode }>, { key: `t${n++}` }, inner || undefined))
+      // A `<name/>` (or an empty span) keeps the element's own children, as
+      // react-i18next does: `<code>{cli}</code>` under `<cli/>` shows the CLI name.
+      const key = `t${n++}`
+      out.push(inner ? cloneElement(el as ReactElement<{ children?: ReactNode }>, { key }, inner) : cloneElement(el, { key }))
     } else {
       out.push(inner)
     }
