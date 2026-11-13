@@ -60,7 +60,8 @@ change here.
 
 ## What carried over unchanged
 
-- `app.json` `name` (`issue-radar`), `version` (`0.1.0`), `author`,
+- `app.json` `name` (`issue-radar`), `version` (`0.1.1`, the version the wheel
+  built-in carries once Kiro Crew pins this release), `author`,
   `permissions` (`api` `/api/apps/issue-radar` and `/api/apps/issue-radar/*`,
   `network`, `storage`, `workerAutoApprove`), `platform`, `dependencies.optionalCommands`
   (`gh`, `glab`, `az`), `notifications.channels` (`ci-failure`),
