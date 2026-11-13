@@ -44,12 +44,18 @@ export function CardTitle({ children, className, ...rest }: Omit<ComponentPropsW
   return <h3 className={twMerge('text-sm font-semibold tracking-tight text-text-strong mb-3.5 flex items-center gap-2', className)} {...rest}>{children}</h3>
 }
 
-export const Btn = forwardRef<HTMLButtonElement, ButtonHTMLAttributes<HTMLButtonElement> & { danger?: boolean; primary?: boolean }>(
-  function Btn({ children, danger, primary, className, ...rest }, ref) {
+export const Btn = forwardRef<HTMLButtonElement, ButtonHTMLAttributes<HTMLButtonElement> & { danger?: boolean; primary?: boolean; busy?: boolean }>(
+  function Btn({ children, danger, primary, busy, className, onClick, ...rest }, ref) {
+    // The host's `busy`: focusable, `aria-disabled` + `aria-busy`, its own press
+    // refused while the action it started runs (native `disabled` stays separate).
     return (
       <button
         ref={ref}
-        className={twMerge(`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md border text-[13px] cursor-pointer font-body transition-all disabled:opacity-30 disabled:cursor-not-allowed ${
+        aria-disabled={busy || undefined}
+        aria-busy={busy || undefined}
+        data-busy={busy || undefined}
+        onClick={(e) => { if (busy) { e.preventDefault(); return } onClick?.(e) }}
+        className={twMerge(`busy-cue inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md border text-[13px] cursor-pointer font-body transition-all disabled:opacity-30 disabled:cursor-not-allowed ${
           primary ? 'bg-accent text-accent-fg border-accent' : danger ? 'border-border bg-transparent text-danger' : 'border-border bg-transparent text-text'
         }`, className)}
         {...rest}

@@ -64,7 +64,7 @@ _AGENT_TOOLS = frozenset(
 
 def test_the_manifest_declares_the_tools_this_app_serves_under_its_own_id():
     from issue_radar_agent_tools_helpers import declared_here
-    from kiro_crew.mcp_tools import apps as apps_tools
+    from kiro_crew.mcp_tools import app_tools
 
     from backend import agent_tools, store
 
@@ -72,7 +72,8 @@ def test_the_manifest_declares_the_tools_this_app_serves_under_its_own_id():
     assert set(declared) == _AGENT_TOOLS == set(agent_tools.TOOLS)
     assert {t.app for t in declared.values()} == {store.APP_NAME}
     assert {t.route for t in declared.values()} == {"agent-tools"}
-    assert _AGENT_TOOLS.isdisjoint(apps_tools.TOOL_APPS)
+    # No core table keys them: every tool name the core serves itself.
+    assert _AGENT_TOOLS.isdisjoint(app_tools._core_tool_names())
 
 
 # ── test/test_link_screen_hold_pin.py ─────────────────────────────────────────
@@ -313,6 +314,10 @@ class _Req:
     def __init__(self, state, slot: str) -> None:
         self.app = {"state": state}
         self.match_info = {"slot": slot}
+        # Read at CONSTRUCTION, not at call time: a replacement minted later in the
+        # test must not retroactively change what this request asked to archive.
+        live = getattr(state, "_slots", {}).get(slot)
+        self.query = {"incarnation": getattr(live, "_dashboard_card_identity", "")} if live else {}
 
     def get(self, key: str, default: str = "") -> str:
         del key

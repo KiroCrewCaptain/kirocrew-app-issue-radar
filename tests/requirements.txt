@@ -10,11 +10,11 @@
 # collaborators the way the built-in's suite did. The backend still imports none
 # of it (tests/test_no_host_imports.py); it reaches the host only through
 # backend/_host.py, by name, at call time. The pin is the Kiro Crew commit that
-# moves this app's three agent tools onto the agentTools seam (strictSession and
-# the text answer), the first host these tools' tests run against.
+# carries every wheel-copy change this tree ports (PORTING.md), the first host
+# whose crew ledger order, winget ids and harness answers these tests expect.
 aiohttp==3.14.3
 pytest==9.0.3
 pytest-asyncio==0.21.2
 pytest-timeout==2.2.0
 pytest-xdist==3.5.0
-kirocrew @ https://github.com/kirodotdev/KiroCrew/archive/f7713dc77e2f2f5d8e6293f86699f5d59577f8f8.tar.gz
+kirocrew @ https://github.com/kirodotdev/KiroCrew/archive/4e4bba39eacfbb805d962e5cf6307de33da27fb9.tar.gz
