@@ -5,8 +5,8 @@ pinned commit, with no consent dialog, so the tree must be something it can take
 over unchanged:
 
 - the same name, version, permissions, platform and ``defaultEnabled`` as the
-  built-in (``tests/fixtures/builtin-app.json`` is its manifest at the commit
-  this was ported from). A widened grant would be held back or force the app
+  built-in (``tests/fixtures/builtin-app.json`` is its manifest at the Kiro Crew
+  commit PORTING.md names, at the version Kiro Crew pins). A widened grant would be held back or force the app
   off, and adoption refuses that;
 - hooks that load the way the gateway loads them: from their file path into a
   synthetic package, with the ``http_routes`` subpackage reached relatively;
