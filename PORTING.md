@@ -33,7 +33,7 @@ grant through that seam, and so does this copy:
 
 This repository was ported from Kiro Crew's built-in Issue Radar at KiroCrew
 `main` `55439d87700799a8789a341da65e2e1c355e26fc`, and every later change to the
-wheel copy up to `main` `4e4bba39eacfbb805d962e5cf6307de33da27fb9` is ported
+wheel copy up to `main` `46f62deab7468ec5d0ba153556a4f545b1966ec1` is ported
 (see "Wheel fixes ported since the snapshot"):
 
 - the backend, `src/kiro_crew/apps/builtins/issue_radar/` (`app.json`, the 58
@@ -60,7 +60,7 @@ change here.
 
 ## What carried over unchanged
 
-- `app.json` `name` (`issue-radar`), `version` (`0.1.1`, the version the wheel
+- `app.json` `name` (`issue-radar`), `version` (`0.1.2`, the version the wheel
   built-in carries once Kiro Crew pins this release), `author`,
   `permissions` (`api` `/api/apps/issue-radar` and `/api/apps/issue-radar/*`,
   `network`, `storage`, `workerAutoApprove`), `platform`, `dependencies.optionalCommands`
@@ -273,7 +273,7 @@ collaborators as the built-in's did.
 
 Every change to the wheel copy (`src/kiro_crew/apps/builtins/issue_radar/`,
 `website/src/apps/issue-radar/`, its tests and its catalog strings) from the
-snapshot to `main` `4e4bba39eacfbb805d962e5cf6307de33da27fb9`, merged three-way onto this tree, so only
+snapshot to `main` `46f62deab7468ec5d0ba153556a4f545b1966ec1`, merged three-way onto this tree, so only
 the imports differ:
 
 | Kiro Crew | What |
@@ -302,6 +302,10 @@ the imports differ:
 | #33029, #33204 | a failed issue refresh and a failed overview refresh show in an error notice |
 | #33275, #33327, #34380 | whole-sentence catalog strings around inline code, a styled name, a label, a milestone and a repo line (`ui/tests/ext/IssueRadarMarkupSentences.test.tsx`) |
 | #26777, #33539, #33542 | test-only: the glab resolution tests on Windows, folded test groups, a crew ledger spec line |
+| #31713 | a crew never merges or arms auto-merge on GitLab: `crew_runtime_prompt.may_arm_auto_merge` (the crew's `auto_merge`, never on GitLab, never without a repo key) decides the one merge rule the nudge states, the brief and the ledger spec defer to it, a crew update that changes `auto_merge` refreshes the armed loop's prompt, and the crew editor shows the toggle off and locked on GitLab with its reason (`automerge_gitlab_hint`, a reworded `automerge_hint`; `tests/test_issue_radar_crew_auto_merge.py`) |
+| #32503 | every bad-body 400 carries a code: `invalid_json` for a body that does not parse, `body_not_object` for one that is not an object (`http_routes/*`, `routes.py`; `tests/test_issue_radar_bad_body_codes.py`) |
+| #37301 | the generic noun crew in each catalog's own script in bn, ja, ko, zh-CN and ru (the pipeline dashboard's strings) |
+| #37262, #36562, #31863, #36062 | test-only: an error notice found by its alert role, two wake tests check what was woken, synthetic credentials from the host's `kiro_crew.testing.synthetic_credentials`, the Bot chat's model-pick writer on the pick-generation list |
 
 The core-only test `test/test_gitlab_merge_request_comment_wake.py` (core's
 monitoring provider) and the dashboard-structure test `issueRadarBoundary.test.ts`
