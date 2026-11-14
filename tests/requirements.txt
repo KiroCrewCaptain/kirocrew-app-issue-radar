@@ -11,10 +11,11 @@
 # of it (tests/test_no_host_imports.py); it reaches the host only through
 # backend/_host.py, by name, at call time. The pin is the Kiro Crew commit that
 # carries every wheel-copy change this tree ports (PORTING.md), the first host
-# whose crew ledger order, winget ids and harness answers these tests expect.
+# whose crew ledger order, winget ids, harness answers, synthetic credentials and
+# model-pick writers these tests expect.
 aiohttp==3.14.3
 pytest==9.0.3
 pytest-asyncio==0.21.2
 pytest-timeout==2.2.0
 pytest-xdist==3.5.0
-kirocrew @ https://github.com/kirodotdev/KiroCrew/archive/4e4bba39eacfbb805d962e5cf6307de33da27fb9.tar.gz
+kirocrew @ https://github.com/kirodotdev/KiroCrew/archive/46f62deab7468ec5d0ba153556a4f545b1966ec1.tar.gz

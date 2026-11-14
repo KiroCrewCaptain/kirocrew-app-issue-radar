@@ -16,6 +16,7 @@ import pytest
 
 from backend import pipeline_fold as fold
 from backend import pipeline_routes as routes
+from kiro_crew.testing.synthetic_credentials import aws_secret
 
 # Fixtures: everything resolves inside tmp_path.
 
@@ -786,7 +787,8 @@ def test_the_census_key_is_REDACTED(tmp_path: Path) -> None:
     Agent-driven jobs write the trail, so a repository value is attacker-reachable
     text, like an issue title.
     """
-    secret = "acme/x-aws_secret_access_key=AKIAIOSFODNN7EXAMPLE"
+    key = aws_secret(seed=53)
+    secret = f"acme/x-aws_secret_access_key={key}"
     _write_log(
         tmp_path,
         [
@@ -800,7 +802,7 @@ def test_the_census_key_is_REDACTED(tmp_path: Path) -> None:
 
     # The raw credential-shaped value never reaches the payload...
     assert secret not in keys
-    assert not any("AKIAIOSFODNN7EXAMPLE" in k for k in keys)
+    assert not any(key in k for k in keys)
     # ...and the clean sibling is untouched, so redaction is not blanket mangling.
     assert "acme/alpha" in keys
 
