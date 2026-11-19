@@ -831,7 +831,7 @@
             "unit_hours_other": "horas",
             "answer_mentions_hint": "Um comentário que @menciona a conta da forja com que este gateway está conectado acorda uma equipe, que responde como essa conta. Ative apenas para uma conta dedicada à equipe, não para a sua.",
             "answer_mentions_label": "Responder a @menções",
-            "wake_new_work_hint": "Uma equipe começa um turno assim que uma issue recebe uma de suas etiquetas ou, para uma equipe sem etiquetas, assim que uma nova issue é aberta. Desligado: as equipes só verificam pelo próprio temporizador de inatividade.",
+            "wake_new_work_hint": "Uma equipe começa um turno assim que uma issue recebe uma de suas etiquetas ou, para uma equipe sem etiquetas, assim que uma nova issue é aberta. Desligado: uma equipe ainda acorda quando tem uma vaga livre e algo novo para pegar; senão, espera pelo próprio temporizador de inatividade.",
             "wake_new_work_label": "Acordar as equipes quando surgir trabalho novo"
           },
           "editor": {
@@ -845,7 +845,7 @@
             "automerge_gitlab_hint": "Desligado no GitLab: uma pessoa faz o merge de cada merge request.",
             "automerge_hint": "Mescla quando as revisões e verificações obrigatórias passarem.",
             "automerge_label": "Armar o merge automático quando estiver verde",
-            "backstop_fixed": "Fixo: a cada {{seconds}}s se nada mais o acordar.",
+            "backstop_fixed": "Fixo: a cada {{active}}s enquanto trabalha em uma issue, senão a cada {{seconds}}s, a menos que algo mais o acorde.",
             "backstop_label": "Despertar por inatividade",
             "cancel": "Cancelar",
             "conflicts_hint": "Só em arquivos indexados por chave ou de somente acréscimo. Um conflito em um hunk .py ou .tsx é escalonado em vez disso.",
