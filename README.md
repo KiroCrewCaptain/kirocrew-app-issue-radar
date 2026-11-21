@@ -153,6 +153,12 @@ repository's **Overview**.
    **Settings** there to choose which labels mean "needs triage", turn on
    notifications for new issues or for failed checks on your own pull requests,
    and tell investigations which folder holds your copy of the code.
+7. In a chat, rest the pointer on a link to an issue or pull request of a
+   connected repository to see its state, title, author, labels and comment
+   count in a card, with the link's address (its site and path) underneath. A
+   link to any other page on github.com or gitlab.com shows the address alone.
+   The card appears once you approve the app's **github.com** and
+   **gitlab.com** link hosts on its page under **Apps**.
 
 ## Settings & data
 

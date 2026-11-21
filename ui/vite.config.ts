@@ -26,9 +26,14 @@ export default defineConfig({
   },
   build: {
     lib: {
-      entry: 'src/index.tsx',
+      // Two self-contained modules. `index` is the page the dashboard imports
+      // (`ui.entry`); `link-preview` is the chat hover card the dashboard loads
+      // in a sandboxed frame (`contributes.linkPreviews[0].entry`), where none of
+      // the host modules exist, so it imports nothing at all and shares no source
+      // with the page: a shared chunk would give both files a relative import.
+      entry: { index: 'src/index.tsx', 'link-preview': 'src/linkPreview/main.ts' },
       formats: ['es'],
-      fileName: () => 'index.mjs',
+      fileName: (_format, name) => `${name}.mjs`,
     },
     outDir: 'dist',
     emptyOutDir: true,
