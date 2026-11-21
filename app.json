@@ -360,6 +360,18 @@
       }
     ]
   },
+  "contributes": {
+    "linkPreviews": [
+      {
+        "id": "ref-card",
+        "entry": "dist/link-preview.mjs",
+        "hosts": [
+          "github.com",
+          "gitlab.com"
+        ]
+      }
+    ]
+  },
   "useCases": [
     "Triage issues and pull requests across connected providers while retaining summaries, suggested labels, and investigation history."
   ],

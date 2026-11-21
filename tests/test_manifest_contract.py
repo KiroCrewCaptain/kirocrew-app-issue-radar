@@ -183,6 +183,44 @@ class TestTheBundle(unittest.TestCase):
         self.assertNotRegex(text, r"[A-Za-z]:\\\\[^\s\"']*node_modules")
 
 
+class TestTheLinkPreviewModule(unittest.TestCase):
+    """The chat hover card (``contributes.linkPreviews``) runs in the dashboard's
+    sandboxed frame, where none of the host modules exist: its bundle is a second,
+    self-contained file that imports nothing and shares no chunk with the page."""
+
+    def _provider(self) -> dict:
+        providers = _manifest()["contributes"]["linkPreviews"]
+        self.assertEqual(len(providers), 1, "at most one provider per app")
+        return providers[0]
+
+    def test_the_entry_the_manifest_names_is_committed(self) -> None:
+        provider = self._provider()
+        self.assertEqual(provider["id"], "ref-card")
+        self.assertEqual(provider["entry"], "dist/link-preview.mjs")
+        self.assertTrue((APP_ROOT / "ui" / provider["entry"]).is_file(), "run `npm run build` in ui/")
+
+    def test_it_claims_the_two_public_forges_only(self) -> None:
+        """A self-managed GitLab host is the operator's allowlist, not a static claim."""
+        self.assertEqual(self._provider()["hosts"], ["github.com", "gitlab.com"])
+        self.assertNotIn("textPatterns", self._provider())
+        self.assertNotIn("fullUrl", self._provider())
+
+    def test_it_imports_nothing(self) -> None:
+        text = (APP_ROOT / "ui" / "dist" / "link-preview.mjs").read_text(encoding="utf-8")
+        self.assertNotRegex(text, r"^import\b", "the frame has no host modules and no second file")
+        self.assertIsNone(re.search(r"\bimport\s*\(\s*[\"']", text))
+        self.assertIn("export {", text)
+        self.assertIn("activate", text)
+        self.assertNotRegex(text, r"\bprocess\.env\b")
+        self.assertNotIn(str(APP_ROOT), text)
+        self.assertNotRegex(text, r"/(?:home|Users|workplace)/[^\s\"']*node_modules")
+
+    def test_the_page_bundle_shares_no_chunk_with_it(self) -> None:
+        """A shared chunk would give ``index.mjs`` a relative import, which the
+        dashboard's import map cannot resolve."""
+        self.assertFalse(any(spec.startswith(".") for spec, _ in _bundle_imports()))
+
+
 class TestTheManifest(unittest.TestCase):
     def test_declares_the_first_kiro_crew_with_the_seams(self) -> None:
         self.assertRegex(_manifest().get("minKiroCrewVersion", ""), r"^\d+\.\d+\.\d+$")
