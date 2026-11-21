@@ -211,6 +211,9 @@ class TestTheLinkPreviewModule(unittest.TestCase):
         self.assertIsNone(re.search(r"\bimport\s*\(\s*[\"']", text))
         self.assertIn("export {", text)
         self.assertIn("activate", text)
+        # The inline path (behind an authenticating proxy) can read no export, so
+        # the module also hands `activate` to the bootstrap.
+        self.assertIn("globalThis.kirocrew?.register?.(activate)", text)
         self.assertNotRegex(text, r"\bprocess\.env\b")
         self.assertNotIn(str(APP_ROOT), text)
         self.assertNotRegex(text, r"/(?:home|Users|workplace)/[^\s\"']*node_modules")

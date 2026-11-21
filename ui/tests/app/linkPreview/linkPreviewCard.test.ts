@@ -5,7 +5,7 @@
  * alone; one `/ref` read serves two hovers of the same reference.
  */
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { activate, CARD_WIDTH, LEAVE_GRACE_MS, type FrameCtx, type Provider, type ShowLink } from '../../../src/linkPreview/main'
+import { activate, CARD_WIDTH, LEAVE_GRACE_MS, MAX_INFLIGHT, type FrameCtx, type Provider, type ShowLink } from '../../../src/linkPreview/main'
 
 const PR = 'https://github.com/kirodotdev/KiroCrew/pull/34176'
 const RECT = { left: 100, top: 100, width: 80, height: 18 }
@@ -149,6 +149,23 @@ describe('a URL the card cannot enrich', () => {
     provider.hide('blur')
     show(provider, PR)
     expect(paths.length).toBe(2)
+  })
+
+  it('keeps at most MAX_INFLIGHT reads in flight and remembers nothing for the ones it skipped', async () => {
+    const pending: Array<(r: Response) => void> = []
+    const { ctx, paths } = frameCtx(() => new Promise<Response>(r => { pending.push(r) }))
+    provider = activate(ctx)
+    for (let n = 1; n <= MAX_INFLIGHT + 2; n++) {
+      show(provider, `https://github.com/o/r/issues/${n}`)
+      provider.hide('scroll')
+    }
+    await settle()
+    expect(paths.length).toBe(MAX_INFLIGHT)
+    // The skipped reference is asked for once a slot frees.
+    pending.forEach(r => r(json(SUMMARY)))
+    await settle()
+    show(provider, `https://github.com/o/r/issues/${MAX_INFLIGHT + 1}`)
+    expect(paths.length).toBe(MAX_INFLIGHT + 1)
   })
 
   it('shows the host and the address, with no read, for another page on the forge', () => {

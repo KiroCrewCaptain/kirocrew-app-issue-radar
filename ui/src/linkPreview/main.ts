@@ -12,13 +12,15 @@
 // Every URL the dashboard hands over gets a card, because the address bubble the
 // dashboard shows for an ordinary link steps aside for an app's card: a URL this
 // module cannot enrich (not an issue or change-request path, a repo that is not
-// connected, a failed read) still shows the full address in the footer, so the
-// reader always sees where a link goes before clicking it. Clicks never reach
-// this frame: the link stays the browser's.
+// connected, a failed read) still shows that address in the footer, so the
+// reader sees where a link goes before clicking it. The address is the one the
+// dashboard hands over: origin and path, without the query or the fragment (the
+// host's default; `fullUrl` is not asked for). Clicks never reach this frame: the
+// link stays the browser's.
 //
 // No host module exists in the frame (no React, no SDK, no catalogs), so the card
-// is plain DOM and its words are English. The frame is also not told the
-// dashboard's language; see the README's follow-ups.
+// is plain DOM and its words are English; the frame is not told the dashboard's
+// language either.
 import {
   lifecycle, parseForgeUrl, readSummary, refKey, refLabel, refQuery, relativeTime, repoKey,
   type ForgeRef, type Lifecycle, type RefSummary,
@@ -35,6 +37,11 @@ export const SUMMARY_TTL_MS = 5 * 60_000
 export const REFUSED_TTL_MS = 10 * 60_000
 /** How long any other failed read is remembered. */
 export const FAILED_TTL_MS = 60_000
+/** How many `/ref` reads may be in flight at once. Each is a provider call under
+ *  the owner's credential, so a sweep across many references in one message is
+ *  bounded here as well as by the host's hover delay; a hover past the cap shows
+ *  the address alone and asks again next time. */
+export const MAX_INFLIGHT = 4
 /** Labels shown before the rest fold into a count. */
 const LABELS_SHOWN = 4
 
@@ -105,12 +112,10 @@ const STYLE = `
   --ok: #1a7f37; --aim: #8250df; --code: #f3f4f6; --shimmer: rgba(107,114,128,.18); --sweep: rgba(130,80,223,.18);
   width: ${CARD_WIDTH}px; max-width: 100vw; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--fg);
   font: 12px/18px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; overflow: hidden;
-  box-shadow: 0 8px 24px rgba(0,0,0,.18);
 }
 .rc[data-theme="dark"] {
   --bg: #171b22; --fg: #d1d7e0; --strong: #f0f3f6; --muted: #8b949e; --border: #30363d;
   --ok: #3fb950; --aim: #a371f7; --code: #0f1217; --shimmer: rgba(139,148,158,.18); --sweep: rgba(163,113,247,.22);
-  box-shadow: 0 8px 24px rgba(0,0,0,.5);
 }
 .rc-head { display: flex; align-items: center; gap: 6px; padding: 6px 10px; border-bottom: 1px solid var(--border); font-weight: 600; color: var(--strong); }
 .rc-head .rc-title { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -316,11 +321,14 @@ class RefCard {
     return hit
   }
 
-  /** One request per item, shared by concurrent hovers of the same reference. */
+  /** One request per item, shared by concurrent hovers of the same reference,
+   *  and at most `MAX_INFLIGHT` items at once. */
   private load(ref: ForgeRef): Promise<Cached> {
     const key = refKey(ref)
     let p = this.inflight.get(key)
     if (!p) {
+      // Over the cap: nothing is remembered, so the next hover asks.
+      if (this.inflight.size >= MAX_INFLIGHT) return Promise.resolve({ kind: 'failed', until: this.now() })
       p = this.fetchSummary(ref).finally(() => this.inflight.delete(key))
       this.inflight.set(key, p)
     }
@@ -332,9 +340,10 @@ class RefCard {
     try {
       const res = await this.ctx.fetch(refQuery(ref))
       if (res.status === 404) {
-        // The repo is not connected in Issue Radar (or the number does not exist);
-        // the route answers the same way for both, and the repo is the unit it
-        // refuses, so the whole repo stays address-only for a while.
+        // The repo is not connected in Issue Radar: the repo is the unit the
+        // route refuses, so the whole repo stays address-only for a while. (A
+        // number that does not exist is the provider's error, a 502, remembered
+        // below for the one item.)
         const refused: Cached = { kind: 'failed', until: now + REFUSED_TTL_MS }
         this.cache.set(repoKey(ref), refused)
         return refused
@@ -369,3 +378,13 @@ export function activate(ctx: FrameCtx): Provider {
     dispose: () => card.root.remove(),
   }
 }
+
+declare global {
+  /** The dashboard's frame bootstrap, present only where it runs the module
+   *  inline (behind an authenticating proxy that refuses the frame's own import);
+   *  there no export can be read, so `activate` is handed over through it. */
+  // eslint-disable-next-line no-var
+  var kirocrew: { register?: (activate: (ctx: FrameCtx) => Provider) => void } | undefined
+}
+
+globalThis.kirocrew?.register?.(activate)

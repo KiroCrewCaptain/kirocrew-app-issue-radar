@@ -169,6 +169,11 @@ var SUMMARY_TTL_MS = 3e5;
 var REFUSED_TTL_MS = 6e5;
 /** How long any other failed read is remembered. */
 var FAILED_TTL_MS = 6e4;
+/** How many `/ref` reads may be in flight at once. Each is a provider call under
+*  the owner's credential, so a sweep across many references in one message is
+*  bounded here as well as by the host's hover delay; a hover past the cap shows
+*  the address alone and asks again next time. */
+var MAX_INFLIGHT = 4;
 /** Labels shown before the rest fold into a count. */
 var LABELS_SHOWN = 4;
 var LIFECYCLE_WORDS = {
@@ -291,12 +296,10 @@ var STYLE = `
   --ok: #1a7f37; --aim: #8250df; --code: #f3f4f6; --shimmer: rgba(107,114,128,.18); --sweep: rgba(130,80,223,.18);
   width: 340px; max-width: 100vw; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--fg);
   font: 12px/18px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; overflow: hidden;
-  box-shadow: 0 8px 24px rgba(0,0,0,.18);
 }
 .rc[data-theme="dark"] {
   --bg: #171b22; --fg: #d1d7e0; --strong: #f0f3f6; --muted: #8b949e; --border: #30363d;
   --ok: #3fb950; --aim: #a371f7; --code: #0f1217; --shimmer: rgba(139,148,158,.18); --sweep: rgba(163,113,247,.22);
-  box-shadow: 0 8px 24px rgba(0,0,0,.5);
 }
 .rc-head { display: flex; align-items: center; gap: 6px; padding: 6px 10px; border-bottom: 1px solid var(--border); font-weight: 600; color: var(--strong); }
 .rc-head .rc-title { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -519,11 +522,16 @@ var RefCard = class {
 		}
 		return hit;
 	}
-	/** One request per item, shared by concurrent hovers of the same reference. */
+	/** One request per item, shared by concurrent hovers of the same reference,
+	*  and at most `MAX_INFLIGHT` items at once. */
 	load(ref) {
 		const key = refKey(ref);
 		let p = this.inflight.get(key);
 		if (!p) {
+			if (this.inflight.size >= 4) return Promise.resolve({
+				kind: "failed",
+				until: this.now()
+			});
 			p = this.fetchSummary(ref).finally(() => this.inflight.delete(key));
 			this.inflight.set(key, p);
 		}
@@ -580,4 +588,5 @@ function activate(ctx) {
 		dispose: () => card.root.remove()
 	};
 }
-export { CARD_WIDTH, FAILED_TTL_MS, LEAVE_GRACE_MS, REFUSED_TTL_MS, SUMMARY_TTL_MS, activate, summaryBody };
+globalThis.kirocrew?.register?.(activate);
+export { CARD_WIDTH, FAILED_TTL_MS, LEAVE_GRACE_MS, MAX_INFLIGHT, REFUSED_TTL_MS, SUMMARY_TTL_MS, activate, summaryBody };
