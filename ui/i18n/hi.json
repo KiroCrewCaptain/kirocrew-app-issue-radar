@@ -745,7 +745,7 @@
         }
       },
       "manifest": {
-        "configuration_1": "रिपॉज़िटरी कनेक्ट करें और गेटवे होस्ट पर provider CLI प्रमाणित करें: GitHub के लिए gh, GitLab के लिए glab, या macOS, Linux अथवा WSL पर Azure DevOps extension सहित az।",
+        "configuration_1": "रिपॉज़िटरी कनेक्ट करो और गेटवे होस्ट पर provider CLI प्रमाणित करो: GitHub के लिए gh, GitLab के लिए glab, या Azure DevOps extension सहित az।",
         "description": "याद रखने वाला इशू ट्रायाज सहायक। GitHub इशू, GitLab इशू और Azure DevOps वर्क आइटम को AI-सुझाए लेबल और हर आइटम के जाँच नोट्स के साथ ब्राउज़ करो, फ़िल्टर करो और ट्रायाज करो — नतीजे लोकल लेजर में रखे जाते हैं ताकि किसी की दोबारा जाँच न हो।",
         "display_name": "Issue Radar",
         "highlight_1": "इशू और पुल रिक्वेस्ट के लिए AI सारांश और सुझाए लेबल, हर एक के साथ उसकी वजह",

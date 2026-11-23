@@ -745,7 +745,7 @@
         }
       },
       "manifest": {
-        "configuration_1": "Verbinde ein Repository und authentifiziere dessen Anbieter-CLI auf dem Gateway-Host: gh für GitHub, glab für GitLab oder az mit der Azure DevOps-Erweiterung unter macOS, Linux oder WSL.",
+        "configuration_1": "Verbinde ein Repository und authentifiziere dessen Anbieter-CLI auf dem Gateway-Host: gh für GitHub, glab für GitLab oder az mit der Azure DevOps-Erweiterung.",
         "description": "Ein Triage-Assistent für Issues, der sich erinnert. Durchsuche, filtere und triagiere GitHub-Issues, GitLab-Issues und Azure DevOps Work Items mit KI-vorgeschlagenen Labels und Untersuchungsnotizen pro Element — die Ergebnisse liegen in einem lokalen Register, damit nichts zweimal untersucht wird.",
         "display_name": "Issue Radar",
         "highlight_1": "KI-Zusammenfassungen und Label-Vorschläge für Issues und Pull Requests, jeweils mit Begründung",
