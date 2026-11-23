@@ -745,7 +745,7 @@
         }
       },
       "manifest": {
-        "configuration_1": "Connect a repository and authenticate its provider CLI on the gateway host: gh for GitHub, glab for GitLab, or az with the Azure DevOps extension on macOS, Linux, or WSL.",
+        "configuration_1": "Connect a repository and authenticate its provider CLI on the gateway host: gh for GitHub, glab for GitLab, or az with the Azure DevOps extension.",
         "description": "An issue triage assistant that remembers. Browse, filter, and triage GitHub issues, GitLab issues, and Azure DevOps work items with AI-suggested labels and per-item investigation notes — with findings kept in a local ledger so nothing gets re-investigated.",
         "display_name": "Issue Radar",
         "highlight_1": "AI summaries and suggested labels for issues and pull requests, each with its reasoning",

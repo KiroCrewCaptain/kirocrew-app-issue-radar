@@ -772,7 +772,7 @@
         }
       },
       "manifest": {
-        "configuration_1": "Connecte un dépôt et authentifie la CLI de son fournisseur sur l'hôte de la passerelle : gh pour GitHub, glab pour GitLab, ou az avec l'extension Azure DevOps sous macOS, Linux ou WSL.",
+        "configuration_1": "Connecte un dépôt et authentifie la CLI de son fournisseur sur l'hôte de la passerelle : gh pour GitHub, glab pour GitLab, ou az avec l'extension Azure DevOps.",
         "description": "Un assistant de tri des tickets qui a de la mémoire. Parcours, filtre et trie les tickets GitHub, les tickets GitLab et les éléments de travail Azure DevOps avec des étiquettes suggérées par l’IA et des notes d’investigation par élément — les conclusions restant dans un registre local pour que rien ne soit examiné deux fois.",
         "display_name": "Issue Radar",
         "highlight_1": "Résumés et étiquettes suggérés par l’IA pour les tickets et les pull requests, chacun avec son raisonnement",
