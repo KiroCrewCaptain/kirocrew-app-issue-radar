@@ -31509,7 +31509,7 @@ var DropdownMenuLabel = React.forwardRef(({ className, inset, ...props }, ref) =
 	...props
 }));
 DropdownMenuLabel.displayName = Label2.displayName;
-// src/components/RepoSwitcher.tsx
+// src/components/RepoPathLabel.tsx
 /** Left-to-right mark, U+200E. See RepoPathLabel. */
 var LRM = "‎";
 /** One repo path, rendered repo-name-first: the owner/group path is muted and
@@ -31564,6 +31564,7 @@ function RepoPathLabel({ owner, repo, className = "", repoClassName = "" }) {
 		})]
 	});
 }
+// src/components/RepoSwitcher.tsx
 /** Prominent repo picker pinned to the TOP of the rail. Opens downward. Uses
 * the shared Radix DropdownMenu (never a native <select>) per product decision.
 * Shows the PROVIDER's brand mark, the owner/repo, a self-managed host chip when
@@ -45447,6 +45448,7 @@ function GeneralSettings({ anchor }) {
 				}), /* @__PURE__ */ jsxs("div", {
 					className: "grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3",
 					children: [repos.map((r) => /* @__PURE__ */ jsxs("button", {
+						"aria-label": `${r.owner}/${r.repo} — ${i18nT("apps.issueRadar.views.settings.generalSettings.configure_triage")}${isReadOnly(r.permissions) ? ` — ${i18nT("apps.issueRadar.components.readOnlyTag.read_only")}` : ""}`,
 						onClick: () => openSettings({
 							kind: "repo",
 							owner: r.owner,
@@ -45464,13 +45466,11 @@ function GeneralSettings({ anchor }) {
 								className: "min-w-0 flex-1",
 								children: [/* @__PURE__ */ jsxs("div", {
 									className: "flex items-center gap-2",
-									children: [/* @__PURE__ */ jsxs("span", {
-										className: "text-[14px] font-medium truncate",
-										children: [
-											r.owner,
-											"/",
-											r.repo
-										]
+									children: [/* @__PURE__ */ jsx(RepoPathLabel, {
+										owner: r.owner,
+										repo: r.repo,
+										className: "text-[14px]",
+										repoClassName: "font-medium"
 									}), isReadOnly(r.permissions) && /* @__PURE__ */ jsx(ReadOnlyTag, { repoRef: r })]
 								}), /* @__PURE__ */ jsxs("div", {
 									className: "text-[12px] text-muted mt-0.5 inline-flex items-center gap-1",

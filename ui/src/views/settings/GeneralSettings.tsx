@@ -1,3 +1,4 @@
+import RepoPathLabel from '../../components/RepoPathLabel'
 import { useEffect, useRef } from 'react'
 import { Plus, ChevronRight, Settings as SettingsIcon } from 'lucide-react'
 import { ProviderLogo } from '../../components/ProviderBadge'
@@ -165,13 +166,14 @@ export default function GeneralSettings({ anchor }: { anchor: GeneralAnchor }) {
           {repos.map((r) => (
             <button
               key={`${r.owner}/${r.repo}`}
+              aria-label={`${r.owner}/${r.repo} — ${i18nT('apps.issueRadar.views.settings.generalSettings.configure_triage')}${isReadOnly(r.permissions) ? ` — ${i18nT('apps.issueRadar.components.readOnlyTag.read_only')}` : ''}`}
               onClick={() => openSettings({ kind: 'repo', owner: r.owner, repo: r.repo, provider: r.provider, host: r.host })}
               className="group text-left rounded-xl border border-border bg-bg-elevated shadow-sm p-4 hover:border-border-strong hover:bg-bg-hover cursor-pointer transition-colors flex items-center gap-3"
             >
               <ProviderLogo repoRef={r} size={16} />
               <div className="min-w-0 flex-1">
                 <div className="flex items-center gap-2">
-                  <span className="text-[14px] font-medium truncate">{r.owner}/{r.repo}</span>
+                  <RepoPathLabel owner={r.owner} repo={r.repo} className="text-[14px]" repoClassName="font-medium" />
                   {isReadOnly(r.permissions) && <ReadOnlyTag repoRef={r} />}
                 </div>
                 <div className="text-[12px] text-muted mt-0.5 inline-flex items-center gap-1">

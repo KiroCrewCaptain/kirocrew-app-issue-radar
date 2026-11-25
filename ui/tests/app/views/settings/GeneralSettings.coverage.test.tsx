@@ -56,6 +56,16 @@ describe('GeneralSettings repository list', () => {
     })
   })
 
+  it('preserves the full path and prioritizes the repository name', () => {
+    const repo = { ...REPO, owner: 'example-org', repo: 'example-application-service-alpha' }
+    mount([repo])
+    const card = screen.getByRole('button', { name: /example-org\/example-application-service-alpha/ })
+    const label = card.querySelector('[data-testid=repo-path-label]')
+    expect(label).toHaveAttribute('title', 'example-org/example-application-service-alpha')
+    expect(label?.querySelector('[dir=rtl]')).toHaveTextContent('example-org')
+    expect(label).toHaveTextContent('/example-application-service-alpha')
+  })
+
   it('hands the connect-another-repo button to onAddRepo', () => {
     mount([REPO])
     fireEvent.click(screen.getByRole('button', { name: i18nT('apps.issueRadar.views.settings.generalSettings.connect_another_repo') }))
